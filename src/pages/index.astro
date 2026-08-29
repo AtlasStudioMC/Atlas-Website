@@ -1,0 +1,88 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const features = [
+  {
+    title: "Branding fixed at the source",
+    body: "Every brand-facing string - F3 debug text, MOTD, console banner, crash reports - reads AtlasSpigot, fixed at the build manifest itself. Works even with zero config present.",
+  },
+  {
+    title: "Uncapped chunk delivery",
+    body: "Chunk load/send rate uncapped with async packet sending, plus a smaller on-disk region format (B_LINEAR) - chunks reach players as fast as the server can push them.",
+  },
+  {
+    title: "Tuned for concurrent players",
+    body: "View/simulation distance and entity tracking range tuned down, join-rate cap raised 5x - the biggest levers for per-player memory and CPU cost at scale.",
+  },
+  {
+    title: "Nothing enabled on vibes",
+    body: "Every setting is checked against Leaf's own @Experimental/@Deprecated annotations and issue tracker before shipping - and re-audited periodically, not just at launch.",
+  },
+];
+---
+
+<Layout
+  title="AtlasSpigot"
+  description="A tuned, rebranded build of Leaf for Minecraft 26.2 - real performance changes, checked against upstream before they ship."
+>
+  <section class="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 pt-24 pb-16 text-center lg:pt-32 lg:pb-24">
+    <img src="/logo.svg" alt="AtlasSpigot" width="88" height="88" class="rounded-2xl shadow-lg shadow-primary-600/20" />
+    <h1 class="text-4xl leading-tight font-semibold lg:text-6xl">
+      <span class="gradient-text">AtlasSpigot</span>
+    </h1>
+    <p class="max-w-2xl text-lg text-white/70 lg:text-xl">
+      A tuned, rebranded build of <a href="https://github.com/Winds-Studio/Leaf" class="text-primary-400 underline">Leaf</a> - a
+      performance-focused Paper fork - for Minecraft 26.2. Every change is checked against upstream source and issue trackers before it
+      ships, and documented with <em>why</em>, not just <em>what</em>.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+      <a
+        href="/downloads"
+        class="rounded-lg bg-primary-500 px-6 py-3 font-medium text-black transition-colors hover:bg-primary-400"
+      >
+        Download
+      </a>
+      <a
+        href="https://github.com/AtlasStudioMC/AtlasSpigot"
+        class="rounded-lg border border-white/15 px-6 py-3 font-medium text-white transition-colors hover:border-white/30"
+      >
+        View on GitHub
+      </a>
+    </div>
+  </section>
+
+  <section id="tuned" class="mx-auto max-w-6xl px-6 pb-24">
+    <h2 class="mb-8 text-center text-2xl font-medium lg:text-3xl">What's tuned here</h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      {
+        features.map((f) => (
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <h3 class="mb-2 font-medium text-primary-300">{f.title}</h3>
+            <p class="text-sm text-white/60">{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-center text-sm text-white/40">
+      Full breakdown, including what was deliberately <em>not</em> enabled and why, in the
+      <a href="https://github.com/AtlasStudioMC/AtlasSpigot#whats-tuned-here" class="text-primary-400 underline">
+        project README</a
+      >.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-24 text-center">
+    <h2 class="mb-4 text-2xl font-medium lg:text-3xl">Real usage, not a fabricated graph</h2>
+    <p class="mx-auto mb-6 max-w-2xl text-sm text-white/60">
+      This is a genuine, registered <a href="https://bstats.org" class="text-primary-400 underline">bStats</a> project - it starts at zero
+      like any new project does, and only grows as real AtlasSpigot servers report in.
+    </p>
+    <a href="https://bstats.org/plugin/bukkit/AtlasSpigot/33733" class="inline-block">
+      <img
+        src="https://bstats.org/signatures/bukkit/AtlasSpigot.svg"
+        alt="bStats Graph Data"
+        class="mx-auto rounded-xl border border-white/10"
+      />
+    </a>
+  </section>
+</Layout>

@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+@theme {
+  --font-sans: Poppins, Roboto, "Open Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-100: #fff3e0;
+  --color-primary-200: #ffe0b3;
+  --color-primary-300: #ffc978;
+  --color-primary-400: #ffb04d;
+  --color-primary-500: #ff8c1a;
+  --color-primary-600: #f2740a;
+  --color-primary-700: #d9530a;
+  --color-primary-800: #b23e08;
+  --color-primary-900: #7a2a08;
+
+  --color-background-dark-90: #05070b;
+  --color-background-dark-80: #0c0f16;
+  --color-background-dark-70: #141821;
+  --color-background-light-0: #ffffff;
+  --color-background-light-10: #fff8f0;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-background-dark-90);
+    color: var(--color-background-light-0);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: radial-gradient(ellipse at top, var(--color-background-dark-70) 0%, var(--color-background-dark-90) 60%);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: var(--color-primary-500);
+    color: #05070b;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, var(--color-primary-300), var(--color-primary-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

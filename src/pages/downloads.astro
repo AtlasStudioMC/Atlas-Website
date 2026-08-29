@@ -1,0 +1,112 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+export const prerender = false;
+
+interface GhAsset {
+  name: string;
+  size: number;
+  browser_download_url: string;
+  download_count: number;
+}
+
+interface GhRelease {
+  tag_name: string;
+  name: string;
+  published_at: string;
+  html_url: string;
+  assets: GhAsset[];
+}
+
+let release: GhRelease | null = null;
+let fetchFailed = false;
+
+try {
+  const res = await fetch("https://api.github.com/repos/AtlasStudioMC/AtlasSpigot/releases/latest", {
+    headers: { Accept: "application/vnd.github+json" },
+  });
+  if (res.ok) {
+    release = await res.json();
+  } else {
+    fetchFailed = true;
+  }
+} catch {
+  fetchFailed = true;
+}
+
+function formatSize(bytes: number) {
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+---
+
+<Layout title="Downloads" description="Download the latest AtlasSpigot build.">
+  <section class="mx-auto max-w-3xl px-6 pt-24 pb-24 text-center">
+    <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Downloads</h1>
+    <p class="mb-10 text-white/60">A new release ships for every change - this is always the current build.</p>
+
+    {
+      release && !fetchFailed ? (
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left">
+          <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 class="text-xl font-medium">{release.name || release.tag_name}</h2>
+            <a href={release.html_url} class="text-sm text-primary-400 underline">
+              Release notes
+            </a>
+          </div>
+          {release.assets.length > 0 ? (
+            <ul class="flex flex-col gap-3">
+              {release.assets.map((asset) => (
+                <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/30 px-4 py-3">
+                  <div>
+                    <p class="font-mono text-sm">{asset.name}</p>
+                    <p class="text-xs text-white/40">
+                      {formatSize(asset.size)} · {asset.download_count} downloads
+                    </p>
+                  </div>
+                  <a
+                    href={asset.browser_download_url}
+                    class="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-black hover:bg-primary-400"
+                  >
+                    Download
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="text-sm text-white/50">This release has no attached files.</p>
+          )}
+        </div>
+      ) : (
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left">
+          <p class="mb-4 text-white/70">
+            Couldn't load release data directly - this usually means the <code class="text-primary-400">AtlasStudioMC/AtlasSpigot</code>{" "}
+            repository is private, so the public GitHub API can't see its releases. Grab the jar directly from GitHub instead:
+          </p>
+          <a
+            href="https://github.com/AtlasStudioMC/AtlasSpigot/releases"
+            class="inline-block rounded-lg bg-primary-500 px-6 py-3 font-medium text-black hover:bg-primary-400"
+          >
+            View Releases on GitHub
+          </a>
+        </div>
+      )
+    }
+
+    <div class="mt-10 rounded-2xl border border-white/10 bg-white/5 p-8 text-left text-sm text-white/60">
+      <h2 class="mb-3 font-medium text-white/80">Setting it up</h2>
+      <ol class="list-decimal space-y-2 pl-5">
+        <li>Copy everything else from the repo into the same folder as the jar: <code>start.sh</code>, <code>server.properties</code>,
+          <code>spigot.yml</code>, <code>eula.txt</code>, and the whole <code>config/</code> directory.</li>
+        <li>Open <code>eula.txt</code> and set <code>eula=true</code>.</li>
+        <li>Run <code>./start.sh</code> (or <code>java -jar AtlasSpigot-26.2.jar nogui</code> directly).</li>
+      </ol>
+      <p class="mt-4">
+        Branding shows correctly with just the jar, but performance tuning needs the config files too - see the
+        <a href="https://github.com/AtlasStudioMC/AtlasSpigot#quick-start" class="text-primary-400 underline">
+          full quick start guide</a
+        >
+        for hosting-panel notes and details.
+      </p>
+    </div>
+  </section>
+</Layout>
