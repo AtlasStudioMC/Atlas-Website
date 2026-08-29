@@ -18,15 +18,16 @@ interface GhRelease {
   assets: GhAsset[];
 }
 
-let release: GhRelease | null = null;
+let releases: GhRelease[] = [];
 let fetchFailed = false;
 
 try {
-  const res = await fetch("https://api.github.com/repos/AtlasStudioMC/AtlasSpigot/releases/latest", {
+  const res = await fetch("https://api.github.com/repos/AtlasStudioMC/AtlasSpigot/releases?per_page=100", {
     headers: { Accept: "application/vnd.github+json" },
   });
   if (res.ok) {
-    release = await res.json();
+    releases = await res.json();
+    releases.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
   } else {
     fetchFailed = true;
   }
@@ -34,28 +35,38 @@ try {
   fetchFailed = true;
 }
 
+const [latest, ...older] = releases;
+
 function formatSize(bytes: number) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
 ---
 
-<Layout title="Downloads" description="Download the latest AtlasSpigot build.">
+<Layout title="Downloads" description="Download the latest AtlasSpigot build, or any previous release.">
   <section class="mx-auto max-w-3xl px-6 pt-24 pb-24 text-center">
     <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Downloads</h1>
     <p class="mb-10 text-white/60">A new release ships for every change - this is always the current build.</p>
 
     {
-      release && !fetchFailed ? (
+      latest && !fetchFailed ? (
         <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left">
           <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-            <h2 class="text-xl font-medium">{release.name || release.tag_name}</h2>
-            <a href={release.html_url} class="text-sm text-primary-400 underline">
+            <div>
+              <p class="text-xs font-medium tracking-wide text-primary-400 uppercase">Latest</p>
+              <h2 class="text-xl font-medium">{latest.name || latest.tag_name}</h2>
+              <p class="text-xs text-white/40">{formatDate(latest.published_at)}</p>
+            </div>
+            <a href={latest.html_url} class="text-sm text-primary-400 underline">
               Release notes
             </a>
           </div>
-          {release.assets.length > 0 ? (
+          {latest.assets.length > 0 ? (
             <ul class="flex flex-col gap-3">
-              {release.assets.map((asset) => (
+              {latest.assets.map((asset) => (
                 <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/30 px-4 py-3">
                   <div>
                     <p class="font-mono text-sm">{asset.name}</p>
@@ -88,6 +99,37 @@ function formatSize(bytes: number) {
           >
             View Releases on GitHub
           </a>
+        </div>
+      )
+    }
+
+    {
+      older.length > 0 && (
+        <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6 text-left">
+          <h2 class="mb-4 text-sm font-medium text-white/60">Previous releases</h2>
+          <ul class="flex flex-col divide-y divide-white/5">
+            {older.map((rel) => (
+              <li class="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                <div>
+                  <p class="text-sm font-medium">{rel.name || rel.tag_name}</p>
+                  <p class="text-xs text-white/40">{formatDate(rel.published_at)}</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <a href={rel.html_url} class="text-sm text-primary-400 underline">
+                    Notes
+                  </a>
+                  {rel.assets[0] && (
+                    <a
+                      href={rel.assets[0].browser_download_url}
+                      class="rounded-lg border border-white/15 px-3 py-1.5 text-sm font-medium hover:border-white/30"
+                    >
+                      Download
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       )
     }
