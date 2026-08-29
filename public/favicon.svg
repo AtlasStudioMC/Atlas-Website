@@ -4,41 +4,13 @@
       <stop offset="0%" stop-color="#141821"/>
       <stop offset="100%" stop-color="#05070b"/>
     </linearGradient>
-    <linearGradient id="a" x1="50%" y1="0%" x2="65%" y2="100%">
-      <stop offset="0%" stop-color="#ffb84d"/>
-      <stop offset="45%" stop-color="#ff8c1a"/>
+    <linearGradient id="a" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffc978"/>
+      <stop offset="50%" stop-color="#ff8c1a"/>
       <stop offset="100%" stop-color="#d9530a"/>
     </linearGradient>
   </defs>
   <rect width="500" height="500" rx="110" fill="url(#bg)"/>
-  <path d="
-    M 250 70
-    L 340 70
-    L 430 400
-    Q 434 418 418 424
-    L 388 434
-    Q 368 440 362 420
-    L 336 330
-    L 250 330
-    L 250 250
-    L 313 250
-    L 273 110
-    L 250 110
-    Z"
-    fill="url(#a)"/>
-  <path d="
-    M 250 70
-    L 160 70
-    L 70 400
-    Q 66 418 82 424
-    L 112 434
-    Q 132 440 138 420
-    L 164 330
-    L 250 330
-    L 250 250
-    L 187 250
-    L 227 110
-    L 250 110
-    Z"
-    fill="url(#a)"/>
+  <path d="M 250,90 L 110,430 L 190,430 L 208.5,325 L 250,325 L 250,285 L 215.6,285 Z" fill="url(#a)"/>
+  <path d="M 250,90 L 390,430 L 310,430 L 291.5,325 L 250,325 L 250,285 L 284.4,285 Z" fill="url(#a)"/>
 </svg>
