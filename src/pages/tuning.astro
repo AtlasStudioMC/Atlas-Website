@@ -1,0 +1,155 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const performance = [
+  { area: "JVM/GC", setting: "start.sh — Aikar's flags, G1GC", detail: "Tuned for an 8GB heap. -XX:+AlwaysPreTouch deliberately left out — it roughly doubles startup time for a marginal, usually unnoticeable steady-state gain." },
+  { area: "Chunks", setting: "region-format: B_LINEAR", detail: "Smaller world files on disk. LINEAR_V2 was tested and rejected — Leaf's own config prints a stability warning for it on boot; B_LINEAR showed none." },
+  { area: "Chunks", setting: "Chunk load/send rate uncapped, async chunk packet sending", detail: "Chunks reach players as fast as the server can push them instead of being artificially throttled." },
+  { area: "Scale", setting: "view-distance/simulation-distance: 10/10 → 6/4", detail: "The biggest lever for per-player memory/CPU cost at high concurrent player counts." },
+  { area: "Scale", setting: "entity-tracking-range roughly halved", detail: "Less network/CPU overhead in crowded areas — this cost scales with entities × nearby players." },
+  { area: "Scale", setting: "max-joins-per-tick: 5 → 25", detail: "Removes an artificial ~100/sec cap on how fast a mass-reconnect queue drains." },
+  { area: "Mobs/AI", setting: "Distance-based AI throttling (DAB)", detail: "Entities far from any player tick less often." },
+  { area: "World", setting: "ALTERNATE_CURRENT redstone engine, optimize-explosions", detail: "Well-established, largely vanilla-compatible engine swaps for two of the heaviest world-simulation hot paths." },
+  { area: "World", setting: "optimized-powered-rails", detail: "Rewrites powered/activator rail update propagation to run from a single rail instead of each block iterating separately — up to 4x faster toggling, same vanilla order." },
+  { area: "I/O", setting: "dont-save-primed-tnt, dont-save-falling-block", detail: "Skips writing these to disk on chunk save/unload — cuts I/O when a lot of TNT is active. Trade-off: those entities don't survive an unload+reload." },
+  { area: "Network", setting: "Reduced entity move/motion packets, disabled decorative particles, larger item merge radius", detail: "Less per-tick network chatter and fewer duplicate item-entity ticks in busy areas." },
+];
+
+const notEnabled = [
+  {
+    name: "optimize-entity-activation",
+    body: "Briefly enabled in v8/v9, then reverted. Reading the ~76-line patch, it looked safe (just deduplicates entity collection across overlapping player activation ranges, same DAB/priority logic). What that read missed: Leaf's own source tags the field @Experimental, an explicit signal from the maintainers that they don't consider it fully battle-tested yet. Caught during a full re-verification pass (boot log showed the experimental-module warning) and reverted before it shipped any further.",
+  },
+  {
+    name: "optimize-mob-spawning, optimize-random-tick",
+    body: "Both are deep rewrites of core vanilla mechanics (mob spawning, and the random ticks driving crop growth/leaf decay/fire spread). optimize-mob-spawning's own patch notes say it \"reduce[s] random calls\" — a real change to vanilla's RNG consumption pattern, not just speed. Not enabled without being able to verify they're truly behavior-preserving.",
+  },
+  {
+    name: "parallel-world-ticking",
+    body: "Leaf's own issue tracker has a real, open cluster of concurrency bugs tied to this exact experimental feature (crashes, a memory leak, thread blocking).",
+  },
+  {
+    name: "sleeping-block-entity",
+    body: "(Lithium-derived hopper/comparator sleep optimization) Broad surface area across hoppers, comparators, and inventory tracking, with a real history of closed bugs specifically about hopper item collection at chunk edges. Fixed since, but too much surface to fully re-verify for this build.",
+  },
+];
+
+const screening = [
+  "Read the actual patch/diff, not just the config comment.",
+  "Check for an explicit upstream caution flag: Leaf's @Experimental/@Deprecated annotations, or Paper's own unsupported-settings config section. Either one is treated as a hard no by itself.",
+  "Search Leaf's issue tracker for open reports mentioning the feature.",
+  "Boot with it enabled and read the entire log, not a grep for expected lines.",
+  "Where practical, verify past just \"it booted\" — a simulated client completing login, or a deliberately-broken config proving a setting actually does what it claims.",
+];
+---
+
+<Layout
+  title="What's tuned"
+  description="The full breakdown of every performance change in AtlasSpigot, what was deliberately not enabled, and the methodology behind each decision."
+  canonical="/tuning"
+>
+  <section class="mx-auto max-w-4xl px-6 pt-24 pb-12 text-center">
+    <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">What's tuned here</h1>
+    <p class="text-white/60">
+      Every change is checked against Leaf's own source and issue tracker before it ships. This page is the same breakdown as the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#whats-tuned-here" class="text-primary-400 underline">project README</a>, kept in sync by hand.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-16">
+    <h2 class="mb-4 text-2xl font-medium">Branding</h2>
+    <p class="text-white/70">
+      Every brand-facing string reads <strong class="text-white">AtlasSpigot</strong> — the early <code>[bootstrap]</code>{" "}
+      startup line, the console banner, the console window title, MOTD, server-list name, crash reports, the
+      client-facing F3 brand text, and <code>Bukkit.getName()</code> (what plugins check for compatibility). This works
+      even with zero config present, because it's fixed at the actual source of truth: the <code>Brand-Name</code>{" "}
+      attribute baked into the jar's build manifest.
+    </p>
+    <p class="mt-3 text-white/70">
+      Two config files were renamed too, with matching source changes so the rename is real, not cosmetic: <code>purpur.yml</code> → <code>atlas.yml</code>, <code>config/leaf-global.yml</code> → <code>config/atlas-global.yml</code>.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-16">
+    <h2 class="mb-4 text-2xl font-medium">Performance</h2>
+    <div class="overflow-x-auto rounded-2xl border border-white/10">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-white/5 text-white/50">
+          <tr>
+            <th class="px-4 py-3 font-medium">Area</th>
+            <th class="px-4 py-3 font-medium">Setting</th>
+            <th class="px-4 py-3 font-medium">What it does</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          {
+            performance.map((row) => (
+              <tr>
+                <td class="px-4 py-3 align-top whitespace-nowrap text-primary-400">{row.area}</td>
+                <td class="px-4 py-3 align-top font-mono text-xs whitespace-nowrap text-white/80">{row.setting}</td>
+                <td class="px-4 py-3 align-top text-white/60">{row.detail}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-16">
+    <h2 class="mb-4 text-2xl font-medium">Deliberately <em>not</em> enabled</h2>
+    <p class="mb-4 text-white/60">Checked and rejected, with reasons — not just left at defaults by omission.</p>
+    <div class="flex flex-col gap-4">
+      {
+        notEnabled.map((item) => (
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class="mb-1 font-mono text-sm text-primary-400">{item.name}</p>
+            <p class="text-sm text-white/60">{item.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-16">
+    <h2 class="mb-4 text-2xl font-medium">How settings are actually screened</h2>
+    <p class="mb-4 text-white/60">Not vibes — a checklist, applied the same way every time before anything gets enabled.</p>
+    <ol class="flex flex-col gap-3">
+      {
+        screening.map((step, i) => (
+          <li class="flex gap-4 rounded-xl bg-white/5 p-4">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-black">
+              {i + 1}
+            </span>
+            <span class="text-sm text-white/70">{step}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-4 text-sm text-white/40">
+      A full pass through every currently-enabled setting is done periodically, not just when adding something new —
+      that's how the entity-activation regression above got caught two releases after it shipped, not zero.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-24">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <h2 class="mb-2 font-medium text-primary-300">First-boot startup time</h2>
+        <p class="text-sm text-white/60">
+          A brand-new world has to generate its spawn chunks before the server can finish starting — a one-time cost
+          tied to the host's CPU allocation. A single-vCPU container will always take longer here; expect 30–60s on
+          the very first boot. Once the world exists on disk, restarts skip generation entirely.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <h2 class="mb-2 font-medium text-primary-300">Handling a lot of players</h2>
+        <p class="text-sm text-white/60">
+          The tuning above genuinely raises what one instance can hold on limited RAM — but there's a real ceiling. A
+          single JVM has a per-player memory/CPU floor that no setting erases. Getting into the thousands of
+          concurrent players is a <a href="https://papermc.io/software/velocity" class="text-primary-400 underline">Velocity</a>{" "}
+          proxy in front of multiple backend instances, not a single-server config problem.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

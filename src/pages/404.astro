@@ -1,0 +1,22 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Page not found" description="This page doesn't exist.">
+  <section class="mx-auto flex max-w-lg flex-col items-center gap-4 px-6 pt-32 pb-32 text-center">
+    <img src="/logo.svg" alt="AtlasSpigot" width="72" height="72" class="rounded-2xl opacity-60" />
+    <h1 class="text-3xl font-semibold">404</h1>
+    <p class="text-white/60">This page doesn't exist - maybe it moved, or the link's wrong.</p>
+    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+      <a href="/" class="rounded-lg bg-primary-500 px-6 py-3 font-medium text-black hover:bg-primary-400">
+        Back home
+      </a>
+      <a
+        href="/downloads"
+        class="rounded-lg border border-white/15 px-6 py-3 font-medium text-white hover:border-white/30"
+      >
+        Downloads
+      </a>
+    </div>
+  </section>
+</Layout>
