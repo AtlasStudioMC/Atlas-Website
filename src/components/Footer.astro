@@ -7,41 +7,78 @@ const credits = [
   { name: "KTP", href: "https://github.com/lynxplay/ktp" },
   { name: "Patina", href: "https://github.com/PatinaMC/Patina" },
 ];
+
+const columns = [
+  {
+    title: "Project",
+    links: [
+      { label: "Downloads", href: "/downloads" },
+      { label: "GitHub", href: "https://github.com/AtlasStudioMC/AtlasSpigot" },
+      { label: "Docs", href: "/docs" },
+    ],
+  },
+  {
+    title: "Performance",
+    links: [
+      { label: "What's tuned", href: "/tuning" },
+      { label: "Benchmarks", href: "/benchmarks" },
+      { label: "Roadmap", href: "https://github.com/AtlasStudioMC/AtlasSpigot/blob/main/ROADMAP.md" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "License", href: "https://github.com/AtlasStudioMC/AtlasSpigot/blob/main/LICENSE.md" },
+      { label: "bStats", href: "https://bstats.org/plugin/bukkit/AtlasSpigot/33733" },
+    ],
+  },
+];
 ---
 
-<footer class="border-t border-white/5 px-6 py-12 text-sm text-white/50">
-  <div class="mx-auto flex max-w-6xl flex-col gap-6 md:flex-row md:items-start md:justify-between">
-    <div class="max-w-md">
-      <p class="mb-2 font-medium text-white/80">AtlasSpigot</p>
+<footer class="border-t border-white/5 px-6 py-14 text-sm text-white/50">
+  <div class="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="max-w-sm">
+      <a href="/" class="mb-2 flex items-center gap-2 font-medium text-white/80">
+        <img src="/logo.svg" alt="" width="20" height="20" />
+        AtlasSpigot
+      </a>
       <p>
-        A tuned, rebranded build of <a href="https://github.com/Winds-Studio/Leaf" class="underline hover:text-primary-400">Leaf</a> for
-        Minecraft 26.2. Every performance change is checked against upstream source and issue trackers before shipping - see the <a href="https://github.com/AtlasStudioMC/AtlasSpigot" class="underline hover:text-primary-400">GitHub repo</a> for the full writeup.
+        A tuned, rebranded build spanning <a href="https://github.com/PurpurMC/Purpur" class="underline hover:text-primary-400">Purpur</a> and <a href="https://github.com/Winds-Studio/Leaf" class="underline hover:text-primary-400">Leaf</a>. Every performance change is checked against upstream source and issue trackers before shipping.
       </p>
     </div>
-    <div>
-      <p class="mb-2 font-medium text-white/80">Built on</p>
-      <ul class="grid grid-cols-2 gap-x-6 gap-y-1">
-        {
-          credits.map((c) => (
-            <li>
-              <a href={c.href} class="hover:text-primary-400">
-                {c.name}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-    <div>
-      <p class="mb-2 font-medium text-white/80">License</p>
-      <p>
-        Mixed - MIT and GPL-3.0-only.<br />
-        <a href="https://github.com/AtlasStudioMC/AtlasSpigot/blob/main/LICENSE.md" class="underline hover:text-primary-400">
-          Full breakdown
-        </a>
-      </p>
-    </div>
+    {
+      columns.map((col) => (
+        <div>
+          <p class="mb-3 text-xs font-semibold tracking-wide text-white/40 uppercase">{col.title}</p>
+          <ul class="space-y-2">
+            {col.links.map((l) => (
+              <li>
+                <a href={l.href} class="hover:text-primary-400">
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
   </div>
+
+  <div class="mx-auto mt-10 max-w-6xl border-t border-white/5 pt-6">
+    <p class="mb-2 text-xs font-semibold tracking-wide text-white/40 uppercase">Built on</p>
+    <ul class="flex flex-wrap gap-x-5 gap-y-1 text-xs">
+      {
+        credits.map((c) => (
+          <li>
+            <a href={c.href} class="hover:text-primary-400">
+              {c.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
   <p class="mx-auto mt-8 max-w-6xl border-t border-white/5 pt-6 text-xs text-white/30">
     Not affiliated with Mojang, Microsoft, or PaperMC. Made with <span class="text-primary-500">&#9829;</span> on Earth.
   </p>
