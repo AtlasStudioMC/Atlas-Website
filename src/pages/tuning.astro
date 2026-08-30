@@ -13,6 +13,8 @@ const performance = [
   { area: "World", setting: "optimized-powered-rails", detail: "Rewrites powered/activator rail update propagation to run from a single rail instead of each block iterating separately — up to 4x faster toggling, same vanilla order." },
   { area: "I/O", setting: "dont-save-primed-tnt, dont-save-falling-block", detail: "Skips writing these to disk on chunk save/unload — cuts I/O when a lot of TNT is active. Trade-off: those entities don't survive an unload+reload." },
   { area: "Network", setting: "Reduced entity move/motion packets, disabled decorative particles, larger item merge radius", detail: "Less per-tick network chatter and fewer duplicate item-entity ticks in busy areas." },
+  { area: "World", setting: "cache-biome (mob spawning + advancements)", detail: "Memoizes biome lookups on the hot paths that call them repeatedly per tick. Pure cache, same results — its past correctness bugs are closed and fixed upstream, verified against the issue tracker before enabling." },
+  { area: "Threading", setting: "Virtual threads for the Bukkit async scheduler and profile-download pool", detail: "Same JDK 21 virtual-thread swap already used for the async chat executor, extended to the other two background thread pools with no gameplay effect." },
 ];
 
 const notEnabled = [
@@ -31,6 +33,18 @@ const notEnabled = [
   {
     name: "sleeping-block-entity",
     body: "(Lithium-derived hopper/comparator sleep optimization) Broad surface area across hoppers, comparators, and inventory tracking, with a real history of closed bugs specifically about hopper item collection at chunk edges. Fixed since, but too much surface to fully re-verify for this build.",
+  },
+  {
+    name: "async-pathfinding",
+    body: "No @Experimental tag, but the issue tracker currently has an open PR (\"fix async pathfinding tick rate\") against it — an unresolved, acknowledged bug. Open issues are a hard no by themselves, tag or not.",
+  },
+  {
+    name: "faster-random-generator",
+    body: "Not @Experimental either, but its own boot-time log entry warns that enabling it offsets slime chunk locations from vanilla — a real, admitted behavior deviation, not just a speed change. Left off to stay behavior-preserving.",
+  },
+  {
+    name: "skip-inactive-entity-for-execute-command",
+    body: "Changes which entities /execute selectors actually return (skips ones outside AI activation range) — a real, visible difference for command-block and datapack-heavy servers, not a transparent perf win. Its one past bug (a datapack crash) is closed and fixed, but the behavior change itself is the reason this stays off by default.",
   },
 ];
 
