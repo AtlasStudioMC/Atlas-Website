@@ -35,7 +35,31 @@ try {
   fetchFailed = true;
 }
 
-const [latest, ...older] = releases;
+// Tags look like "atlasspigot-<mc-version>-<n>", except the very first release ever
+// ("atlasspigot-26.2", no trailing number) - the trailing "-<n>" is optional here so that
+// one still groups under "26.2" instead of becoming its own bogus version group.
+function versionOf(tagName: string): string {
+  const match = tagName.match(/^atlasspigot-(.+?)(?:-\d+)?$/);
+  return match ? match[1] : tagName;
+}
+
+const VERSION_ORDER = ["26.2", "1.21.11"];
+
+const groups = new Map<string, GhRelease[]>();
+for (const rel of releases) {
+  const v = versionOf(rel.tag_name);
+  if (!groups.has(v)) groups.set(v, []);
+  groups.get(v)!.push(rel);
+}
+
+const orderedVersions = [...groups.keys()].sort((a, b) => {
+  const ai = VERSION_ORDER.indexOf(a);
+  const bi = VERSION_ORDER.indexOf(b);
+  if (ai === -1 && bi === -1) return a.localeCompare(b);
+  if (ai === -1) return 1;
+  if (bi === -1) return -1;
+  return ai - bi;
+});
 
 function formatSize(bytes: number) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
@@ -46,52 +70,18 @@ function formatDate(iso: string) {
 }
 ---
 
-<Layout title="Downloads" description="Download the latest AtlasSpigot build, or any previous release.">
-  <section class="mx-auto max-w-3xl px-6 pt-24 pb-24 text-center">
+<Layout title="Downloads" description="Download the latest AtlasSpigot build, for Minecraft 26.2 or 1.21.11, or any previous release.">
+  <section class="mx-auto max-w-3xl px-6 pt-24 pb-12 text-center">
     <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Downloads</h1>
-    <p class="mb-10 text-white/60">A new release ships for every change - this is always the current build.</p>
+    <p class="text-white/60">A new release ships for every change - this is always the current build.</p>
+  </section>
 
-    {
-      latest && !fetchFailed ? (
-        <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left">
-          <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-            <div>
-              <p class="text-xs font-medium tracking-wide text-primary-400 uppercase">Latest</p>
-              <h2 class="text-xl font-medium">{latest.name || latest.tag_name}</h2>
-              <p class="text-xs text-white/40">{formatDate(latest.published_at)}</p>
-            </div>
-            <a href={latest.html_url} class="text-sm text-primary-400 underline">
-              Release notes
-            </a>
-          </div>
-          {latest.assets.length > 0 ? (
-            <ul class="flex flex-col gap-3">
-              {latest.assets.map((asset) => (
-                <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/30 px-4 py-3">
-                  <div>
-                    <p class="font-mono text-sm">{asset.name}</p>
-                    <p class="text-xs text-white/40">
-                      {formatSize(asset.size)} · {asset.download_count} downloads
-                    </p>
-                  </div>
-                  <a
-                    href={asset.browser_download_url}
-                    class="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-black hover:bg-primary-400"
-                  >
-                    Download
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p class="text-sm text-white/50">This release has no attached files.</p>
-          )}
-        </div>
-      ) : (
+  {
+    fetchFailed || releases.length === 0 ? (
+      <section class="mx-auto max-w-3xl px-6 pb-24">
         <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left">
           <p class="mb-4 text-white/70">
-            Couldn't load release data directly - this usually means the <code class="text-primary-400">AtlasStudioMC/AtlasSpigot</code>{" "}
-            repository is private, so the public GitHub API can't see its releases. Grab the jar directly from GitHub instead:
+            Couldn't load release data directly from GitHub right now. Grab the jar from the Releases page instead:
           </p>
           <a
             href="https://github.com/AtlasStudioMC/AtlasSpigot/releases"
@@ -100,46 +90,94 @@ function formatDate(iso: string) {
             View Releases on GitHub
           </a>
         </div>
-      )
-    }
+      </section>
+    ) : (
+      orderedVersions.map((version) => {
+        const [latest, ...older] = groups.get(version)!;
+        return (
+          <section class="mx-auto max-w-3xl px-6 pb-16">
+            <h2 class="mb-4 text-2xl font-medium">
+              Minecraft <span class="text-primary-400">{version}</span>
+            </h2>
 
-    {
-      older.length > 0 && (
-        <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6 text-left">
-          <h2 class="mb-4 text-sm font-medium text-white/60">Previous releases</h2>
-          <ul class="flex flex-col divide-y divide-white/5">
-            {older.map((rel) => (
-              <li class="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left">
+              <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
                 <div>
-                  <p class="text-sm font-medium">{rel.name || rel.tag_name}</p>
-                  <p class="text-xs text-white/40">{formatDate(rel.published_at)}</p>
+                  <p class="text-xs font-medium tracking-wide text-primary-400 uppercase">Latest</p>
+                  <h3 class="text-xl font-medium">{latest.name || latest.tag_name}</h3>
+                  <p class="text-xs text-white/40">{formatDate(latest.published_at)}</p>
                 </div>
-                <div class="flex items-center gap-3">
-                  <a href={rel.html_url} class="text-sm text-primary-400 underline">
-                    Notes
-                  </a>
-                  {rel.assets[0] && (
-                    <a
-                      href={rel.assets[0].browser_download_url}
-                      class="rounded-lg border border-white/15 px-3 py-1.5 text-sm font-medium hover:border-white/30"
-                    >
-                      Download
-                    </a>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
+                <a href={latest.html_url} class="text-sm text-primary-400 underline">
+                  Release notes
+                </a>
+              </div>
+              {latest.assets.length > 0 ? (
+                <ul class="flex flex-col gap-3">
+                  {latest.assets.map((asset) => (
+                    <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/30 px-4 py-3">
+                      <div>
+                        <p class="font-mono text-sm">{asset.name}</p>
+                        <p class="text-xs text-white/40">
+                          {formatSize(asset.size)} · {asset.download_count} downloads
+                        </p>
+                      </div>
+                      <a
+                        href={asset.browser_download_url}
+                        class="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-black hover:bg-primary-400"
+                      >
+                        Download
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="text-sm text-white/50">This release has no attached files.</p>
+              )}
+            </div>
 
-    <div class="mt-10 rounded-2xl border border-white/10 bg-white/5 p-8 text-left text-sm text-white/60">
+            {older.length > 0 && (
+              <details class="mt-4 rounded-2xl border border-white/10 bg-white/5 p-6 text-left">
+                <summary class="cursor-pointer text-sm font-medium text-white/60">
+                  {older.length} previous release{older.length === 1 ? "" : "s"} for {version}
+                </summary>
+                <ul class="mt-4 flex flex-col divide-y divide-white/5">
+                  {older.map((rel) => (
+                    <li class="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                      <div>
+                        <p class="text-sm font-medium">{rel.name || rel.tag_name}</p>
+                        <p class="text-xs text-white/40">{formatDate(rel.published_at)}</p>
+                      </div>
+                      <div class="flex items-center gap-3">
+                        <a href={rel.html_url} class="text-sm text-primary-400 underline">
+                          Notes
+                        </a>
+                        {rel.assets[0] && (
+                          <a
+                            href={rel.assets[0].browser_download_url}
+                            class="rounded-lg border border-white/15 px-3 py-1.5 text-sm font-medium hover:border-white/30"
+                          >
+                            Download
+                          </a>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+          </section>
+        );
+      })
+    )
+  }
+
+  <section class="mx-auto max-w-3xl px-6 pb-24">
+    <div class="rounded-2xl border border-white/10 bg-white/5 p-8 text-left text-sm text-white/60">
       <h2 class="mb-3 font-medium text-white/80">Setting it up</h2>
       <ol class="list-decimal space-y-2 pl-5">
-        <li>Copy everything else from the repo into the same folder as the jar: <code>start.sh</code>, <code>server.properties</code>, <code>spigot.yml</code>, <code>eula.txt</code>, and the whole <code>config/</code> directory.</li>
+        <li>Copy everything else for your Minecraft version from the repo into the same folder as the jar: <code>start.sh</code>, <code>server.properties</code>, <code>spigot.yml</code>, <code>eula.txt</code>, and the whole <code>config/</code> directory. For 1.21.11 that's everything under <code>1.21.11/</code> in the repo, not the root.</li>
         <li>Open <code>eula.txt</code> and set <code>eula=true</code>.</li>
-        <li>Run <code>./start.sh</code> (or <code>java -jar AtlasSpigot-26.2.jar nogui</code> directly).</li>
+        <li>Run <code>./start.sh</code> (or <code>java -jar &lt;the jar&gt;.jar nogui</code> directly).</li>
       </ol>
       <p class="mt-4">
         Branding shows correctly with just the jar, but performance tuning needs the config files too - see the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#quick-start" class="text-primary-400 underline">full quick start guide</a> for hosting-panel notes and details.

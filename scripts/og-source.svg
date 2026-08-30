@@ -49,6 +49,7 @@
   </g>
 
   <text x="410" y="300" font-family="Poppins, sans-serif" font-weight="700" font-size="84" fill="url(#text)">AtlasSpigot</text>
-  <text x="412" y="360" font-family="Poppins, sans-serif" font-weight="400" font-size="30" fill="#ffffffaa">A tuned, rebranded build of Leaf for Minecraft 26.2</text>
-  <text x="412" y="410" font-family="Poppins, sans-serif" font-weight="400" font-size="26" fill="#ff8c1a">github.com/AtlasStudioMC/AtlasSpigot</text>
+  <text x="412" y="355" font-family="Poppins, sans-serif" font-weight="400" font-size="30" fill="#ffffffaa">A tuned, rebranded build of Leaf for Minecraft</text>
+  <text x="412" y="393" font-family="Poppins, sans-serif" font-weight="400" font-size="30" fill="#ffffffaa">26.2 and 1.21.11</text>
+  <text x="412" y="440" font-family="Poppins, sans-serif" font-weight="400" font-size="26" fill="#ff8c1a">github.com/AtlasStudioMC/AtlasSpigot</text>
 </svg>
