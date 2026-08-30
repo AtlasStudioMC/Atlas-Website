@@ -15,6 +15,7 @@ const performance = [
   { area: "Network", setting: "Reduced entity move/motion packets, disabled decorative particles, larger item merge radius", detail: "Less per-tick network chatter and fewer duplicate item-entity ticks in busy areas." },
   { area: "World", setting: "cache-biome (mob spawning + advancements)", detail: "Memoizes biome lookups on the hot paths that call them repeatedly per tick. Pure cache, same results — its past correctness bugs are closed and fixed upstream, verified against the issue tracker before enabling." },
   { area: "Threading", setting: "Virtual threads for the Bukkit async scheduler and profile-download pool", detail: "Same JDK 21 virtual-thread swap already used for the async chat executor, extended to the other two background thread pools with no gameplay effect." },
+  { area: "Memory", setting: "Ring-buffer combat tracker (MC-301114)", detail: "Worth being precise: Paper already fixes this leak and that fix is already active here, so this doesn't add protection — it swaps the mechanism. Paper scans and trims the entry list on every damage event; Leaf uses an O(1) ring buffer that evicts the oldest entry automatically. Same cap, same result, cheaper per-hit path." },
 ];
 
 const notEnabled = [
@@ -45,6 +46,26 @@ const notEnabled = [
   {
     name: "skip-inactive-entity-for-execute-command",
     body: "Changes which entities /execute selectors actually return (skips ones outside AI activation range) — a real, visible difference for command-block and datapack-heavy servers, not a transparent perf win. Its one past bug (a datapack crash) is closed and fixed, but the behavior change itself is the reason this stays off by default.",
+  },
+  {
+    name: "OptimizeNonFlushPacketSending",
+    body: "A genuinely cheaper packet-send path, but upstream's own config comment states it is NOT compatible with ProtocolLib and may break other plugins that touch packet handling. Too much of the plugin ecosystem depends on that to enable by default.",
+  },
+  {
+    name: "async-switch-state",
+    body: "Moves connection state switching off the main thread — it rewires the login/configuration protocol state machine across Connection and both packet listeners. No @Experimental tag and no open issues, but concurrency bugs in the join handshake are exactly the kind that only appear under real concurrent logins. Not enabled on the strength of a clean single-player boot.",
+  },
+  {
+    name: "throttle-mob-spawning, entity-goal.start-tick-chance, cactus-check-survival",
+    body: "All three trade gameplay for speed rather than being free. The first two change spawn rates and AI responsiveness; the third stops cacti growing where they'd immediately break — which is precisely the mechanic cactus farms are built on.",
+  },
+  {
+    name: "optimize-end-surface-gen",
+    body: "Skips part of the End surface rule build. Upstream's own comment flags possible incompatibility with datapacks that modify End generation — a conditional break, but a real one, and this build ships to servers whose datapacks it can't know about.",
+  },
+  {
+    name: "mc-270656, mc-152094",
+    body: "Real vanilla bug fixes (an advancement mis-grant and End City ships cut at chunk borders), but neither buys any performance, and mc-152094 changes what actually generates — moving worlds further from vanilla rather than closer. The one vanilla-bug-fix that is enabled, MC-301114, is in because it's a memory fix, not a gameplay one.",
   },
 ];
 
