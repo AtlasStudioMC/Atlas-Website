@@ -73,61 +73,55 @@ misc:
     </div>
     <div class="grid-texture absolute inset-x-0 top-0 h-[600px]"></div>
 
-    <div class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pt-28 pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:pt-36 lg:pb-28">
-      <div class="flex flex-col items-start gap-6 text-left">
-        <a
-          href="/downloads"
-          class="flex items-center gap-2 rounded-full border border-primary-500/30 bg-primary-500/10 px-4 py-1.5 text-sm text-primary-300 transition-colors hover:border-primary-400/50"
-        >
-          <img src="/logo.svg" alt="" width="16" height="16" />
-          {latestVersion} released
+    <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 pt-28 pb-16 text-center lg:pt-36 lg:pb-20">
+      <a
+        href="/downloads"
+        class="flex items-center gap-2 rounded-full border border-primary-500/30 bg-primary-500/10 px-4 py-1.5 text-sm text-primary-300 transition-colors hover:border-primary-400/50"
+      >
+        <img src="/logo.svg" alt="" width="16" height="16" />
+        {latestVersion} released
+      </a>
+
+      <h1 class="text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
+        The tuning has <span class="gradient-text italic">receipts</span>.
+      </h1>
+
+      <p class="max-w-xl text-base text-white/70 sm:text-lg">
+        A tuned Minecraft server spanning <a href={FORK_INFO.Purpur.href} class="text-primary-400 underline">Purpur</a> and <a href={FORK_INFO.Leaf.href} class="text-primary-400 underline">Leaf</a>, full plugin compatibility, and every performance claim backed by a real diff and a real benchmark — not a config comment asking you to trust it.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+        <a href="/downloads" class="btn-glow rounded-lg bg-primary-500 px-7 py-3 font-medium text-black">
+          Get started
         </a>
-
-        <h1 class="text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
-          Make your server <span class="gradient-text italic">fly</span> —<br />
-          know exactly why.
-        </h1>
-
-        <p class="max-w-xl text-base text-white/70 sm:text-lg">
-          A tuned Minecraft server spanning <a href={FORK_INFO.Purpur.href} class="text-primary-400 underline">Purpur</a> and <a href={FORK_INFO.Leaf.href} class="text-primary-400 underline">Leaf</a>, full plugin compatibility, and every performance change checked against upstream source and issue trackers before it ships — not enabled because it sounded fast.
-        </p>
-
-        <div class="flex flex-wrap items-center gap-3 pt-1">
-          <a href="/downloads" class="btn-glow rounded-lg bg-primary-500 px-7 py-3 font-medium text-black">
-            Get started
-          </a>
-          <a
-            href="https://github.com/AtlasStudioMC/AtlasSpigot"
-            class="rounded-lg border border-white/15 px-7 py-3 font-medium text-white transition-colors hover:border-white/30"
-          >
-            View on GitHub
-          </a>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-x-8 gap-y-2 pt-2 text-sm text-white/50">
-          <div><span class="font-mono text-white/90">{latestVersion}</span> · Latest release</div>
-          <div><span class="font-mono text-white/90">{releasedCount}</span> · Versions covered</div>
-          <div><span class="font-mono text-white/90">0</span> · Settings enabled on vibes</div>
-        </div>
-      </div>
-
-      <div class="rounded-2xl border border-white/10 bg-black/50 p-1 shadow-2xl shadow-black/40">
-        <div class="flex items-center gap-1.5 border-b border-white/5 px-4 py-2.5 text-xs text-white/40">
-          <span class="h-2.5 w-2.5 rounded-full bg-white/10"></span>
-          <span class="h-2.5 w-2.5 rounded-full bg-white/10"></span>
-          <span class="h-2.5 w-2.5 rounded-full bg-white/10"></span>
-          <span class="ml-2 font-mono">console — real boot log, not staged</span>
-        </div>
-        <pre class="overflow-x-auto p-4 font-mono text-[11px] leading-relaxed text-white/60 sm:text-xs"><code>[LeafConfig] Successfully loaded config in 310ms.
-This server is running AtlasSpigot version
-  26.2-DEV-ver/26.2@998bc1e
-  (Implementing API version 26.2.local-SNAPSHOT)
-Done (9.664s)! For help, type "help"</code></pre>
-        <p class="border-t border-white/5 px-4 py-3 text-xs text-white/40">
-          Pulled straight from an actual boot-test run — same one behind the <a href="/benchmarks" class="text-primary-400 underline">benchmarks page</a>.
-        </p>
+        <a
+          href="https://github.com/AtlasStudioMC/AtlasSpigot"
+          class="rounded-lg border border-white/15 px-7 py-3 font-medium text-white transition-colors hover:border-white/30"
+        >
+          View on GitHub
+        </a>
       </div>
     </div>
+  </section>
+
+  <section class="relative mx-auto max-w-5xl px-6 pb-24">
+    <div class="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+      <a href="/benchmarks" class="card-hover bg-[#0c0f16] px-6 py-8 text-center">
+        <div class="text-3xl font-semibold text-primary-400">9.6%</div>
+        <div class="mt-1 text-sm text-white/60">Faster chunk generation vs. stock Paper — measured, not estimated</div>
+      </a>
+      <div class="bg-[#0c0f16] px-6 py-8 text-center">
+        <div class="text-3xl font-semibold text-primary-400">{releasedCount}</div>
+        <div class="mt-1 text-sm text-white/60">Minecraft versions covered, each with its own tuned config</div>
+      </div>
+      <a href="/tuning" class="card-hover bg-[#0c0f16] px-6 py-8 text-center">
+        <div class="text-3xl font-semibold text-primary-400">0</div>
+        <div class="mt-1 text-sm text-white/60">Settings enabled because they sounded fast, not because they were verified</div>
+      </a>
+    </div>
+    <p class="mt-4 text-center text-xs text-white/40">
+      Real, reproducible numbers on the <a href="/benchmarks" class="text-primary-400 underline">benchmarks page</a> — methodology and raw results included.
+    </p>
   </section>
 
   <section class="relative mx-auto max-w-6xl px-6 pb-24">
