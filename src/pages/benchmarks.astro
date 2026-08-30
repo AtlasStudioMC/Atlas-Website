@@ -60,9 +60,10 @@ const chunkGenImprovementPct = Math.round(
   description="A real, reproducible MSPT comparison between AtlasSpigot and stock Paper, run on this project's own hardware — full methodology and JVM flags included."
   canonical="/benchmarks"
 >
-  <section class="mx-auto max-w-4xl px-6 pt-24 pb-8 text-center">
-    <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Entity performance</h1>
-    <p class="text-white/60">
+  <section class="mx-auto max-w-4xl px-6 pt-24 pb-10 text-center">
+    <p class="eyebrow mb-3">Benchmarks</p>
+    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl">Entity <span class="gradient-text serif-accent">performance</span></h1>
+    <p class="mx-auto max-w-2xl leading-relaxed text-white/55">
       MSPT (milliseconds per tick) comparison between AtlasSpigot's tuned 1.21.4 (Leaf) config and stock Paper on
       identical hardware, seed, coordinates, and JVM flags. Lower is better. This is one specific test scenario, run
       once on this machine — treat it as a data point, not a universal guarantee, and see the <a href="#methodology" class="text-primary-400 underline">methodology</a> below for exactly how it was produced.
@@ -70,43 +71,65 @@ const chunkGenImprovementPct = Math.round(
   </section>
 
   <section class="mx-auto max-w-3xl px-6 pb-16">
-    <h2 class="mb-4 text-xl font-medium text-white/80">Test environment</h2>
-    <div class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
+    <h2 class="eyebrow mb-4">Test environment</h2>
+    <div class="surface grid grid-cols-2 overflow-hidden sm:grid-cols-4">
       {
-        env.map((e) => (
-          <div class="bg-[#0c0f16] px-4 py-3">
-            <div class="text-xs text-white/40">{e.label}</div>
-            <div class="mt-1 font-mono text-sm text-white/90">{e.value}</div>
+        env.map((e, i) => (
+          <div
+            class:list={[
+              "px-4 py-4",
+              i % 2 === 0 ? "border-r border-white/[0.06]" : "",
+              "sm:border-r sm:border-white/[0.06] sm:last:border-r-0",
+              i < env.length - 2 ? "border-b border-white/[0.06]" : "",
+            ]}
+          >
+            <div class="text-[11px] tracking-wide text-white/35 uppercase">{e.label}</div>
+            <div class="mt-1.5 font-mono text-sm break-all text-white/85">{e.value}</div>
           </div>
         ))
       }
     </div>
-    <details class="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
-      <summary class="cursor-pointer text-sm font-medium text-white/70">JVM flags (identical on both servers)</summary>
-      <pre class="mt-3 overflow-x-auto rounded-lg bg-black/40 p-3 text-xs text-white/60">{jvmFlags}</pre>
+    <details class="surface group mt-4 p-5">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-white/70 marker:content-none">
+        <span>JVM flags (identical on both servers)</span>
+        <span class="shrink-0 text-lg leading-none text-primary-400 transition-transform duration-200 group-open:rotate-45">+</span>
+      </summary>
+      <pre class="mt-4 overflow-x-auto rounded-lg bg-black/50 p-4 font-mono text-xs leading-relaxed text-white/55">{jvmFlags}</pre>
     </details>
   </section>
 
   <section class="mx-auto max-w-3xl px-6 pb-20">
-    <h2 class="mb-6 text-xl font-medium text-white/80">Performance comparison (MSPT — lower is better)</h2>
-    <div class="space-y-10">
+    <h2 class="eyebrow mb-6">Performance comparison — MSPT, lower is better</h2>
+    <div class="space-y-9">
       {
         scenarios.map((scenario) => (
-          <div>
-            <h3 class="mb-4 text-base font-medium text-white">{scenario.name}</h3>
-            <div class="space-y-3">
-              {scenario.bars.map((bar) => (
+          <div class="surface p-7">
+            <h3 class="mb-5 text-base font-semibold text-white">{scenario.name}</h3>
+            <div class="space-y-5">
+              {scenario.bars.map((bar, bi) => (
                 <div>
-                  <div class="mb-1 flex items-baseline justify-between text-sm">
-                    <span class="text-white/70">{bar.label}</span>
-                    <span class={`font-mono ${bar.highlight ? "text-primary-400" : "text-white/60"}`}>
-                      {bar.value.toFixed(2)} mspt
+                  <div class="mb-2 flex items-baseline justify-between gap-4">
+                    <span class:list={["text-sm", bar.highlight ? "font-medium text-white" : "text-white/55"]}>
+                      {bar.label}
+                    </span>
+                    <span
+                      class:list={[
+                        "font-mono text-sm tabular-nums",
+                        bar.highlight ? "text-primary-300" : "text-white/45",
+                      ]}
+                    >
+                      {bar.value.toFixed(2)} <span class="text-xs text-white/30">mspt</span>
                     </span>
                   </div>
-                  <div class="h-3 w-full overflow-hidden rounded-full bg-white/5">
+                  <div class="h-2.5 w-full overflow-hidden rounded-full bg-white/[0.04]">
                     <div
-                      class={`h-full rounded-full ${bar.highlight ? "bg-gradient-to-r from-primary-600 to-primary-400" : "bg-white/25"}`}
-                      style={`width: ${(bar.value / maxValue) * 100}%`}
+                      class:list={[
+                        "bar-fill h-full rounded-full",
+                        bar.highlight
+                          ? "bg-gradient-to-r from-primary-600 via-primary-500 to-primary-300"
+                          : "bg-white/20",
+                      ]}
+                      style={`width: ${(bar.value / maxValue) * 100}%; animation-delay: ${bi * 120}ms`}
                     />
                   </div>
                 </div>
@@ -119,36 +142,53 @@ const chunkGenImprovementPct = Math.round(
   </section>
 
   <section class="mx-auto max-w-3xl px-6 pb-20">
-    <h2 class="mb-2 text-4xl font-semibold text-center lg:text-5xl">Chunk generation time</h2>
-    <p class="mx-auto mb-8 max-w-2xl text-center text-white/60">
-      Wall-clock time to fully generate a fixed {chunkGen.radius * 2 + 1}×{chunkGen.radius * 2 + 1} chunk region
-      ({chunkGen.chunks.toLocaleString()} chunks) from the same seed, single run each. Lower is better.
-    </p>
-    <h3 class="mb-4 text-base font-medium text-white">World generation</h3>
-    <div class="space-y-3">
-      {
-        chunkGen.bars.map((bar) => (
-          <div>
-            <div class="mb-1 flex items-baseline justify-between text-sm">
-              <span class="text-white/70">{bar.label}</span>
-              <span class={`font-mono ${bar.highlight ? "text-primary-400" : "text-white/60"}`}>
-                {fmtTime(bar.seconds)}
-              </span>
-            </div>
-            <div class="h-3 w-full overflow-hidden rounded-full bg-white/5">
-              <div
-                class={`h-full rounded-full ${bar.highlight ? "bg-gradient-to-r from-primary-600 to-primary-400" : "bg-white/25"}`}
-                style={`width: ${(bar.seconds / chunkGenMax) * 100}%`}
-              />
-            </div>
-          </div>
-        ))
-      }
+    <div class="mb-10 text-center">
+      <p class="eyebrow mb-3">Chunk generation</p>
+      <h2 class="mb-4 text-4xl font-semibold lg:text-5xl">
+        Chunk generation <span class="gradient-text serif-accent">time</span>
+      </h2>
+      <p class="mx-auto max-w-2xl leading-relaxed text-white/55">
+        Wall-clock time to fully generate a fixed {chunkGen.radius * 2 + 1}×{chunkGen.radius * 2 + 1} chunk region
+        ({chunkGen.chunks.toLocaleString()} chunks) from the same seed, single run each. Lower is better.
+      </p>
     </div>
-    <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
-      <div class="text-xs tracking-wide text-white/40 uppercase">Performance improvement</div>
-      <div class="mt-1 text-3xl font-semibold text-primary-400">{chunkGenImprovementPct}% faster</div>
-      <div class="mt-1 text-xs text-white/50">AtlasSpigot vs. stock Paper, this specific run</div>
+    <div class="surface p-7">
+      <h3 class="mb-5 text-base font-semibold text-white">World generation</h3>
+      <div class="space-y-5">
+        {
+          chunkGen.bars.map((bar, bi) => (
+            <div>
+              <div class="mb-2 flex items-baseline justify-between gap-4">
+                <span class:list={["text-sm", bar.highlight ? "font-medium text-white" : "text-white/55"]}>
+                  {bar.label}
+                </span>
+                <span
+                  class:list={[
+                    "font-mono text-sm tabular-nums",
+                    bar.highlight ? "text-primary-300" : "text-white/45",
+                  ]}
+                >
+                  {fmtTime(bar.seconds)}
+                </span>
+              </div>
+              <div class="h-2.5 w-full overflow-hidden rounded-full bg-white/[0.04]">
+                <div
+                  class:list={[
+                    "bar-fill h-full rounded-full",
+                    bar.highlight ? "bg-gradient-to-r from-primary-600 via-primary-500 to-primary-300" : "bg-white/20",
+                  ]}
+                  style={`width: ${(bar.seconds / chunkGenMax) * 100}%; animation-delay: ${bi * 120}ms`}
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-7 border-t border-white/[0.07] pt-6 text-center">
+        <div class="text-[11px] tracking-[0.16em] text-white/35 uppercase">Performance improvement</div>
+        <div class="gradient-text mt-2 text-5xl font-semibold tracking-tight">{chunkGenImprovementPct}%</div>
+        <div class="mt-1.5 text-xs text-white/45">faster than stock Paper, this specific run</div>
+      </div>
     </div>
   </section>
 

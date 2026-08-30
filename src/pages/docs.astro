@@ -58,7 +58,8 @@ const faqs = [
   canonical="/docs"
 >
   <section class="mx-auto max-w-4xl px-6 pt-24 pb-8 text-center">
-    <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Documentation</h1>
+    <p class="eyebrow mb-3">Guide</p>
+    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl"><span class="gradient-text serif-accent">Documentation</span></h1>
     <p class="text-white/60">
       Everything needed to go from zero to a running AtlasSpigot server, plus a quick reference for the config
       files each version ships.
@@ -70,7 +71,7 @@ const faqs = [
     <div class="space-y-6">
       {
         steps.map((step) => (
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div class="surface p-5">
             <h3 class="mb-1.5 font-medium text-white">{step.title}</h3>
             <p class="text-sm text-white/70">{step.body}</p>
           </div>
@@ -81,7 +82,7 @@ const faqs = [
 
   <section class="mx-auto max-w-3xl px-6 pb-16">
     <h2 class="mb-4 text-2xl font-medium">Config file reference</h2>
-    <div class="overflow-x-auto rounded-2xl border border-white/10">
+    <div class="surface overflow-x-auto">
       <table class="w-full text-left text-sm">
         <thead class="bg-white/5 text-white/50">
           <tr>
@@ -112,7 +113,7 @@ const faqs = [
     <div class="space-y-3">
       {
         faqs.map((f) => (
-          <details class="group rounded-2xl border border-white/10 bg-white/5 p-5">
+          <details class="surface group p-5">
             <summary class="cursor-pointer list-none font-medium text-white marker:content-none">{f.q}</summary>
             <p class="mt-2.5 text-sm text-white/70">{f.a}</p>
           </details>

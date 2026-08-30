@@ -6,28 +6,101 @@ const links = [
   { href: "/benchmarks", label: "Benchmarks" },
   { href: "https://github.com/AtlasStudioMC/AtlasSpigot", label: "GitHub" },
 ];
+
+// Used to mark the current page in the nav. Astro.url.pathname keeps a trailing slash on some
+// routes, so compare against a normalized copy.
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
-<header class="border-b border-white/5 bg-[#05070b]">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
-    <a href="/" class="flex shrink-0 items-center gap-2 text-base font-semibold text-white sm:text-lg">
-      <img src="/logo.svg" alt="AtlasSpigot" width="28" height="28" class="sm:h-8 sm:w-8" />
+<header class="sticky top-0 z-50 border-b border-white/[0.07] bg-[#07080c]/80 backdrop-blur-xl">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+    <a
+      href="/"
+      class="group flex shrink-0 items-center gap-2.5 text-base font-semibold tracking-tight text-white sm:text-lg"
+    >
+      <img
+        src="/logo.svg"
+        alt="AtlasSpigot"
+        width="28"
+        height="28"
+        class="transition-transform duration-300 group-hover:scale-110 sm:h-8 sm:w-8"
+      />
       <span>AtlasSpigot</span>
     </a>
-    <div class="flex items-center gap-4 text-sm font-medium text-white/70 sm:gap-6">
+
+    <div class="flex items-center gap-1 sm:gap-2">
       {
-        links.map((link) => (
-          <a href={link.href} class="hidden transition-colors hover:text-primary-400 sm:inline">
-            {link.label}
-          </a>
-        ))
+        links.map((link) => {
+          const isActive = link.href.startsWith("/") && !link.href.includes("#") && path === link.href;
+          return (
+            <a
+              href={link.href}
+              aria-current={isActive ? "page" : undefined}
+              class:list={[
+                "hidden rounded-lg px-3 py-1.5 text-sm font-medium transition-colors sm:inline-block",
+                isActive ? "bg-white/[0.07] text-white" : "text-white/60 hover:bg-white/5 hover:text-white",
+              ]}
+            >
+              {link.label}
+            </a>
+          );
+        })
       }
       <a
         href="/downloads"
-        class="rounded-lg bg-primary-500 px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-primary-400"
+        class="btn-glow ml-1 rounded-lg px-4 py-2 text-sm font-semibold text-black"
       >
         Download
       </a>
+
+      {/* Below sm the links above are hidden, so without this the other pages are unreachable
+          from the nav on a phone. <details> keeps it working with no JS. */}
+      <details class="nav-mobile relative sm:hidden">
+        <summary
+          class="ml-1 flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/5 hover:text-white marker:content-none"
+          aria-label="Open menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </summary>
+        <div
+          class="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-white/10 bg-[#0b0d13] p-1.5 shadow-2xl shadow-black/60"
+        >
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                class="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/[0.07] hover:text-white"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </details>
     </div>
   </nav>
 </header>
+
+<style>
+  /* Hide the default disclosure triangle across browsers */
+  .nav-mobile > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
+
+<script>
+  // Close the mobile menu when clicking outside it or pressing Escape - a <details> menu stays
+  // open otherwise, which feels broken after navigating to a hash link on the same page.
+  const menu = document.querySelector<HTMLDetailsElement>("details.nav-mobile");
+  if (menu) {
+    document.addEventListener("click", (e) => {
+      if (menu.open && !menu.contains(e.target as Node)) menu.open = false;
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.open) menu.open = false;
+    });
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => (menu.open = false)));
+  }
+</script>
