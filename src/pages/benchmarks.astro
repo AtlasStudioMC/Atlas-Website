@@ -33,6 +33,26 @@ const scenarios = [
 ];
 
 const maxValue = Math.max(...scenarios.flatMap((s) => s.bars.map((b) => b.value)));
+
+const chunkGen = {
+  chunks: 10201,
+  radius: 50,
+  bars: [
+    { label: "AtlasSpigot", seconds: 121.868, highlight: true },
+    { label: "Paper (vanilla)", seconds: 134.805, highlight: false },
+  ],
+};
+
+function fmtTime(totalSeconds: number) {
+  const m = Math.floor(totalSeconds / 60);
+  const s = Math.round(totalSeconds - m * 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+const chunkGenMax = Math.max(...chunkGen.bars.map((b) => b.seconds));
+const chunkGenImprovementPct = Math.round(
+  ((chunkGen.bars[1].seconds - chunkGen.bars[0].seconds) / chunkGen.bars[1].seconds) * 100 * 10
+) / 10;
 ---
 
 <Layout
@@ -99,6 +119,40 @@ const maxValue = Math.max(...scenarios.flatMap((s) => s.bars.map((b) => b.value)
     </div>
   </section>
 
+  <section class="mx-auto max-w-3xl px-6 pb-20">
+    <h2 class="mb-2 text-4xl font-semibold text-center lg:text-5xl">Chunk generation time</h2>
+    <p class="mx-auto mb-8 max-w-2xl text-center text-white/60">
+      Wall-clock time to fully generate a fixed {chunkGen.radius * 2 + 1}×{chunkGen.radius * 2 + 1} chunk region
+      ({chunkGen.chunks.toLocaleString()} chunks) from the same seed, single run each. Lower is better.
+    </p>
+    <h3 class="mb-4 text-base font-medium text-white">World generation</h3>
+    <div class="space-y-3">
+      {
+        chunkGen.bars.map((bar) => (
+          <div>
+            <div class="mb-1 flex items-baseline justify-between text-sm">
+              <span class="text-white/70">{bar.label}</span>
+              <span class={`font-mono ${bar.highlight ? "text-primary-400" : "text-white/60"}`}>
+                {fmtTime(bar.seconds)}
+              </span>
+            </div>
+            <div class="h-3 w-full overflow-hidden rounded-full bg-white/5">
+              <div
+                class={`h-full rounded-full ${bar.highlight ? "bg-gradient-to-r from-primary-600 to-primary-400" : "bg-white/25"}`}
+                style={`width: ${(bar.seconds / chunkGenMax) * 100}%`}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
+      <div class="text-xs tracking-wide text-white/40 uppercase">Performance improvement</div>
+      <div class="mt-1 text-3xl font-semibold text-primary-400">{chunkGenImprovementPct}% faster</div>
+      <div class="mt-1 text-xs text-white/50">AtlasSpigot vs. stock Paper, this specific run</div>
+    </div>
+  </section>
+
   <section id="methodology" class="mx-auto max-w-3xl px-6 pb-24">
     <h2 class="mb-4 text-xl font-medium text-white/80">Methodology</h2>
     <p class="text-white/70">
@@ -112,9 +166,16 @@ const maxValue = Math.max(...scenarios.flatMap((s) => s.bars.map((b) => b.value)
       artificially equalized config.
     </p>
     <p class="mt-3 text-white/70">
+      The chunk generation test uses a second, similarly small plugin: after startup it force-generates a fixed
+      101×101 chunk square around the same coordinates via <code>World#getChunkAtAsync(x, z, true)</code>, timing
+      wall-clock elapsed time from the first request to the last chunk completing. Same seed, same JVM flags, one
+      run each, no players connected — a clean, repeatable measure of raw generation throughput rather than steady-state
+      tick cost.
+    </p>
+    <p class="mt-3 text-white/70">
       No numbers here are estimated, extrapolated, or copied from another project's own benchmark page. Every value
       above came from an actual run on this machine on the date this page was last updated. Re-running it yourself
-      (same seed, same JVM flags, same plugin) should land close to these numbers on comparable hardware — meaningfully
+      (same seed, same JVM flags, same plugins) should land close to these numbers on comparable hardware — meaningfully
       different results are worth reporting as an issue.
     </p>
   </section>
