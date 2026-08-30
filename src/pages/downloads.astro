@@ -82,6 +82,18 @@ function formatSize(bytes: number) {
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
+
+// Releases can carry more than just the server jar (e.g. a config bundle). GitHub returns assets
+// alphabetically, so "AtlasSpigot-<v>-config.zip" sorts ahead of "AtlasSpigot-<v>.jar" - taking
+// assets[0] would hand people the config zip when they clicked Download. Always prefer the jar.
+function primaryAsset(assets: GhAsset[]): GhAsset | undefined {
+  return assets.find((a) => a.name.endsWith(".jar")) ?? assets[0];
+}
+
+// List the server jar first for the same reason - it's what most people came for.
+function orderedAssets(assets: GhAsset[]): GhAsset[] {
+  return [...assets].sort((a, b) => Number(b.name.endsWith(".jar")) - Number(a.name.endsWith(".jar")));
+}
 ---
 
 <Layout title="Downloads" description="Download AtlasSpigot for any supported Minecraft version, built on Paper, Purpur, or Leaf.">
@@ -135,7 +147,7 @@ function formatDate(iso: string) {
               </div>
               {latest.assets.length > 0 ? (
                 <ul class="flex flex-col gap-3">
-                  {latest.assets.map((asset) => (
+                  {orderedAssets(latest.assets).map((asset) => (
                     <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/30 px-4 py-3">
                       <div>
                         <p class="font-mono text-sm">{asset.name}</p>
@@ -173,9 +185,9 @@ function formatDate(iso: string) {
                         <a href={rel.html_url} class="text-sm text-primary-400 underline">
                           Notes
                         </a>
-                        {rel.assets[0] && (
+                        {primaryAsset(rel.assets) && (
                           <a
-                            href={rel.assets[0].browser_download_url}
+                            href={primaryAsset(rel.assets)!.browser_download_url}
                             class="rounded-lg border border-white/15 px-3 py-1.5 text-sm font-medium hover:border-white/30"
                           >
                             Download
