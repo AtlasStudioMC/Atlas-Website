@@ -1,0 +1,121 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const env = [
+  { label: "Version", value: "1.21.4" },
+  { label: "CPU", value: "Apple M3 Pro" },
+  { label: "JVM", value: "OpenJDK 21.0.10" },
+  { label: "Memory", value: "4GB heap" },
+  { label: "AtlasSpigot Commit", value: "2d6d1f2" },
+  { label: "Paper Build", value: "1.21.4 #232 (12d8fe0)" },
+  { label: "Seed", value: "2618050634530417871" },
+  { label: "Coords", value: "183 67 -201" },
+];
+
+const jvmFlags =
+  "-Xms4G -Xmx4G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:MaxTenuringThreshold=1";
+
+const scenarios = [
+  {
+    name: "Baseline (300 entities)",
+    bars: [
+      { label: "AtlasSpigot", value: 4.8745, highlight: true },
+      { label: "Paper (vanilla)", value: 6.735, highlight: false },
+    ],
+  },
+  {
+    name: "Increased load (1,000 entities)",
+    bars: [
+      { label: "AtlasSpigot", value: 8.1114, highlight: true },
+      { label: "Paper (vanilla)", value: 25.7943, highlight: false },
+    ],
+  },
+];
+
+const maxValue = Math.max(...scenarios.flatMap((s) => s.bars.map((b) => b.value)));
+---
+
+<Layout
+  title="Benchmarks"
+  description="A real, reproducible MSPT comparison between AtlasSpigot and stock Paper, run on this project's own hardware — full methodology and JVM flags included."
+  canonical="/benchmarks"
+>
+  <section class="mx-auto max-w-4xl px-6 pt-24 pb-8 text-center">
+    <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Entity performance</h1>
+    <p class="text-white/60">
+      MSPT (milliseconds per tick) comparison between AtlasSpigot's tuned 1.21.4 (Leaf) config and stock Paper on
+      identical hardware, seed, coordinates, and JVM flags. Lower is better. This is one specific test scenario, run
+      once on this machine — treat it as a data point, not a universal guarantee, and see the
+      <a href="#methodology" class="text-primary-400 underline">methodology</a> below for exactly how it was produced.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16">
+    <h2 class="mb-4 text-xl font-medium text-white/80">Test environment</h2>
+    <div class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
+      {
+        env.map((e) => (
+          <div class="bg-[#0c0f16] px-4 py-3">
+            <div class="text-xs text-white/40">{e.label}</div>
+            <div class="mt-1 font-mono text-sm text-white/90">{e.value}</div>
+          </div>
+        ))
+      }
+    </div>
+    <details class="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+      <summary class="cursor-pointer text-sm font-medium text-white/70">JVM flags (identical on both servers)</summary>
+      <pre class="mt-3 overflow-x-auto rounded-lg bg-black/40 p-3 text-xs text-white/60">{jvmFlags}</pre>
+    </details>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-20">
+    <h2 class="mb-6 text-xl font-medium text-white/80">Performance comparison (MSPT — lower is better)</h2>
+    <div class="space-y-10">
+      {
+        scenarios.map((scenario) => (
+          <div>
+            <h3 class="mb-4 text-base font-medium text-white">{scenario.name}</h3>
+            <div class="space-y-3">
+              {scenario.bars.map((bar) => (
+                <div>
+                  <div class="mb-1 flex items-baseline justify-between text-sm">
+                    <span class="text-white/70">{bar.label}</span>
+                    <span class={`font-mono ${bar.highlight ? "text-primary-400" : "text-white/60"}`}>
+                      {bar.value.toFixed(2)} mspt
+                    </span>
+                  </div>
+                  <div class="h-3 w-full overflow-hidden rounded-full bg-white/5">
+                    <div
+                      class={`h-full rounded-full ${bar.highlight ? "bg-gradient-to-r from-primary-600 to-primary-400" : "bg-white/25"}`}
+                      style={`width: ${(bar.value / maxValue) * 100}%`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="methodology" class="mx-auto max-w-3xl px-6 pb-24">
+    <h2 class="mb-4 text-xl font-medium text-white/80">Methodology</h2>
+    <p class="text-white/70">
+      Both servers ran a small measurement plugin (<a href="https://github.com/AtlasStudioMC/AtlasSpigot" class="text-primary-400 underline">source in the repo</a>)
+      that, after full startup, force-loads a fixed 21×21 chunk region around the test coordinates, spawns a fixed,
+      seeded set of entities (a mix of zombies, skeletons, spiders, cows, and sheep — same seed, same positions on
+      both runs), waits a warmup period for chunk generation and pathfinding to settle, then samples real MSPT via
+      Paper's <code>ServerTickEndEvent</code> for 400 consecutive ticks (20 seconds) and writes the average. AtlasSpigot
+      ran with its own documented tuned config (<a href="/tuning" class="text-primary-400 underline">see What's tuned</a>);
+      Paper ran with its untouched defaults — this reflects what each project's config actually ships, not an
+      artificially equalized config.
+    </p>
+    <p class="mt-3 text-white/70">
+      No numbers here are estimated, extrapolated, or copied from another project's own benchmark page. Every value
+      above came from an actual run on this machine on the date this page was last updated. Re-running it yourself
+      (same seed, same JVM flags, same plugin) should land close to these numbers on comparable hardware — meaningfully
+      different results are worth reporting as an issue.
+    </p>
+  </section>
+</Layout>

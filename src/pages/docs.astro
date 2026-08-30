@@ -1,0 +1,127 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const steps = [
+  {
+    title: "1. Pick your version",
+    body: "Every Minecraft version is its own release track — check the Downloads page for what's released vs. still planned, and which fork (Leaf or Purpur) each version is built on.",
+  },
+  {
+    title: "2. Download the jar",
+    body: "Grab AtlasSpigot-<version>.jar from that version's GitHub release. No account or login required — releases are public.",
+  },
+  {
+    title: "3. Accept the EULA",
+    body: "Create eula.txt next to the jar containing eula=true, or run the server once and edit the file it generates.",
+  },
+  {
+    title: "4. Start the server",
+    body: "Use the start.sh in that version's config folder in the repo — it has the JVM flags this project tunes and tests against — or run java -jar AtlasSpigot-<version>.jar yourself.",
+  },
+  {
+    title: "5. (Optional) Apply the tuned config",
+    body: "Each version's repo folder ships the exact config files (atlas.yml / atlas-global.yml, paper-global.yml, paper-world-defaults.yml, spigot.yml) this project tests against. Copy them in before first boot, or apply just the deltas listed on the What's tuned page.",
+  },
+];
+
+const configFiles = [
+  { name: "atlas.yml / atlas-global.yml", body: "Rebranded from purpur.yml / leaf-global.yml. Purpur/Leaf's own gameplay and (on Leaf tracks) performance-module settings." },
+  { name: "pufferfish.yml", body: "Leaf/Purpur tracks that bundle Pufferfish's patches (see What's tuned) — dab.enabled, inactive-goal-selector-throttle, and related mob/AI tuning live here." },
+  { name: "config/paper-global.yml", body: "Server-wide Paper settings — max-joins-per-tick and similar." },
+  { name: "config/paper-world-defaults.yml", body: "Per-world Paper settings — redstone-implementation, optimize-explosions, and similar." },
+  { name: "spigot.yml", body: "Legacy Spigot-era settings — entity-tracking-range, view/simulation-distance defaults." },
+];
+
+const faqs = [
+  {
+    q: "Is this safe to use on a production server?",
+    a: "Every setting this project turns on is checked against upstream's own source, issue tracker, and any @Experimental/@Deprecated flags before it ships — see the What's tuned page for the full methodology and what was deliberately left off. That said, always keep backups regardless of which server software you run.",
+  },
+  {
+    q: "Will my plugins work?",
+    a: "AtlasSpigot is a source-rebuilt Leaf or Purpur (Paper-API compatible) — plugins built against the Bukkit/Paper/Purpur API work unmodified. Bukkit.getName() reports \"AtlasSpigot\" instead of the upstream fork's name, which matters only to plugins that specifically gate features on server-brand string checks.",
+  },
+  {
+    q: "Where do I report a bug?",
+    a: "Open an issue on the AtlasSpigot GitHub repo. If it reproduces on stock Leaf/Purpur too, it's also worth reporting upstream.",
+  },
+  {
+    q: "How is bStats data used?",
+    a: "AtlasSpigot reports to its own registered bStats project (id 33733) — real, publicly viewable usage data, not fabricated. See the Statistics section on the project README.",
+  },
+];
+---
+
+<Layout
+  title="Docs"
+  description="Getting started with AtlasSpigot: downloading, configuring, and running a rebranded, tuned Minecraft server build."
+  canonical="/docs"
+>
+  <section class="mx-auto max-w-4xl px-6 pt-24 pb-8 text-center">
+    <h1 class="mb-3 text-4xl font-semibold lg:text-5xl">Documentation</h1>
+    <p class="text-white/60">
+      Everything needed to go from zero to a running AtlasSpigot server, plus a quick reference for the config
+      files each version ships.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16">
+    <h2 class="mb-6 text-2xl font-medium">Getting started</h2>
+    <div class="space-y-6">
+      {
+        steps.map((step) => (
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 class="mb-1.5 font-medium text-white">{step.title}</h3>
+            <p class="text-sm text-white/70">{step.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16">
+    <h2 class="mb-4 text-2xl font-medium">Config file reference</h2>
+    <div class="overflow-x-auto rounded-2xl border border-white/10">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-white/5 text-white/50">
+          <tr>
+            <th class="px-4 py-3 font-medium">File</th>
+            <th class="px-4 py-3 font-medium">What lives here</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          {
+            configFiles.map((c) => (
+              <tr>
+                <td class="px-4 py-3 font-mono text-xs text-primary-400 whitespace-nowrap">{c.name}</td>
+                <td class="px-4 py-3 text-white/70">{c.body}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-sm text-white/50">
+      Not every file exists on every track — some older Purpur versions predate Pufferfish's merge and don't ship
+      pufferfish.yml. Each version's own NOTES.md in the repo documents exactly what's present.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-24">
+    <h2 class="mb-4 text-2xl font-medium">FAQ</h2>
+    <div class="space-y-3">
+      {
+        faqs.map((f) => (
+          <details class="group rounded-2xl border border-white/10 bg-white/5 p-5">
+            <summary class="cursor-pointer list-none font-medium text-white marker:content-none">{f.q}</summary>
+            <p class="mt-2.5 text-sm text-white/70">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+    <p class="mt-8 text-center text-sm text-white/50">
+      More detail on tuning specifically lives on the <a href="/tuning" class="text-primary-400 underline">What's tuned</a> page,
+      and real performance numbers are on <a href="/benchmarks" class="text-primary-400 underline">Benchmarks</a>.
+    </p>
+  </section>
+</Layout>

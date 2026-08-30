@@ -21,7 +21,9 @@ const features = [
   },
 ];
 
-const forks: Fork[] = ["Leaf", "Purpur", "Paper"];
+const forks: Fork[] = (["Leaf", "Purpur", "Paper"] as Fork[]).filter((fork) =>
+  VERSIONS.some((v) => v.fork === fork)
+);
 const releasedCount = VERSIONS.filter((v) => v.status === "released").length;
 ---
 
@@ -42,7 +44,7 @@ const releasedCount = VERSIONS.filter((v) => v.status === "released").length;
         <span class="gradient-text">AtlasSpigot</span>
       </h1>
       <p class="max-w-2xl text-base text-white/70 sm:text-lg lg:text-xl">
-        A tuned, rebranded Minecraft server spanning <a href={FORK_INFO.Paper.href} class="text-primary-400 underline">Paper</a>, <a href={FORK_INFO.Purpur.href} class="text-primary-400 underline">Purpur</a>, and <a href={FORK_INFO.Leaf.href} class="text-primary-400 underline">Leaf</a>. Every change is checked against upstream source and issue trackers before it ships, documented with <em>why</em>, not just <em>what</em>.
+        A tuned, rebranded Minecraft server spanning <a href={FORK_INFO.Purpur.href} class="text-primary-400 underline">Purpur</a> and <a href={FORK_INFO.Leaf.href} class="text-primary-400 underline">Leaf</a>. Every change is checked against upstream source and issue trackers before it ships, documented with <em>why</em>, not just <em>what</em>.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
         <a href="/downloads" class="btn-glow rounded-lg bg-primary-500 px-7 py-3 font-medium text-black">
@@ -81,8 +83,8 @@ const releasedCount = VERSIONS.filter((v) => v.status === "released").length;
   <section id="versions" class="relative mx-auto max-w-5xl px-6 pb-24">
     <h2 class="mb-2 text-center text-2xl font-medium lg:text-3xl">Every version, one build philosophy</h2>
     <p class="mx-auto mb-10 max-w-2xl text-center text-sm text-white/60">
-      Modern versions build on Leaf. Older ones - back to versions Leaf never supported - use Purpur, and the
-      oldest, long-EOL versions go straight to Paper. Same tuning rigor and rebrand on every one.
+      Modern versions build on Leaf. Older ones, back to versions Leaf never supported, use Purpur - down to 1.20
+      right now. Same tuning rigor and rebrand on every one.
     </p>
     <div class="grid gap-6 md:grid-cols-3">
       {
