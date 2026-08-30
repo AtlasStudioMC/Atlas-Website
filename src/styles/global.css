@@ -35,8 +35,9 @@
   }
 
   body {
-    background: radial-gradient(ellipse at top, var(--color-background-dark-70) 0%, var(--color-background-dark-90) 60%);
+    background: var(--color-background-dark-90);
     min-height: 100vh;
+    position: relative;
   }
 
   ::selection {
@@ -50,4 +51,55 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Soft radial glow orbs used behind hero/section content - purely decorative, fixed so they
+   don't add to document flow or scroll weirdly */
+.glow-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.14;
+}
+
+/* Faint grid texture for section backgrounds, Paper/Purpur-style */
+.grid-texture {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+}
+
+.btn-glow {
+  box-shadow:
+    0 0 0 1px rgba(255, 140, 26, 0.4),
+    0 8px 24px -6px rgba(255, 140, 26, 0.45);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 140, 26, 0.6),
+    0 12px 32px -6px rgba(255, 140, 26, 0.6);
+  transform: translateY(-1px);
+}
+
+.card-hover {
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.card-hover:hover {
+  border-color: rgba(255, 140, 26, 0.4);
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.06);
 }

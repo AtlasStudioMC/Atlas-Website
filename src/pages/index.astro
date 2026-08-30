@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
 
 const features = [
   {
@@ -8,55 +9,64 @@ const features = [
   },
   {
     title: "Uncapped chunk delivery",
-    body: "Chunk load/send rate uncapped with async packet sending, plus a smaller on-disk region format (B_LINEAR) - chunks reach players as fast as the server can push them.",
+    body: "Chunk load/send rate uncapped with async packet sending, plus a smaller on-disk region format - chunks reach players as fast as the server can push them.",
   },
   {
     title: "Tuned for concurrent players",
-    body: "View/simulation distance and entity tracking range tuned down, join-rate cap raised 5x - the biggest levers for per-player memory and CPU cost at scale.",
+    body: "View/simulation distance and entity tracking range tuned down, join-rate cap raised - the biggest levers for per-player memory and CPU cost at scale.",
   },
   {
     title: "Nothing enabled on vibes",
-    body: "Every setting is checked against Leaf's own @Experimental/@Deprecated annotations and issue tracker before shipping - and re-audited periodically, not just at launch.",
+    body: "Every setting is checked against upstream's own @Experimental/@Deprecated annotations and issue tracker before shipping - and re-audited periodically, not just at launch.",
   },
 ];
+
+const forks: Fork[] = ["Leaf", "Purpur", "Paper"];
+const releasedCount = VERSIONS.filter((v) => v.status === "released").length;
 ---
 
 <Layout
   title="AtlasSpigot"
-  description="A tuned, rebranded build of Leaf for Minecraft 26.2 and 1.21.11 - real performance changes, checked against upstream before they ship."
+  description="A tuned, rebranded Minecraft server spanning Paper, Purpur, and Leaf - real performance changes, checked against upstream before they ship."
 >
-  <section class="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 pt-24 pb-16 text-center lg:pt-32 lg:pb-24">
-    <img src="/logo.svg" alt="AtlasSpigot" width="88" height="88" class="rounded-2xl shadow-lg shadow-primary-600/20" />
-    <h1 class="text-4xl leading-tight font-semibold lg:text-6xl">
-      <span class="gradient-text">AtlasSpigot</span>
-    </h1>
-    <p class="max-w-2xl text-lg text-white/70 lg:text-xl">
-      A tuned, rebranded build of <a href="https://github.com/Winds-Studio/Leaf" class="text-primary-400 underline">Leaf</a> - a
-      performance-focused Paper fork - for Minecraft 26.2 and 1.21.11. Every change is checked against upstream source and issue trackers
-      before it ships, and documented with <em>why</em>, not just <em>what</em>.
-    </p>
-    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-      <a
-        href="/downloads"
-        class="rounded-lg bg-primary-500 px-6 py-3 font-medium text-black transition-colors hover:bg-primary-400"
-      >
-        Download
-      </a>
-      <a
-        href="https://github.com/AtlasStudioMC/AtlasSpigot"
-        class="rounded-lg border border-white/15 px-6 py-3 font-medium text-white transition-colors hover:border-white/30"
-      >
-        View on GitHub
-      </a>
+  <section class="relative overflow-hidden">
+    <div class="glow-field">
+      <div class="glow-orb h-[500px] w-[500px] bg-primary-600 -top-40 -left-20"></div>
+      <div class="glow-orb h-[420px] w-[420px] bg-primary-400 top-10 right-0"></div>
+    </div>
+    <div class="grid-texture absolute inset-x-0 top-0 h-[600px]"></div>
+
+    <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 pt-28 pb-16 text-center lg:pt-36 lg:pb-24">
+      <img src="/logo.svg" alt="AtlasSpigot" width="96" height="96" class="drop-shadow-[0_8px_24px_rgba(255,140,26,0.35)]" />
+      <h1 class="text-4xl leading-tight font-bold sm:text-5xl lg:text-7xl">
+        <span class="gradient-text">AtlasSpigot</span>
+      </h1>
+      <p class="max-w-2xl text-base text-white/70 sm:text-lg lg:text-xl">
+        A tuned, rebranded Minecraft server spanning <a href={FORK_INFO.Paper.href} class="text-primary-400 underline">Paper</a>, <a href={FORK_INFO.Purpur.href} class="text-primary-400 underline">Purpur</a>, and <a href={FORK_INFO.Leaf.href} class="text-primary-400 underline">Leaf</a>. Every change is checked against upstream source and issue trackers before it ships, documented with <em>why</em>, not just <em>what</em>.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a href="/downloads" class="btn-glow rounded-lg bg-primary-500 px-7 py-3 font-medium text-black">
+          Download
+        </a>
+        <a
+          href="https://github.com/AtlasStudioMC/AtlasSpigot"
+          class="rounded-lg border border-white/15 px-7 py-3 font-medium text-white transition-colors hover:border-white/30"
+        >
+          View on GitHub
+        </a>
+      </div>
+      <p class="pt-1 text-xs text-white/40">
+        {releasedCount} version{releasedCount === 1 ? "" : "s"} released so far - see the full roadmap below.
+      </p>
     </div>
   </section>
 
-  <section id="tuned" class="mx-auto max-w-6xl px-6 pb-24">
+  <section id="tuned" class="relative mx-auto max-w-6xl px-6 pb-24">
     <h2 class="mb-8 text-center text-2xl font-medium lg:text-3xl">What's tuned here</h2>
     <div class="grid gap-4 md:grid-cols-2">
       {
         features.map((f) => (
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div class="card-hover rounded-2xl border border-white/10 bg-white/5 p-6">
             <h3 class="mb-2 font-medium text-primary-300">{f.title}</h3>
             <p class="text-sm text-white/60">{f.body}</p>
           </div>
@@ -68,10 +78,53 @@ const features = [
     </p>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pb-24">
+  <section id="versions" class="relative mx-auto max-w-5xl px-6 pb-24">
+    <h2 class="mb-2 text-center text-2xl font-medium lg:text-3xl">Every version, one build philosophy</h2>
+    <p class="mx-auto mb-10 max-w-2xl text-center text-sm text-white/60">
+      Modern versions build on Leaf. Older ones - back to versions Leaf never supported - use Purpur, and the
+      oldest, long-EOL versions go straight to Paper. Same tuning rigor and rebrand on every one.
+    </p>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        forks.map((fork) => {
+          const versions = VERSIONS.filter((v) => v.fork === fork);
+          return (
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div class="mb-1 flex items-center gap-2">
+                <h3 class="text-lg font-medium">{fork}</h3>
+                <a href={FORK_INFO[fork].href} class="text-xs text-primary-400 underline">
+                  upstream
+                </a>
+              </div>
+              <p class="mb-4 text-xs text-white/50">{FORK_INFO[fork].blurb}</p>
+              <ul class="flex flex-wrap gap-2">
+                {versions.map((v) => (
+                  <li
+                    class:list={[
+                      "rounded-md px-2 py-1 font-mono text-xs",
+                      v.status === "released" ? "bg-primary-500/15 text-primary-300" : "bg-white/5 text-white/35",
+                    ]}
+                    title={v.status === "released" ? "Released" : "Planned"}
+                  >
+                    {v.version}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })
+      }
+    </div>
+    <p class="mt-6 text-center text-xs text-white/40">
+      <span class="mr-1 inline-block h-2 w-2 rounded-full bg-primary-400 align-middle"></span> released &nbsp;
+      <span class="mr-1 inline-block h-2 w-2 rounded-full bg-white/20 align-middle"></span> planned, not shipped yet
+    </p>
+  </section>
+
+  <section class="relative mx-auto max-w-3xl px-6 pb-24">
     <h2 class="mb-6 text-center text-2xl font-medium lg:text-3xl">Quick start</h2>
     <div class="rounded-2xl border border-white/10 bg-black/40 p-6 font-mono text-sm text-white/80">
-      <p class="mb-1 text-white/40"># after downloading the jar and copying the repo's config alongside it</p>
+      <p class="mb-1 text-white/40"># after downloading the jar and copying the matching config alongside it</p>
       <p><span class="text-primary-400">$</span> chmod +x start.sh</p>
       <p><span class="text-primary-400">$</span> ./start.sh</p>
     </div>
@@ -81,7 +134,7 @@ const features = [
     </p>
   </section>
 
-  <section class="mx-auto max-w-4xl px-6 pb-24 text-center">
+  <section class="relative mx-auto max-w-4xl px-6 pb-24 text-center">
     <h2 class="mb-4 text-2xl font-medium lg:text-3xl">Real usage, not a fabricated graph</h2>
     <p class="mx-auto mb-6 max-w-2xl text-sm text-white/60">
       This is a genuine, registered <a href="https://bstats.org" class="text-primary-400 underline">bStats</a> project - it starts at zero
