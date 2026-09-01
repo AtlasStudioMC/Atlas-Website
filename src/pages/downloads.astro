@@ -77,6 +77,8 @@ for (const v of VERSIONS) {
 }
 
 function formatSize(bytes: number) {
+  // The config bundle is tens of KB - formatting everything as MB rendered it as "0.0 MB".
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
@@ -98,7 +100,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
 ---
 
 <Layout title="Downloads" description="Download AtlasSpigot for any supported Minecraft version, built on Paper, Purpur, or Leaf.">
-  <PageHero scene="scene-sunset" eyebrow="Releases" title="" accent="Downloads" position="object-bottom">
+  <PageHero scene="scene-sunset" eyebrow="Releases" title="" accent="Downloads" position="object-center">
     A new release ships for every change — this is always the current build for its version.
   </PageHero>
 

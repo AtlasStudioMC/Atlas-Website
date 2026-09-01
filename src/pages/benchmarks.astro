@@ -66,7 +66,7 @@ const chunkGenImprovementPct = Math.round(
   </PageHero>
 
   <section class="mx-auto max-w-3xl px-6 pb-16">
-    <h2 class="eyebrow mb-4">Test environment</h2>
+    <h2 class="mb-4 text-sm font-medium text-white/50">Test environment</h2>
     <div class="surface grid grid-cols-2 overflow-hidden sm:grid-cols-4">
       {
         env.map((e, i) => (
@@ -94,7 +94,7 @@ const chunkGenImprovementPct = Math.round(
   </section>
 
   <section class="mx-auto max-w-3xl px-6 pb-20">
-    <h2 class="eyebrow mb-6">Performance comparison — MSPT, lower is better</h2>
+    <h2 class="mb-6 text-sm font-medium text-white/50">Performance comparison — MSPT, lower is better</h2>
     <div class="space-y-9">
       {
         scenarios.map((scenario) => (
@@ -138,9 +138,8 @@ const chunkGenImprovementPct = Math.round(
 
   <section class="mx-auto max-w-3xl px-6 pb-20">
     <div class="mb-10 text-center">
-      <p class="eyebrow mb-3">Chunk generation</p>
       <h2 class="mb-4 text-4xl font-semibold lg:text-5xl">
-        Chunk generation <span class="gradient-text serif-accent">time</span>
+        Chunk generation <span class="text-primary-400">time</span>
       </h2>
       <p class="mx-auto max-w-2xl leading-relaxed text-white/55">
         Wall-clock time to fully generate a fixed {chunkGen.radius * 2 + 1}×{chunkGen.radius * 2 + 1} chunk region
@@ -181,7 +180,7 @@ const chunkGenImprovementPct = Math.round(
       </div>
       <div class="mt-7 border-t border-white/[0.07] pt-6 text-center">
         <div class="text-[11px] tracking-[0.16em] text-white/35 uppercase">Performance improvement</div>
-        <div class="gradient-text mt-2 text-5xl font-semibold tracking-tight">{chunkGenImprovementPct}%</div>
+        <div class="mt-2 text-5xl font-semibold text-primary-400">{chunkGenImprovementPct}%</div>
         <div class="mt-1.5 text-xs text-white/45">faster than stock Paper, this specific run</div>
       </div>
     </div>

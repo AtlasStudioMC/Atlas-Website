@@ -38,39 +38,12 @@ const fullTitle = title === "AtlasSpigot" ? title : `${title} · AtlasSpigot`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="/og-image.png" />
   </head>
-  <body class="grain flex min-h-screen flex-col antialiased">
+  <body class="flex min-h-screen flex-col antialiased">
     <Nav />
     <main class="flex-1">
       <slot />
     </main>
     <Footer />
 
-    <script>
-      // Progressive enhancement: sections are visible by default and only get the hidden-then-
-      // reveal treatment once JS runs, so nothing is invisible if this never executes.
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const targets = document.querySelectorAll<HTMLElement>("main > section");
-
-      if (!prefersReduced && "IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("reveal-in");
-                observer.unobserve(entry.target);
-              }
-            }
-          },
-          { rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
-        );
-
-        targets.forEach((el, i) => {
-          // The hero is above the fold on load - revealing it would flash. Leave it alone.
-          if (i === 0) return;
-          el.classList.add("reveal");
-          observer.observe(el);
-        });
-      }
-    </script>
   </body>
 </html>

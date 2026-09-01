@@ -38,16 +38,15 @@ const { scene, eyebrow, title, accent, titleAfter, position = "object-center" } 
         class:list={["h-full w-full object-cover", position]}
       />
     </picture>
-    <div class="absolute inset-0 bg-gradient-to-b from-[#07080c]/70 via-[#07080c]/45 to-[#07080c]"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_50%_45%,rgba(7,8,12,0.7),transparent_75%)]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0b0e]/55 via-[#0a0b0e]/20 to-[#0a0b0e]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_50%_45%,rgba(10,11,14,0.66),transparent_78%)]"></div>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-16 text-center lg:pt-32 lg:pb-20">
-    <p class="eyebrow mb-3">{eyebrow}</p>
-    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl">
-      {title}{accent && <> <span class="gradient-text serif-accent">{accent}</span></>}{titleAfter && <> {titleAfter}</>}
+  <div class="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-20 text-center lg:pt-32 lg:pb-24">
+    <h1 class="mb-4 text-3xl font-semibold sm:text-4xl">
+      {title}{accent && <> <span class="text-primary-400">{accent}</span></>}{titleAfter && <> {titleAfter}</>}
     </h1>
-    <p class="mx-auto max-w-2xl leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(7,8,12,0.9)]">
+    <p class="mx-auto max-w-2xl leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)]">
       <slot />
     </p>
   </div>

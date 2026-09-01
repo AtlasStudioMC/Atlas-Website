@@ -1,18 +1,15 @@
 @import "tailwindcss";
 
-/* Inter carries the UI and headings; Instrument Serif italic is used sparingly for accent words
-   so the display type has some editorial character instead of reading as default-Tailwind.
-   JetBrains Mono for config/console excerpts, which this site shows a lot of. */
+/* One typeface, used plainly. Inter is the boring, standard choice on purpose - the serif-italic
+   accent face and gradient headings that used to be here were the main thing making the site read
+   as a template rather than a real project site. Code uses the OS monospace stack. */
 @import "@fontsource-variable/inter";
-@import "@fontsource/instrument-serif/400-italic.css";
-@import "@fontsource-variable/jetbrains-mono";
 
 @custom-variant dark (@media (prefers-color-scheme: dark));
 
 @theme {
-  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-display-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Inter Variable", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   --color-primary-100: #fff3e0;
   --color-primary-200: #ffe0b3;
@@ -24,16 +21,13 @@
   --color-primary-800: #b23e08;
   --color-primary-900: #7a2a08;
 
-  /* Layered surfaces. Each step is slightly warm rather than neutral grey, so the orange accent
-     sits in the same temperature family as the background instead of floating on top of it. */
-  --color-surface-0: #07080c;
-  --color-surface-1: #0b0d13;
-  --color-surface-2: #11141c;
-  --color-surface-3: #171b25;
+  --color-surface-0: #0a0b0e;
+  --color-surface-1: #101216;
+  --color-surface-2: #161920;
 
-  --color-background-dark-90: #07080c;
-  --color-background-dark-80: #0b0d13;
-  --color-background-dark-70: #11141c;
+  --color-background-dark-90: #0a0b0e;
+  --color-background-dark-80: #101216;
+  --color-background-dark-70: #161920;
   --color-background-light-0: #ffffff;
   --color-background-light-10: #fff8f0;
 }
@@ -44,289 +38,117 @@
     background-color: var(--color-surface-0);
     color: var(--color-background-light-0);
     scroll-behavior: smooth;
-    /* Nav is sticky - stop in-page anchors from landing under it */
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   body {
     background: var(--color-surface-0);
     min-height: 100vh;
-    position: relative;
   }
 
-  /* Display sizes need noticeably tighter tracking than Inter's default to look intentional */
+  /* Slight negative tracking on large text only - body copy keeps default spacing. */
   h1,
   h2 {
-    letter-spacing: -0.033em;
-  }
-
-  h3 {
     letter-spacing: -0.02em;
-  }
-
-  code,
-  pre {
-    font-variant-ligatures: none;
   }
 
   ::selection {
     background-color: var(--color-primary-500);
-    color: #07080c;
+    color: #0a0b0e;
   }
 
-  /* Keyboard focus should be clearly visible without showing up on mouse clicks */
   :focus-visible {
     outline: 2px solid var(--color-primary-400);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar {
-    width: 11px;
-    height: 11px;
+    width: 10px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
     background: var(--color-surface-0);
   }
   ::-webkit-scrollbar-thumb {
-    background: #23283a;
-    border: 3px solid var(--color-surface-0);
-    border-radius: 99px;
+    background: #262b36;
+    border-radius: 5px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #323950;
+    background: #333a48;
   }
-}
-
-/* ---------- Type accents ---------- */
-
-.serif-accent {
-  font-family: var(--font-display-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-}
-
-.gradient-text {
-  background: linear-gradient(105deg, var(--color-primary-200) 0%, var(--color-primary-400) 45%, var(--color-primary-600) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Small uppercase section kicker used above section headings */
-.eyebrow {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-primary-400);
-}
-
-/* ---------- Background texture ---------- */
-
-.glow-field {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.glow-orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(130px);
-  opacity: 0.16;
-}
-
-.grid-texture {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black 35%, transparent 100%);
-  mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black 35%, transparent 100%);
-}
-
-/* Fine grain over the whole page - keeps large flat dark areas from banding and reads as
-   texture rather than a flat fill. Pointer-events off so it never intercepts clicks. */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Hairline rule that fades at both ends - used between major sections */
-.rule-fade {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.11), transparent);
 }
 
 /* ---------- Surfaces ---------- */
 
-/* Card with a gradient hairline border. The border is drawn as a masked pseudo-element so it can
-   be a gradient rather than a flat color, which is what makes it read as "designed" up close. */
+/* Plain panel: solid background, single hairline border. No gradient borders, no glow. */
 .surface {
-  position: relative;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
-  border-radius: 1rem;
-  isolation: isolate;
+  background: var(--color-surface-1);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 0.5rem;
 }
 
-.surface::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04) 45%, rgba(255, 255, 255, 0.02));
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.surface-hover {
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s ease, box-shadow 0.25s ease;
-}
-
-.surface-hover:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(180deg, rgba(255, 176, 77, 0.07), rgba(255, 255, 255, 0.02));
-  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.9);
-}
-
-.surface-hover:hover::before {
-  background: linear-gradient(180deg, rgba(255, 176, 77, 0.5), rgba(255, 255, 255, 0.05) 60%);
-}
-
+.surface-hover,
 .card-hover {
-  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
+.surface-hover:hover,
 .card-hover:hover {
-  border-color: rgba(255, 140, 26, 0.4);
-  transform: translateY(-2px);
-  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: var(--color-surface-2);
 }
 
 /* ---------- Buttons ---------- */
 
+.btn-primary,
+/* Alias: the old glow-button name is still referenced in a few places. Same flat style now. */
 .btn-glow {
-  position: relative;
-  background-image: linear-gradient(180deg, var(--color-primary-400), var(--color-primary-600));
-  box-shadow:
-    0 0 0 1px rgba(255, 140, 26, 0.45),
-    0 10px 26px -8px rgba(255, 140, 26, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
-  transition: box-shadow 0.22s ease, transform 0.22s ease, filter 0.22s ease;
+  background: var(--color-primary-500);
+  color: #0a0b0e;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
 }
 
+.btn-primary:hover,
 .btn-glow:hover {
-  filter: brightness(1.06);
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 0 1px rgba(255, 140, 26, 0.65),
-    0 16px 38px -8px rgba(255, 140, 26, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  background: var(--color-primary-400);
 }
 
-.btn-glow:active {
-  transform: translateY(0);
-}
-
-/* Secondary button - subtle until hovered */
 .btn-ghost {
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.025);
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .btn-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.32);
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 /* ---------- Data display ---------- */
 
-/* Benchmark bars animate their width in once scrolled into view */
-.bar-fill {
-  transform-origin: left center;
-  animation: bar-grow 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-@keyframes bar-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* Version pills */
 .pill {
-  border-radius: 0.5rem;
-  padding: 0.2rem 0.55rem;
+  border-radius: 0.25rem;
+  padding: 0.15rem 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: -0.01em;
-  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  font-size: 0.75rem;
 }
 
 .pill-on {
-  background: rgba(255, 140, 26, 0.14);
+  background: rgba(255, 140, 26, 0.12);
   color: var(--color-primary-300);
-  box-shadow: inset 0 0 0 1px rgba(255, 140, 26, 0.22);
-}
-
-.pill-on:hover {
-  background: rgba(255, 140, 26, 0.22);
-  transform: translateY(-1px);
 }
 
 .pill-off {
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.35);
-}
-
-/* ---------- Motion ---------- */
-
-/* Sections fade/rise in as they enter the viewport. The .reveal class is only added by script,
-   so with JS off everything stays visible instead of being stuck at opacity 0. */
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-}
-
-.reveal-in {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  .reveal,
-  .reveal-in {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  .bar-fill {
-    animation: none;
   }
 }
