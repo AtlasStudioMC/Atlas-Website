@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
 
 const steps = [
   {
@@ -57,14 +58,9 @@ const faqs = [
   description="Getting started with AtlasSpigot: downloading, configuring, and running a rebranded, tuned Minecraft server build."
   canonical="/docs"
 >
-  <section class="mx-auto max-w-4xl px-6 pt-24 pb-8 text-center">
-    <p class="eyebrow mb-3">Guide</p>
-    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl"><span class="gradient-text serif-accent">Documentation</span></h1>
-    <p class="text-white/60">
-      Everything needed to go from zero to a running AtlasSpigot server, plus a quick reference for the config
-      files each version ships.
-    </p>
-  </section>
+  <PageHero scene="scene-sunset" eyebrow="Guide" title="" accent="Documentation" position="object-top">
+    Everything needed to go from zero to a running AtlasSpigot server, plus a quick reference for the config files each version ships.
+  </PageHero>
 
   <section class="mx-auto max-w-3xl px-6 pb-16">
     <h2 class="mb-6 text-2xl font-medium">Getting started</h2>

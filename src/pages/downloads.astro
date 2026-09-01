@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
 import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
 
 export const prerender = false;
@@ -97,11 +98,9 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
 ---
 
 <Layout title="Downloads" description="Download AtlasSpigot for any supported Minecraft version, built on Paper, Purpur, or Leaf.">
-  <section class="mx-auto max-w-3xl px-6 pt-24 pb-12 text-center">
-    <p class="eyebrow mb-3">Releases</p>
-    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl"><span class="gradient-text serif-accent">Downloads</span></h1>
-    <p class="mx-auto max-w-xl text-white/55">A new release ships for every change — this is always the current build for its version.</p>
-  </section>
+  <PageHero scene="scene-sunset" eyebrow="Releases" title="" accent="Downloads" position="object-bottom">
+    A new release ships for every change — this is always the current build for its version.
+  </PageHero>
 
   {
     fetchFailed || releases.length === 0 ? (

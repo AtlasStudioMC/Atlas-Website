@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
 
 const performance = [
   { area: "JVM/GC", setting: "start.sh — Aikar's flags, G1GC", detail: "Tuned for an 8GB heap. -XX:+AlwaysPreTouch deliberately left out — it roughly doubles startup time for a marginal, usually unnoticeable steady-state gain." },
@@ -83,13 +84,9 @@ const screening = [
   description="The full breakdown of every performance change in AtlasSpigot, what was deliberately not enabled, and the methodology behind each decision."
   canonical="/tuning"
 >
-  <section class="mx-auto max-w-4xl px-6 pt-24 pb-12 text-center">
-    <p class="eyebrow mb-3">Methodology</p>
-    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl">What's <span class="gradient-text serif-accent">tuned</span> here</h1>
-    <p class="text-white/60">
-      Every change is checked against Leaf's own source and issue tracker before it ships. This page is the same breakdown as the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#whats-tuned-here" class="text-primary-400 underline">project README</a>, kept in sync by hand.
-    </p>
-  </section>
+  <PageHero scene="scene-cave" eyebrow="Methodology" title="What's" accent="tuned" titleAfter="here" position="object-bottom">
+    Every change is checked against Leaf's own source and issue tracker before it ships. This page is the same breakdown as the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#whats-tuned-here" class="text-primary-300 underline underline-offset-4">project README</a>, kept in sync by hand.
+  </PageHero>
 
   <section class="mx-auto max-w-4xl px-6 pb-16">
     <h2 class="mb-4 text-2xl font-medium">Branding</h2>

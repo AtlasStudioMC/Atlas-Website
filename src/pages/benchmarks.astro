@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
 
 const env = [
   { label: "Version", value: "1.21.4" },
@@ -60,15 +61,9 @@ const chunkGenImprovementPct = Math.round(
   description="A real, reproducible MSPT comparison between AtlasSpigot and stock Paper, run on this project's own hardware — full methodology and JVM flags included."
   canonical="/benchmarks"
 >
-  <section class="mx-auto max-w-4xl px-6 pt-24 pb-10 text-center">
-    <p class="eyebrow mb-3">Benchmarks</p>
-    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl">Entity <span class="gradient-text serif-accent">performance</span></h1>
-    <p class="mx-auto max-w-2xl leading-relaxed text-white/55">
-      MSPT (milliseconds per tick) comparison between AtlasSpigot's tuned 1.21.4 (Leaf) config and stock Paper on
-      identical hardware, seed, coordinates, and JVM flags. Lower is better. This is one specific test scenario, run
-      once on this machine — treat it as a data point, not a universal guarantee, and see the <a href="#methodology" class="text-primary-400 underline">methodology</a> below for exactly how it was produced.
-    </p>
-  </section>
+  <PageHero scene="scene-cave" eyebrow="Benchmarks" title="Entity" accent="performance" position="object-center">
+    MSPT (milliseconds per tick) comparison between AtlasSpigot's tuned 1.21.4 (Leaf) config and stock Paper on identical hardware, seed, coordinates, and JVM flags. Lower is better. This is one specific test scenario, run once on this machine — treat it as a data point, not a universal guarantee, and see the <a href="#methodology" class="text-primary-300 underline underline-offset-4">methodology</a> below for exactly how it was produced.
+  </PageHero>
 
   <section class="mx-auto max-w-3xl px-6 pb-16">
     <h2 class="eyebrow mb-4">Test environment</h2>

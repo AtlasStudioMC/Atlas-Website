@@ -1,0 +1,54 @@
+---
+/**
+ * Shared header for the inner pages: voxel scene backdrop + eyebrow/title/lead.
+ *
+ * Centralised so every page gets the identical scrim, spacing and contrast treatment - doing
+ * this per-page was how the old markup drifted out of sync.
+ *
+ * Artwork is original generated voxel scenes, not Minecraft screenshots (no Mojang assets or
+ * trade dress), so it stays clean to promote with.
+ */
+interface Props {
+  /** Base name of the scene in /public, e.g. "scene-cave" -> scene-cave.webp + scene-cave-sm.webp */
+  scene: string;
+  eyebrow: string;
+  /** Plain text before the accented word. */
+  title: string;
+  /** Rendered in the serif accent + gradient. Omit for a single-word plain title. */
+  accent?: string;
+  /** Plain text after the accent, for titles where the accent sits mid-phrase. */
+  titleAfter?: string;
+  /** Where to anchor the image crop - lets one asset serve two pages without looking reused. */
+  position?: string;
+}
+
+const { scene, eyebrow, title, accent, titleAfter, position = "object-center" } = Astro.props;
+---
+
+<section class="relative overflow-hidden">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 640px)" srcset={`/${scene}-sm.webp`} type="image/webp" />
+      <img
+        src={`/${scene}.webp`}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class:list={["h-full w-full object-cover", position]}
+      />
+    </picture>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#07080c]/70 via-[#07080c]/45 to-[#07080c]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_50%_45%,rgba(7,8,12,0.7),transparent_75%)]"></div>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-16 text-center lg:pt-32 lg:pb-20">
+    <p class="eyebrow mb-3">{eyebrow}</p>
+    <h1 class="mb-4 text-4xl font-semibold lg:text-6xl">
+      {title}{accent && <> <span class="gradient-text serif-accent">{accent}</span></>}{titleAfter && <> {titleAfter}</>}
+    </h1>
+    <p class="mx-auto max-w-2xl leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(7,8,12,0.9)]">
+      <slot />
+    </p>
+  </div>
+</section>
