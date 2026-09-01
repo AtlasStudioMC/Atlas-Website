@@ -32,13 +32,17 @@ export const VERSIONS: VersionEntry[] = [
   { version: "1.20", fork: "Purpur", status: "released" },
 ];
 
-export const FORK_INFO: Record<Fork, { href: string; blurb: string }> = {
+// logo: each project's own mark, used to credit/link them. Paper has no local asset yet, so
+// that entry is intentionally logo-less and the UI falls back to text.
+export const FORK_INFO: Record<Fork, { href: string; blurb: string; logo?: string }> = {
   Leaf: {
     href: "https://github.com/Winds-Studio/Leaf",
+    logo: "/logos/leaf.webp",
     blurb: "A performance-focused Paper fork - AtlasSpigot's primary base for current Minecraft versions.",
   },
   Purpur: {
     href: "https://github.com/PurpurMC/Purpur",
+    logo: "/logos/purpur.webp",
     blurb: "A Paper fork with a large gameplay-config surface - covers the version range Leaf doesn't reach back to.",
   },
   Paper: {

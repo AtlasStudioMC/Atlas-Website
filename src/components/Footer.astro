@@ -1,11 +1,14 @@
 ---
+// Each project's own logo, used to credit and link the upstream work this build stands on.
+// KTP has no project mark of its own - the only image on its repo is the maintainer's personal
+// photo, which doesn't belong in a credits list - so it renders as text and the layout allows it.
 const credits = [
-  { name: "Leaf", href: "https://github.com/Winds-Studio/Leaf" },
-  { name: "Gale", href: "https://github.com/GaleMC/Gale" },
-  { name: "Pufferfish", href: "https://github.com/pufferfish-gg/Pufferfish" },
-  { name: "Purpur", href: "https://github.com/PurpurMC/Purpur" },
+  { name: "Leaf", href: "https://github.com/Winds-Studio/Leaf", logo: "/logos/leaf.webp" },
+  { name: "Gale", href: "https://github.com/GaleMC/Gale", logo: "/logos/gale.webp" },
+  { name: "Pufferfish", href: "https://github.com/pufferfish-gg/Pufferfish", logo: "/logos/pufferfish.webp" },
+  { name: "Purpur", href: "https://github.com/PurpurMC/Purpur", logo: "/logos/purpur.webp" },
   { name: "KTP", href: "https://github.com/lynxplay/ktp" },
-  { name: "Patina", href: "https://github.com/PatinaMC/Patina" },
+  { name: "Patina", href: "https://github.com/PatinaMC/Patina", logo: "/logos/patina.webp" },
 ];
 
 const columns = [
@@ -66,11 +69,15 @@ const columns = [
 
   <div class="mx-auto mt-10 max-w-6xl border-t border-white/5 pt-6">
     <p class="mb-2 text-xs font-semibold tracking-wide text-white/40 uppercase">Built on</p>
-    <ul class="flex flex-wrap gap-x-5 gap-y-1 text-xs">
+    <ul class="flex flex-wrap gap-x-2 gap-y-2">
       {
         credits.map((c) => (
           <li>
-            <a href={c.href} class="hover:text-primary-400">
+            <a
+              href={c.href}
+              class="flex items-center gap-2 rounded-md border border-white/[0.08] bg-white/[0.02] px-2.5 py-1.5 text-xs text-white/60 transition-colors hover:border-white/20 hover:text-white"
+            >
+              {c.logo && <img src={c.logo} alt="" width="16" height="16" class="shrink-0" />}
               {c.name}
             </a>
           </li>
