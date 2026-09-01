@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
+import VoxelScene from "@/components/VoxelScene.astro";
+import BlockIcon from "@/components/BlockIcon.astro";
 
 const features = [
   {
@@ -72,6 +74,23 @@ misc:
       <div class="glow-orb h-[420px] w-[420px] bg-primary-400 top-10 right-0"></div>
     </div>
     <div class="grid-texture absolute inset-x-0 top-0 h-[600px]"></div>
+
+    {/* Voxel backdrop flanks the centered hero copy. Hidden below lg so it never competes with
+        the headline on a phone; sized to sit fully in frame rather than clipping mid-block, and
+        kept low-opacity so text contrast is unaffected. The left copy is mirrored and dimmer so
+        the pair frames the text instead of pulling weight to one side. */}
+    <div
+      class="pointer-events-none absolute top-[54%] right-[-70px] hidden h-[430px] w-[430px] -translate-y-1/2 opacity-[0.55] lg:block xl:right-[-20px]"
+      aria-hidden="true"
+    >
+      <VoxelScene />
+    </div>
+    <div
+      class="pointer-events-none absolute top-[58%] left-[-90px] hidden h-[340px] w-[340px] -translate-y-1/2 scale-x-[-1] opacity-[0.28] lg:block xl:left-[-40px]"
+      aria-hidden="true"
+    >
+      <VoxelScene />
+    </div>
 
     <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 pt-28 pb-16 text-center lg:pt-36 lg:pb-20">
       <a
@@ -211,6 +230,7 @@ misc:
           return (
             <div class="surface surface-hover p-7">
               <div class="mb-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                <BlockIcon tone={fork === "Leaf" ? "amber" : "slate"} size={20} class="shrink-0" />
                 <h3 class="text-xl font-semibold">{fork}</h3>
                 <span class="rounded-full bg-white/[0.06] px-2.5 py-0.5 font-mono text-[11px] text-white/50">
                   {shipped} shipped
