@@ -1,7 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
-import VoxelScene from "@/components/VoxelScene.astro";
 import BlockIcon from "@/components/BlockIcon.astro";
 
 const features = [
@@ -73,26 +72,28 @@ misc:
       <div class="glow-orb h-[500px] w-[500px] bg-primary-600 -top-40 -left-20"></div>
       <div class="glow-orb h-[420px] w-[420px] bg-primary-400 top-10 right-0"></div>
     </div>
-    <div class="grid-texture absolute inset-x-0 top-0 h-[600px]"></div>
-
-    {/* Voxel backdrop flanks the centered hero copy. Hidden below lg so it never competes with
-        the headline on a phone; sized to sit fully in frame rather than clipping mid-block, and
-        kept low-opacity so text contrast is unaffected. The left copy is mirrored and dimmer so
-        the pair frames the text instead of pulling weight to one side. */}
-    <div
-      class="pointer-events-none absolute top-[54%] right-[-70px] hidden h-[430px] w-[430px] -translate-y-1/2 opacity-[0.55] lg:block xl:right-[-20px]"
-      aria-hidden="true"
-    >
-      <VoxelScene />
+    {/* Voxel landscape backdrop. Original artwork, not a Minecraft screenshot - see the note in
+        the repo README. Served as WebP at two widths so phones don't pull the desktop asset, and
+        laid under a gradient scrim that keeps headline contrast well clear of the busy areas. */}
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 640px)" srcset="/hero-voxel-sm.webp" type="image/webp" />
+        <img
+          src="/hero-voxel.webp"
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="h-full w-full object-cover object-bottom"
+        />
+      </picture>
+      {/* Scrim kept deliberately light so the artwork actually reads - just enough to hold
+          headline contrast and to fade the image into the page background with no hard seam. */}
+      <div class="absolute inset-0 bg-gradient-to-b from-[#07080c]/55 via-[#07080c]/25 to-[#07080c]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_40%,rgba(7,8,12,0.62),transparent_72%)]"></div>
     </div>
-    <div
-      class="pointer-events-none absolute top-[58%] left-[-90px] hidden h-[340px] w-[340px] -translate-y-1/2 scale-x-[-1] opacity-[0.28] lg:block xl:left-[-40px]"
-      aria-hidden="true"
-    >
-      <VoxelScene />
-    </div>
 
-    <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 pt-28 pb-16 text-center lg:pt-36 lg:pb-20">
+    <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 pt-28 pb-28 text-center lg:pt-40 lg:pb-40">
       <a
         href="/downloads"
         class="group flex items-center gap-2 rounded-full border border-primary-500/25 bg-primary-500/[0.08] py-1.5 pr-4 pl-1.5 text-sm text-primary-200 transition-colors hover:border-primary-400/45 hover:bg-primary-500/[0.13]"
@@ -107,7 +108,7 @@ misc:
         <span class="gradient-text serif-accent">receipts</span>.
       </h1>
 
-      <p class="max-w-xl text-base leading-relaxed text-white/60 sm:text-lg">
+      <p class="max-w-xl text-base leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(7,8,12,0.9)] sm:text-lg">
         A tuned Minecraft server spanning <a href={FORK_INFO.Purpur.href} class="text-white/90 underline decoration-primary-500/40 underline-offset-4 transition-colors hover:decoration-primary-400">Purpur</a> and <a href={FORK_INFO.Leaf.href} class="text-white/90 underline decoration-primary-500/40 underline-offset-4 transition-colors hover:decoration-primary-400">Leaf</a>, full plugin compatibility, and every performance claim backed by a real diff and a real benchmark — not a config comment asking you to trust it.
       </p>
 
