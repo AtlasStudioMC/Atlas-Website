@@ -4,37 +4,31 @@ import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
 
 const features = [
   {
-    title: "Screened, not guessed",
-    body: "Every setting is checked against upstream's own source, @Experimental/@Deprecated flags, and issue tracker before it ships - re-audited periodically, not just at launch.",
+    title: "We test everything",
+    body: "Before we turn a setting on, we check it properly. If it could break your world, we leave it off.",
   },
   {
-    title: "Rebranded at the source",
-    body: "Every brand-facing string - F3 debug text, MOTD, console banner, crash reports - reads AtlasSpigot, fixed in the build manifest itself. Works with zero config present.",
+    title: "Your plugins still work",
+    body: "Anything made for Paper, Purpur or Spigot works here. You don't have to change a thing.",
   },
   {
-    title: "Every version, one philosophy",
-    body: "Modern versions build on Leaf, older ones on Purpur - same rebrand and the same tuning rigor on every single track, not just the flagship one.",
+    title: "Old versions too",
+    body: "16 versions, from 1.20 all the way to 26.2. Every one gets the same care.",
   },
-];
-
-const configHighlights = [
-  "Real config, real diffs - every source patch lives in the repo, not just a changelog line",
-  "Two source-rebuilt forks (Leaf, Purpur), one shared tuning philosophy across every version",
-  "Documented deltas - each version's own NOTES.md records what's different and why",
 ];
 
 const faqs = [
   {
-    q: "Is this a fork from scratch?",
-    a: "No - each version is Leaf or Purpur, whichever one actually has buildable source for that Minecraft version, source-rebuilt with a real brand change baked into the jar and a documented set of tuning changes on top.",
+    q: "Do my plugins still work?",
+    a: "Yes. If it works on Paper or Spigot, it works here.",
   },
   {
-    q: "Will my plugins work?",
-    a: "Yes. AtlasSpigot is Paper-API compatible through Leaf/Purpur - plugins built for Bukkit/Paper/Purpur run unmodified.",
+    q: "Did you build this from scratch?",
+    a: "No. We take Leaf or Purpur, tune the settings, test them, and put our name on it.",
   },
   {
-    q: "How do I know a setting is actually safe?",
-    a: "Every change is checked against upstream's own experimental/deprecated flags and issue tracker before shipping - the full methodology and what was deliberately left off are both on the tuning page.",
+    q: "Is it safe for my server?",
+    a: "We test every change before turning it on, and we list the ones we skipped and why. Keep a backup anyway — that's good advice for any server software.",
   },
 ];
 
@@ -43,28 +37,11 @@ const forks: Fork[] = (["Leaf", "Purpur", "Paper"] as Fork[]).filter((fork) =>
 );
 const releasedCount = VERSIONS.filter((v) => v.status === "released").length;
 const latestVersion = VERSIONS.find((v) => v.status === "released")?.version ?? VERSIONS[0].version;
-
-const configSnippet = `# AtlasSpigot config — partial view (atlas-global.yml)
-async:
-  async-chunk-send:
-    enabled: true
-
-performance:
-  dab:
-    enabled: true
-    start-distance: 12
-  optimized-powered-rails: true
-
-misc:
-  rebrand:
-    server-mod-name: AtlasSpigot
-
-# … FIXES / NETWORK / GAMEPLAY and more not shown`;
 ---
 
 <Layout
   title="AtlasSpigot"
-  description="A tuned, rebranded Minecraft server spanning Purpur and Leaf - real performance changes, checked against upstream before they ship."
+  description="A faster Minecraft server. One file to drop in, your plugins keep working, and every speed change is tested first."
 >
   <section class="relative overflow-hidden">
     {/* Voxel landscape backdrop. Original artwork, not a Minecraft screenshot - see the note in
@@ -82,33 +59,25 @@ misc:
           class="h-full w-full object-cover object-bottom"
         />
       </picture>
-      {/* Scrim kept deliberately light so the artwork actually reads - just enough to hold
-          headline contrast and to fade the image into the page background with no hard seam. */}
       <div class="absolute inset-0 bg-gradient-to-b from-[#0a0b0e]/45 via-transparent to-[#0a0b0e]"></div>
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_50%_42%,rgba(10,11,14,0.66),transparent_75%)]"></div>
     </div>
 
     <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 pt-32 pb-32 text-center lg:pt-44 lg:pb-44">
-      <a
-        href="/downloads"
-        class="text-sm text-white/55 transition-colors hover:text-white/80"
-      >
-        <span class="font-mono text-primary-400">{latestVersion}</span> is the current release
+      <a href="/downloads" class="text-sm text-white/55 transition-colors hover:text-white/80">
+        <span class="font-mono text-primary-400">{latestVersion}</span> is the latest version
       </a>
 
       <h1 class="text-4xl leading-tight font-semibold sm:text-5xl">
-        The tuning has<br />
-        <span class="text-primary-400">receipts</span>.
+        A <span class="text-primary-400">faster</span> Minecraft server
       </h1>
 
-      <p class="max-w-xl text-base leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)] sm:text-lg">
-        A tuned Minecraft server spanning <a href={FORK_INFO.Purpur.href} class="text-white/90 underline decoration-primary-500/40 underline-offset-4 transition-colors hover:decoration-primary-400">Purpur</a> and <a href={FORK_INFO.Leaf.href} class="text-white/90 underline decoration-primary-500/40 underline-offset-4 transition-colors hover:decoration-primary-400">Leaf</a>, full plugin compatibility, and every performance claim backed by a real diff and a real benchmark — not a config comment asking you to trust it.
+      <p class="max-w-lg text-base leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)] sm:text-lg">
+        Download one file and drop it in. Your server runs smoother, and all your plugins keep working.
       </p>
 
       <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
-        <a href="/downloads" class="btn-primary px-6 py-3 text-sm">
-          Get started
-        </a>
+        <a href="/downloads" class="btn-primary px-6 py-3 text-sm">Download</a>
         <a
           href="https://github.com/AtlasStudioMC/AtlasSpigot"
           class="btn-ghost px-6 py-3 text-sm font-medium text-white"
@@ -121,32 +90,29 @@ misc:
 
   <section class="relative mx-auto max-w-5xl px-6 pb-24">
     <div class="surface grid overflow-hidden sm:grid-cols-3">
-      <a href="/benchmarks" class="group relative px-6 py-9 text-center transition-colors hover:bg-white/[0.03] sm:border-r sm:border-white/[0.07]">
+      <a
+        href="/benchmarks"
+        class="group px-6 py-9 text-center transition-colors hover:bg-white/[0.03] sm:border-r sm:border-white/[0.07]"
+      >
         <div class="text-4xl font-semibold text-white">9.6%</div>
-        <div class="mt-2 text-sm leading-snug text-white/55">Faster chunk generation vs. stock Paper — measured, not estimated</div>
-        <div class="mt-2 text-xs text-primary-400/0 transition-colors group-hover:text-primary-400">See the run →</div>
+        <div class="mt-2 text-sm leading-snug text-white/55">Faster at building new parts of the world than normal Paper</div>
       </a>
       <div class="px-6 py-9 text-center sm:border-r sm:border-white/[0.07]">
         <div class="text-4xl font-semibold text-white">{releasedCount}</div>
-        <div class="mt-2 text-sm leading-snug text-white/55">Minecraft versions covered, each with its own tuned config</div>
-        <div class="mt-2 text-xs text-transparent">&nbsp;</div>
+        <div class="mt-2 text-sm leading-snug text-white/55">Minecraft versions you can pick from</div>
       </div>
       <a href="/tuning" class="group px-6 py-9 text-center transition-colors hover:bg-white/[0.03]">
         <div class="text-4xl font-semibold text-white">0</div>
-        <div class="mt-2 text-sm leading-snug text-white/55">Settings enabled because they sounded fast, not because they were verified</div>
-        <div class="mt-2 text-xs text-primary-400/0 transition-colors group-hover:text-primary-400">See what's off →</div>
+        <div class="mt-2 text-sm leading-snug text-white/55">Settings we turned on without testing them first</div>
       </a>
     </div>
     <p class="mt-4 text-center text-xs text-white/40">
-      Real, reproducible numbers on the <a href="/benchmarks" class="text-primary-400 underline">benchmarks page</a> — methodology and raw results included.
+      See how we tested on the <a href="/benchmarks" class="text-primary-400 underline">benchmarks page</a>.
     </p>
   </section>
 
   <section class="relative mx-auto max-w-6xl px-6 pb-24">
-    <div class="mb-12 text-center">
-      <h2 class="mb-3 text-2xl font-semibold sm:text-3xl">Three things matter most.<br class="hidden sm:block" /> The rest is in the docs.</h2>
-      <p class="mx-auto max-w-xl text-white/50">Every tuning change traces back to one of these.</p>
-    </div>
+    <h2 class="mb-12 text-center text-2xl font-semibold sm:text-3xl">What you get</h2>
     <div class="grid gap-5 md:grid-cols-3">
       {
         features.map((f) => (
@@ -158,56 +124,15 @@ misc:
       }
     </div>
     <p class="mt-6 text-center text-sm text-white/40">
-      Full breakdown, including what was deliberately <em>not</em> enabled and why, on the <a href="/tuning" class="text-primary-400 underline">tuning page</a>.
+      See everything we changed on the <a href="/tuning" class="text-primary-400 underline">tuning page</a>.
     </p>
-  </section>
-
-  <section class="relative mx-auto max-w-6xl px-6 pb-24">
-    <div class="grid items-center gap-10 lg:grid-cols-2">
-      <div>
-        <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">Change what you need.<br class="hidden sm:block" /> Leave the rest.</h2>
-        <p class="mb-6 leading-relaxed text-white/55">
-          A flat YAML config, same as upstream Leaf/Purpur, plus AtlasSpigot's own rebrand keys. Every tuning
-          delta is a real diff in the repo, not a paragraph asking you to trust it.
-        </p>
-        <ul class="mb-7 space-y-3 text-sm text-white/70">
-          {
-            configHighlights.map((h) => (
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary-500/15 text-[9px] text-primary-300 ring-1 ring-primary-500/25">
-                  ✓
-                </span>
-                <span class="leading-relaxed">{h}</span>
-              </li>
-            ))
-          }
-        </ul>
-        <a
-          href="/tuning"
-          class="group inline-flex items-center gap-1.5 font-medium text-primary-400 transition-colors hover:text-primary-300"
-        >
-          Read the tuning guide
-          <span class="transition-transform duration-200 group-hover:translate-x-1">→</span>
-        </a>
-      </div>
-      <div class="surface overflow-hidden p-0">
-        <div class="flex items-center gap-1.5 border-b border-white/[0.07] bg-white/[0.02] px-4 py-3 text-xs text-white/40">
-          <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/50"></span>
-          <span class="h-2.5 w-2.5 rounded-full bg-[#febc2e]/50"></span>
-          <span class="h-2.5 w-2.5 rounded-full bg-[#28c840]/50"></span>
-          <span class="ml-2 font-mono">atlas-global.yml</span>
-        </div>
-        <pre class="overflow-x-auto p-5 font-mono text-xs leading-[1.75] text-white/65"><code>{configSnippet}</code></pre>
-      </div>
-    </div>
   </section>
 
   <section id="versions" class="relative mx-auto max-w-5xl px-6 pb-24">
     <div class="mb-12 text-center">
-      <h2 class="mb-3 text-2xl font-semibold sm:text-3xl">Every version, one build philosophy</h2>
-      <p class="mx-auto max-w-2xl text-white/55">
-        Modern versions build on Leaf. Older ones, back to versions Leaf never supported, use Purpur — down to 1.20
-        right now. Same tuning rigor and rebrand on every one.
+      <h2 class="mb-3 text-2xl font-semibold sm:text-3xl">Pick your version</h2>
+      <p class="mx-auto max-w-xl text-white/55">
+        Newer versions are built on Leaf. Older ones use Purpur, going back to 1.20.
       </p>
     </div>
     <div class="grid gap-5 md:grid-cols-2">
@@ -223,13 +148,13 @@ misc:
                 )}
                 <h3 class="text-xl font-semibold">{fork}</h3>
                 <span class="rounded-full bg-white/[0.06] px-2.5 py-0.5 font-mono text-[11px] text-white/50">
-                  {shipped} shipped
+                  {shipped} versions
                 </span>
                 <a
                   href={FORK_INFO[fork].href}
                   class="ml-auto text-xs text-white/40 underline decoration-white/20 underline-offset-4 transition-colors hover:text-primary-400"
                 >
-                  upstream ↗
+                  GitHub ↗
                 </a>
               </div>
               <p class="mb-5 text-sm leading-relaxed text-white/45">{FORK_INFO[fork].blurb}</p>
@@ -237,7 +162,7 @@ misc:
                 {versions.map((v) => (
                   <li
                     class:list={["pill", v.status === "released" ? "pill-on" : "pill-off"]}
-                    title={v.status === "released" ? "Released" : "Planned, not shipped yet"}
+                    title={v.status === "released" ? "Ready to download" : "Not made yet"}
                   >
                     {v.version}
                   </li>
@@ -249,40 +174,13 @@ misc:
       }
     </div>
     <p class="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-white/40">
-      <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-primary-400"></span> released</span>
-      <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-white/20"></span> planned, not shipped yet</span>
+      <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-primary-400"></span> ready to download</span>
+      <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-white/20"></span> not made yet</span>
     </p>
   </section>
 
   <section class="relative mx-auto max-w-3xl px-6 pb-24">
-    <div class="mb-8 text-center">
-      <h2 class="text-2xl font-semibold sm:text-3xl">Two commands and it's running</h2>
-    </div>
-    <div class="surface overflow-hidden p-0">
-      <div class="flex items-center gap-1.5 border-b border-white/[0.07] bg-white/[0.02] px-4 py-3 text-xs text-white/40">
-        <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/50"></span>
-        <span class="h-2.5 w-2.5 rounded-full bg-[#febc2e]/50"></span>
-        <span class="h-2.5 w-2.5 rounded-full bg-[#28c840]/50"></span>
-        <span class="ml-2 font-mono">bash</span>
-      </div>
-      <div class="p-6 font-mono text-sm leading-relaxed">
-        <p class="mb-2 text-white/35"># after downloading the jar and copying the matching config alongside it</p>
-        <p class="text-white/85"><span class="mr-2 text-primary-400 select-none">$</span>chmod +x start.sh</p>
-        <p class="text-white/85"><span class="mr-2 text-primary-400 select-none">$</span>./start.sh</p>
-      </div>
-    </div>
-    <p class="mt-5 text-center text-sm text-white/40">
-      Set <code class="rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-xs text-white/70">eula=true</code> first — vanilla Minecraft requires it. Full steps, hosting-panel notes, and first-boot timing on the <a href="/downloads" class="text-primary-400 underline underline-offset-4">Downloads page</a>.
-    </p>
-  </section>
-
-  <section class="relative mx-auto max-w-3xl px-6 pb-24">
-    <div class="mb-10 text-center">
-      <h2 class="text-2xl font-semibold sm:text-3xl">Frequently asked questions</h2>
-      <p class="mt-3 text-white/50">
-        More detail in the <a href="/docs" class="text-primary-400 underline underline-offset-4">docs</a>.
-      </p>
-    </div>
+    <h2 class="mb-10 text-center text-2xl font-semibold sm:text-3xl">Common questions</h2>
     <div class="space-y-3">
       {
         faqs.map((f) => (
@@ -301,30 +199,22 @@ misc:
   </section>
 
   <section class="relative mx-auto max-w-4xl px-6 pb-24 text-center">
-    <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">Real usage, not a fabricated graph</h2>
-    <p class="mx-auto mb-8 max-w-2xl text-white/55">
-      This is a genuine, registered <a href="https://bstats.org" class="text-primary-400 underline underline-offset-4">bStats</a> project — it starts at zero like any new project does, and only grows as real AtlasSpigot servers report in.
+    <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">How many people use it</h2>
+    <p class="mx-auto mb-8 max-w-xl text-white/55">
+      This counts real servers running AtlasSpigot. It starts at zero, like anything new does.
     </p>
     <a href="https://bstats.org/plugin/bukkit/AtlasSpigot/33733" class="surface surface-hover inline-block overflow-hidden p-3">
-      <img src="https://bstats.org/signatures/bukkit/AtlasSpigot.svg" alt="bStats Graph Data" class="mx-auto rounded-lg" />
+      <img src="https://bstats.org/signatures/bukkit/AtlasSpigot.svg" alt="Servers using AtlasSpigot" class="mx-auto rounded-lg" />
     </a>
   </section>
 
   <section class="relative mx-auto max-w-4xl px-6 pb-28">
-    <div class="surface relative overflow-hidden px-8 py-16 text-center">
-      <div class="relative z-10">
-        <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">
-          Your server is ready.<br class="hidden sm:block" /> So is AtlasSpigot.
-        </h2>
-        <p class="mx-auto mb-8 max-w-xl text-white/55">
-          One jar, minimal effort — drops into your existing server setup.
-        </p>
-        <div class="flex flex-wrap items-center justify-center gap-3">
-          <a href="/downloads" class="btn-primary px-6 py-3 text-sm">
-            Download {latestVersion}
-          </a>
-          <a href="/docs" class="btn-ghost px-6 py-3 text-sm font-medium text-white">Read the docs</a>
-        </div>
+    <div class="surface px-8 py-16 text-center">
+      <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">Ready to try it?</h2>
+      <p class="mx-auto mb-8 max-w-md text-white/55">Download one file and drop it into your server folder.</p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="/downloads" class="btn-primary px-6 py-3 text-sm">Download {latestVersion}</a>
+        <a href="/docs" class="btn-ghost px-6 py-3 text-sm font-medium text-white">How to set it up</a>
       </div>
     </div>
   </section>

@@ -38,15 +38,15 @@ export const FORK_INFO: Record<Fork, { href: string; blurb: string; logo?: strin
   Leaf: {
     href: "https://github.com/Winds-Studio/Leaf",
     logo: "/logos/leaf.webp",
-    blurb: "A performance-focused Paper fork - AtlasSpigot's primary base for current Minecraft versions.",
+    blurb: "Used for the newest Minecraft versions.",
   },
   Purpur: {
     href: "https://github.com/PurpurMC/Purpur",
     logo: "/logos/purpur.webp",
-    blurb: "A Paper fork with a large gameplay-config surface - covers the version range Leaf doesn't reach back to.",
+    blurb: "Used for older versions, going back to 1.20.",
   },
   Paper: {
     href: "https://github.com/PaperMC/Paper",
-    blurb: "The project Leaf and Purpur are both built on.",
+    blurb: "The project Leaf and Purpur are both based on.",
   },
 };
