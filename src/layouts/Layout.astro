@@ -6,11 +6,63 @@ import Footer from "@/components/Footer.astro";
 interface Props {
   title: string;
   description: string;
+  /** Override only for a page that genuinely duplicates another URL. Normally leave this alone —
+   *  the default derives the canonical from the page's own path, which is what you want. */
   canonical?: string;
 }
 
-const { title, description, canonical = "/" } = Astro.props;
+const { title, description, canonical } = Astro.props;
 const fullTitle = title === "AtlasSpigot" ? title : `${title} · AtlasSpigot`;
+
+// Absolute URLs, resolved against `site` in astro.config.mjs. Relative canonical/og:image values
+// are what search engines and social scrapers handle worst, so everything is absolutised exactly
+// once, here. The trailing slash is normalised so /downloads and /downloads/ can't split into two
+// competing canonicals.
+const path = canonical ?? Astro.url.pathname;
+const normalised = path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
+const canonicalUrl = new URL(normalised, Astro.site).href;
+const ogImage = new URL("/og-image.png", Astro.site).href;
+const siteUrl = new URL("/", Astro.site).href;
+
+// Set GOOGLE_SITE_VERIFICATION in the Vercel project env to complete Search Console's HTML-tag
+// verification without a code change.
+const googleVerification = import.meta.env.GOOGLE_SITE_VERIFICATION;
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "AtlasSpigot",
+    url: siteUrl,
+    description:
+      "A performance-tuned Minecraft server jar built from Leaf and Purpur, with every speed change measured before it ships.",
+    publisher: { "@id": siteUrl + "#org" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": siteUrl + "#org",
+    name: "Atlas Studio",
+    url: siteUrl,
+    logo: new URL("/favicon-192.png", Astro.site).href,
+    sameAs: ["https://github.com/AtlasStudioMC"],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "AtlasSpigot",
+    applicationCategory: "GameApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    url: siteUrl,
+    downloadUrl: siteUrl + "downloads",
+    license: "https://www.gnu.org/licenses/gpl-3.0.html",
+    description:
+      "A drop-in Minecraft server jar that runs faster than stock Paper while keeping every plugin working.",
+    author: { "@id": siteUrl + "#org" },
+    // Deliberately no offers/aggregateRating: it's free and has no real review data, and inventing
+    // either is exactly the structured-data abuse Google issues manual actions for.
+  },
+];
 ---
 
 <!doctype html>
@@ -20,23 +72,31 @@ const fullTitle = title === "AtlasSpigot" ? title : `${title} · AtlasSpigot`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#05070b" />
+    <meta name="theme-color" content="#0a0b0e" />
 
+    <meta property="og:site_name" content="AtlasSpigot" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AtlasSpigot" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
   </head>
   <body class="flex min-h-screen flex-col antialiased">
     <Nav />

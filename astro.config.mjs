@@ -4,9 +4,9 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  // TODO: set this to your real Vercel/custom domain once deployed - used for sitemap.xml
-  // and canonical URLs. Left as a placeholder rather than guessing a real domain.
-  site: "https://atlas-website.vercel.app",
+  // The real deployed origin. This drives sitemap.xml and every canonical/OG absolute URL, so a
+  // wrong value here silently points search engines at a domain that doesn't exist.
+  site: "https://atlasstudiomc.vercel.app",
 
   vite: {
     plugins: [tailwindcss()],
