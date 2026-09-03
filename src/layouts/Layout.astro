@@ -24,9 +24,11 @@ const canonicalUrl = new URL(normalised, Astro.site).href;
 const ogImage = new URL("/og-image.png", Astro.site).href;
 const siteUrl = new URL("/", Astro.site).href;
 
-// Set GOOGLE_SITE_VERIFICATION in the Vercel project env to complete Search Console's HTML-tag
-// verification without a code change.
-const googleVerification = import.meta.env.GOOGLE_SITE_VERIFICATION;
+// Google Search Console HTML-tag verification. Committed rather than kept in env because the token
+// is public by design - it ships in the page source of every response. The env var still wins, so
+// it can be rotated from Vercel without a deploy.
+const googleVerification =
+  import.meta.env.GOOGLE_SITE_VERIFICATION ?? "fKptqUy_VNDMqSAtCs67_zt1suHAQQQ4cMz4i91D5Oc";
 
 const structuredData = [
   {
