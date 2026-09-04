@@ -12,7 +12,9 @@ interface Props {
 }
 
 const { title, description, canonical } = Astro.props;
-const fullTitle = title === "AtlasSpigot" ? title : `${title} · AtlasSpigot`;
+// Pages whose title already carries the brand are used verbatim, so they can lead with the
+// words people actually search for instead of burying them behind a brand nobody queries.
+const fullTitle = title.includes("AtlasSpigot") ? title : `${title} · AtlasSpigot`;
 
 // Absolute URLs, resolved against `site` in astro.config.mjs. Relative canonical/og:image values
 // are what search engines and social scrapers handle worst, so everything is absolutised exactly
@@ -37,7 +39,7 @@ const structuredData = [
     name: "AtlasSpigot",
     url: siteUrl,
     description:
-      "A performance-tuned Minecraft server jar built from Leaf and Purpur, with every speed change measured before it ships.",
+      "A free, optimized Minecraft server jar built on Leaf and Purpur, with every speed change measured before it ships.",
     publisher: { "@id": siteUrl + "#org" },
   },
   {
@@ -59,7 +61,7 @@ const structuredData = [
     downloadUrl: siteUrl + "downloads",
     license: "https://www.gnu.org/licenses/gpl-3.0.html",
     description:
-      "A drop-in Minecraft server jar that runs faster than stock Paper while keeping every plugin working.",
+      "A free, drop-in Minecraft server jar that runs faster than stock Paper while keeping every plugin working. Supports Minecraft 1.20 through 26.2.",
     author: { "@id": siteUrl + "#org" },
     // Deliberately no offers/aggregateRating: it's free and has no real review data, and inventing
     // either is exactly the structured-data abuse Google issues manual actions for.
