@@ -1,67 +1,44 @@
-<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Atlas Studio">
   <defs>
-    <linearGradient id="mA" x1="15%" y1="0%" x2="85%" y2="100%">
-      <stop offset="0%" stop-color="#ffd98f"/>
-      <stop offset="35%" stop-color="#f78b16"/>
-      <stop offset="75%" stop-color="#d4590a"/>
-      <stop offset="100%" stop-color="#8f3406"/>
+    <linearGradient id="bg" x1="18%" y1="8%" x2="82%" y2="100%">
+      <stop offset="0%" stop-color="#1b2140"/>
+      <stop offset="55%" stop-color="#0d1122"/>
+      <stop offset="100%" stop-color="#05070f"/>
     </linearGradient>
-    <linearGradient id="mAHi" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fff8ea"/>
-      <stop offset="100%" stop-color="#ffc06a"/>
+    <linearGradient id="mark" x1="24%" y1="4%" x2="86%" y2="98%">
+      <stop offset="0%" stop-color="#c3ccff"/>
+      <stop offset="28%" stop-color="#8e9cfb"/>
+      <stop offset="62%" stop-color="#6470ee"/>
+      <stop offset="100%" stop-color="#2f2a72"/>
     </linearGradient>
-    <linearGradient id="mAEdge" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#6b2703"/>
-      <stop offset="100%" stop-color="#3d1602"/>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f2f4fa"/>
+      <stop offset="100%" stop-color="#a9b0c6"/>
     </linearGradient>
-    <radialGradient id="vgC1" cx="50%" cy="32%" r="80%">
-      <stop offset="0%" stop-color="#1b232d"/>
-      <stop offset="100%" stop-color="#04060a"/>
-    </radialGradient>
-    <filter id="shC1" x="-50%" y="-50%" width="200%" height="200%">
-      <feDropShadow dx="0" dy="14" stdDeviation="20" flood-color="#000000" flood-opacity="0.55"/>
-    </filter>
-    <filter id="softBlur1">
-      <feGaussianBlur stdDeviation="0.6"/>
-    </filter>
   </defs>
 
-  <rect width="500" height="500" rx="46" fill="url(#vgC1)"/>
-  <!-- subtle rim light on the card -->
-  <rect x="1.5" y="1.5" width="497" height="497" rx="45" fill="none" stroke="#3a4652" stroke-width="1" opacity="0.5"/>
+  <rect x="3" y="3" width="394" height="394" rx="66" fill="url(#bg)"/>
+  <rect x="3.5" y="3.5" width="393" height="393" rx="65.5" fill="none"
+        stroke="#39406b" stroke-opacity="0.55" stroke-width="1.6"/>
 
-  <g filter="url(#shC1)" transform="translate(250,262)">
-    <!-- base shadow edge for 3D bevel effect -->
-    <path d="M -22,-188 L 22,-188 L 121,170
-             C 124,181 116,190 105,190
-             L 76,190
-             C 67,190 60,183 58,174
-             L 40,96
-             L -40,96
-             L -58,174
-             C -60,183 -67,190 -76,190
-             L -105,190
-             C -116,190 -124,181 -121,170
-             L -22,-188 Z
-             M 0,-122 L 25,54 L -25,54 Z"
-          fill="url(#mAEdge)" transform="translate(0,4)"/>
+  <!-- Single filled glyph: down the right outer edge, up the inner edge, across the scoop,
+       then straight back up the left outer edge to the apex. -->
+  <path fill="url(#mark)" d="
+    M 193 52
+    L 210 52
+    L 287 335
+    Q 292 355 273 358
+    Q 258 358 254 343
+    L 228 247
+    C 204 256 185 278 173 307
+    L 160 343
+    Q 155 358 140 358
+    Q 121 358 127 335
+    Z"/>
 
-    <!-- main A body -->
-    <path d="M -22,-188 L 22,-188 L 121,170
-             C 124,181 116,190 105,190
-             L 76,190
-             C 67,190 60,183 58,174
-             L 40,96
-             L -40,96
-             L -58,174
-             C -60,183 -67,190 -76,190
-             L -105,190
-             C -116,190 -124,181 -121,170
-             L -22,-188 Z
-             M 0,-122 L 25,54 L -25,54 Z"
-          fill="url(#mA)"/>
+  <!-- Counter -->
+  <path fill="#0b0f1e" d="M 201 141 L 221 223 Q 200 233 184 248 Z"/>
 
-    <!-- clean crossbar plate -->
-    <rect x="-40" y="90" width="80" height="14" rx="3" fill="url(#mAEdge)"/>
-  </g>
+  <!-- Light catch along the apex, as in the original mark -->
+  <path stroke="url(#shine)" stroke-width="9" stroke-linecap="round" fill="none" d="M 206 57 L 238 173"/>
 </svg>
