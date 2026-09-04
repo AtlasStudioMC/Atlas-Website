@@ -77,6 +77,10 @@ const screening = [
   "Boot with it enabled and read the entire log, not a grep for expected lines.",
   "Where practical, verify past just \"it booted\" — a simulated client completing login, or a deliberately-broken config proving a setting actually does what it claims.",
 ];
+// Static content, so it ships as a prerendered file served straight from the CDN edge
+// rather than booting a serverless function per request. Only /downloads needs SSR (it
+// reads the GitHub releases API at request time).
+export const prerender = true;
 ---
 
 <Layout

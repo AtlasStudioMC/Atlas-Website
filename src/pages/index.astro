@@ -17,10 +17,28 @@ const features = [
   },
 ];
 
+// These are also emitted as FAQPage structured data by Layout, so keep every answer literally
+// true and self-contained - it can show up in a search result with no page around it.
 const faqs = [
   {
     q: "Do my plugins still work?",
     a: "Yes. If it works on Paper or Spigot, it works here.",
+  },
+  {
+    q: "Is AtlasSpigot free?",
+    a: "Yes, completely. It's free to download, and the source is public under the same licenses as the projects it's built on.",
+  },
+  {
+    q: "How much faster is it than Paper?",
+    a: "In our own testing it generated new chunks 9.6% faster than stock Paper. The hardware, settings and raw results are all published on the benchmarks page, so you can check the numbers yourself.",
+  },
+  {
+    q: "Which Minecraft versions are supported?",
+    a: "Minecraft 1.20 through 26.2. Each version is its own build, so you download the one matching your server.",
+  },
+  {
+    q: "How do I install it?",
+    a: "Swap your current server jar for the AtlasSpigot one and start the server as normal. Your worlds, plugins and settings stay where they are.",
   },
   {
     q: "Did you build this from scratch?",
@@ -37,11 +55,16 @@ const forks: Fork[] = (["Leaf", "Purpur", "Paper"] as Fork[]).filter((fork) =>
 );
 const releasedCount = VERSIONS.filter((v) => v.status === "released").length;
 const latestVersion = VERSIONS.find((v) => v.status === "released")?.version ?? VERSIONS[0].version;
+// Static content, so it ships as a prerendered file served straight from the CDN edge
+// rather than booting a serverless function per request. Only /downloads needs SSR (it
+// reads the GitHub releases API at request time).
+export const prerender = true;
 ---
 
 <Layout
   title="AtlasSpigot — Free Optimized Minecraft Server Jar"
   description="A free, optimized Minecraft server jar built on Leaf and Purpur. Drop it in to replace Paper, keep every plugin working, and run 1.20 through 26.2."
+  faq={faqs}
 >
   <section class="relative overflow-hidden">
     {/* Voxel landscape backdrop. Original artwork, not a Minecraft screenshot - see the note in

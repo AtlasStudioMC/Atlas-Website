@@ -51,6 +51,10 @@ const faqs = [
     a: "AtlasSpigot reports to its own registered bStats project (id 33733) — real, publicly viewable usage data, not fabricated. See the Statistics section on the project README.",
   },
 ];
+// Static content, so it ships as a prerendered file served straight from the CDN edge
+// rather than booting a serverless function per request. Only /downloads needs SSR (it
+// reads the GitHub releases API at request time).
+export const prerender = true;
 ---
 
 <Layout

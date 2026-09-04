@@ -1,8 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+// Static content, so it ships as a prerendered file served straight from the CDN edge
+// rather than booting a serverless function per request. Only /downloads needs SSR (it
+// reads the GitHub releases API at request time).
+export const prerender = true;
 ---
 
-<Layout title="Page not found" description="This page doesn't exist.">
+<Layout title="Page not found" description="This page doesn't exist." noindex>
   <section class="mx-auto flex max-w-lg flex-col items-center gap-4 px-6 pt-32 pb-32 text-center">
     <img src="/logo.svg" alt="AtlasSpigot" width="72" height="72" class="rounded-2xl opacity-60" />
     <h1 class="text-3xl font-semibold">404</h1>

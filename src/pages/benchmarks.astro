@@ -54,6 +54,10 @@ const chunkGenMax = Math.max(...chunkGen.bars.map((b) => b.seconds));
 const chunkGenImprovementPct = Math.round(
   ((chunkGen.bars[1].seconds - chunkGen.bars[0].seconds) / chunkGen.bars[1].seconds) * 100 * 10
 ) / 10;
+// Static content, so it ships as a prerendered file served straight from the CDN edge
+// rather than booting a serverless function per request. Only /downloads needs SSR (it
+// reads the GitHub releases API at request time).
+export const prerender = true;
 ---
 
 <Layout
