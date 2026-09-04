@@ -20,7 +20,7 @@ interface Props {
 const { title, description, canonical, faq, noindex = false } = Astro.props;
 // Pages whose title already carries the brand are used verbatim, so they can lead with the
 // words people actually search for instead of burying them behind a brand nobody queries.
-const fullTitle = title.includes("AtlasSpigot") ? title : `${title} · AtlasSpigot`;
+const fullTitle = title.includes("Atlas Studio") ? title : `${title} · Atlas Studio`;
 
 // Absolute URLs, resolved against `site` in astro.config.mjs. Relative canonical/og:image values
 // are what search engines and social scrapers handle worst, so everything is absolutised exactly
@@ -42,10 +42,10 @@ const structuredData: any[] = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "AtlasSpigot",
+    name: "Atlas Studio",
     url: siteUrl,
     description:
-      "A free, optimized Minecraft server jar built on Leaf and Purpur, with every speed change measured before it ships.",
+      "Free, optimized Minecraft server software: the AtlasSpigot server jar and the AstroVelocity proxy.",
     publisher: { "@id": siteUrl + "#org" },
   },
   {
@@ -56,6 +56,19 @@ const structuredData: any[] = [
     url: siteUrl,
     logo: new URL("/favicon-192.png", Astro.site).href,
     sameAs: ["https://github.com/AtlasStudioMC"],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "AstroVelocity",
+    applicationCategory: "GameApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    url: siteUrl,
+    downloadUrl: "https://github.com/AtlasStudioMC/AstroVelocity/releases",
+    license: "https://www.gnu.org/licenses/gpl-3.0.html",
+    description:
+      "A free Minecraft proxy built on Velocity-CTD. Sits in front of your servers and moves players between them, keeping every Velocity plugin working.",
+    author: { "@id": siteUrl + "#org" },
   },
   {
     "@context": "https://schema.org",

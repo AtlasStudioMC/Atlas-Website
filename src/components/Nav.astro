@@ -1,10 +1,11 @@
 ---
 const links = [
-  { href: "/#versions", label: "Versions" },
+  { href: "/#products", label: "Products" },
   { href: "/docs", label: "Docs" },
   { href: "/tuning", label: "What's tuned" },
   { href: "/benchmarks", label: "Benchmarks" },
-  { href: "https://github.com/AtlasStudioMC/AtlasSpigot", label: "GitHub" },
+  // The org, not one repo: the studio now ships more than AtlasSpigot.
+  { href: "https://github.com/AtlasStudioMC", label: "GitHub" },
 ];
 
 // Used to mark the current page in the nav. Astro.url.pathname keeps a trailing slash on some
@@ -20,12 +21,14 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
     >
       <img
         src="/logo.svg"
-        alt="AtlasSpigot"
-        width="28"
-        height="28"
-        class="transition-transform duration-300 group-hover:scale-110 sm:h-8 sm:w-8"
+        alt="Atlas Studio"
+        width="30"
+        height="30"
+        class="transition-transform duration-300 group-hover:scale-110 sm:h-9 sm:w-9"
       />
-      <span>AtlasSpigot</span>
+      <span class="leading-none">
+        Atlas <span class="text-white/45">Studio</span>
+      </span>
     </a>
 
     <div class="flex items-center gap-1 sm:gap-2">

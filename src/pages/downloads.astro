@@ -99,11 +99,43 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
 }
 ---
 
-<Layout title="Download Minecraft Server Jar (1.20 – 26.2)" description="Free AtlasSpigot server jar downloads for Minecraft 1.20 through 26.2. Optimized builds of Leaf and Purpur that stay compatible with all your Paper plugins.">
+<Layout title="Download Minecraft Server Jar (1.20 – 26.2)" description="Free downloads from Atlas Studio: the AtlasSpigot server jar for Minecraft 1.20 through 26.2, and the AstroVelocity proxy. Both keep your Paper plugins working.">
   <PageHero scene="scene-sunset" eyebrow="Releases" title="" accent="Downloads" position="object-center">
-    Pick your Minecraft version and download the file. The newest one is always at the top.
+    Everything we make, free to download. Pick the server jar or the proxy below.
   </PageHero>
 
+  {/* Two products with different shapes: a jar picked by Minecraft version, and a proxy that has
+      no version of its own. Tabs keep both reachable without pushing one below a long release
+      list. The jar panel is the default and renders server-side, so the page is useful with no
+      JavaScript; the toggle only hides and shows what is already there. */}
+  <section class="mx-auto max-w-5xl px-6 pb-10">
+    <div class="surface inline-flex w-full gap-1 p-1 sm:w-auto" role="tablist" aria-label="Choose what to download">
+      <button
+        type="button"
+        id="tab-spigot"
+        role="tab"
+        aria-controls="panel-spigot"
+        aria-selected="true"
+        class="dl-tab flex-1 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors sm:flex-none"
+      >
+        Server jar
+        <span class="ml-1.5 hidden text-white/40 sm:inline">AtlasSpigot</span>
+      </button>
+      <button
+        type="button"
+        id="tab-velocity"
+        role="tab"
+        aria-controls="panel-velocity"
+        aria-selected="false"
+        class="dl-tab flex-1 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors sm:flex-none"
+      >
+        Proxy
+        <span class="ml-1.5 hidden text-white/40 sm:inline">AstroVelocity</span>
+      </button>
+    </div>
+  </section>
+
+  <div id="panel-spigot" role="tabpanel" aria-labelledby="tab-spigot">
   {
     fetchFailed || releases.length === 0 ? (
       <section class="mx-auto max-w-3xl px-6 pb-24">
@@ -233,6 +265,23 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
     )
   }
 
+
+  <section class="mx-auto max-w-3xl px-6 pb-24">
+    <div class="surface p-8 text-left text-sm text-white/60">
+      <h2 class="mb-3 font-medium text-white/80">Setting it up</h2>
+      <ol class="list-decimal space-y-2 pl-5">
+        <li>Copy everything else for your Minecraft version from the repo into the same folder as the jar: <code>start.sh</code>, <code>server.properties</code>, <code>spigot.yml</code>, <code>eula.txt</code>, and the whole <code>config/</code> directory. Each non-root version lives in its own folder in the repo (e.g. <code>1.21.11/</code>).</li>
+        <li>Open <code>eula.txt</code> and set <code>eula=true</code>.</li>
+        <li>Run <code>./start.sh</code> (or <code>java -jar &lt;the jar&gt;.jar nogui</code> directly).</li>
+      </ol>
+      <p class="mt-4">
+        Branding shows correctly with just the jar, but performance tuning needs the config files too - see the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#quick-start" class="text-primary-400 underline">full quick start guide</a> for hosting-panel notes and details.
+      </p>
+    </div>
+  </section>
+  </div>
+
+  <div id="panel-velocity" role="tabpanel" aria-labelledby="tab-velocity" hidden>
   <section class="mx-auto max-w-3xl px-6 pb-24">
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -257,18 +306,49 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </div>
     </div>
   </section>
+  </div>
 
-  <section class="mx-auto max-w-3xl px-6 pb-24">
-    <div class="surface p-8 text-left text-sm text-white/60">
-      <h2 class="mb-3 font-medium text-white/80">Setting it up</h2>
-      <ol class="list-decimal space-y-2 pl-5">
-        <li>Copy everything else for your Minecraft version from the repo into the same folder as the jar: <code>start.sh</code>, <code>server.properties</code>, <code>spigot.yml</code>, <code>eula.txt</code>, and the whole <code>config/</code> directory. Each non-root version lives in its own folder in the repo (e.g. <code>1.21.11/</code>).</li>
-        <li>Open <code>eula.txt</code> and set <code>eula=true</code>.</li>
-        <li>Run <code>./start.sh</code> (or <code>java -jar &lt;the jar&gt;.jar nogui</code> directly).</li>
-      </ol>
-      <p class="mt-4">
-        Branding shows correctly with just the jar, but performance tuning needs the config files too - see the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#quick-start" class="text-primary-400 underline">full quick start guide</a> for hosting-panel notes and details.
-      </p>
-    </div>
-  </section>
+<style>
+  .dl-tab[aria-selected="true"] {
+    background: rgba(255, 255, 255, 0.09);
+    color: #fff;
+  }
+  .dl-tab[aria-selected="false"] {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .dl-tab[aria-selected="false"]:hover {
+    color: #fff;
+  }
+</style>
+
+<script>
+  // Remembering the choice in the URL means a link to the proxy tab actually lands on it.
+  const tabs = {
+    spigot: ["tab-spigot", "panel-spigot"],
+    velocity: ["tab-velocity", "panel-velocity"],
+  } as const;
+
+  function select(which: keyof typeof tabs, push: boolean) {
+    for (const [key, [tabId, panelId]] of Object.entries(tabs)) {
+      const active = key === which;
+      document.getElementById(tabId)?.setAttribute("aria-selected", String(active));
+      const panel = document.getElementById(panelId);
+      if (panel) panel.hidden = !active;
+    }
+    if (push) {
+      const url = new URL(window.location.href);
+      if (which === "spigot") url.searchParams.delete("t");
+      else url.searchParams.set("t", which);
+      history.replaceState(null, "", url);
+    }
+  }
+
+  for (const [key, [tabId]] of Object.entries(tabs)) {
+    document.getElementById(tabId)?.addEventListener("click", () => select(key as keyof typeof tabs, true));
+  }
+
+  const initial = new URL(window.location.href).searchParams.get("t");
+  if (initial === "velocity") select("velocity", false);
+</script>
+
 </Layout>

@@ -62,8 +62,8 @@ export const prerender = true;
 ---
 
 <Layout
-  title="AtlasSpigot — Free Optimized Minecraft Server Jar"
-  description="A free, optimized Minecraft server jar built on Leaf and Purpur. Drop it in to replace Paper, keep every plugin working, and run 1.20 through 26.2."
+  title="Atlas Studio — Free Minecraft Server Jar & Proxy"
+  description="Free, optimized Minecraft server software from Atlas Studio: the AtlasSpigot server jar for 1.20 through 26.2, and the AstroVelocity proxy. Your plugins keep working."
   faq={faqs}
 >
   <section class="relative overflow-hidden">
@@ -92,17 +92,17 @@ export const prerender = true;
       </a>
 
       <h1 class="text-4xl leading-tight font-semibold sm:text-5xl">
-        A <span class="text-primary-400">faster</span> Minecraft server jar
+        <span class="text-primary-400">Faster</span> Minecraft server software
       </h1>
 
-      <p class="max-w-lg text-base leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)] sm:text-lg">
-        Free, and built for speed. Download one file and drop it in — your server runs smoother, and all your Paper plugins keep working.
+      <p class="max-w-xl text-base leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)] sm:text-lg">
+        Atlas Studio makes a server jar and a proxy. Both are free, both drop straight in, and both keep every plugin you already run.
       </p>
 
       <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
-        <a href="/downloads" class="btn-primary px-6 py-3 text-sm">Download</a>
+        <a href="/downloads" class="btn-primary px-6 py-3 text-sm">Downloads</a>
         <a
-          href="https://github.com/AtlasStudioMC/AtlasSpigot"
+          href="https://github.com/AtlasStudioMC"
           class="btn-ghost px-6 py-3 text-sm font-medium text-white"
         >
           View on GitHub
@@ -132,6 +132,61 @@ export const prerender = true;
     <p class="mt-4 text-center text-xs text-white/40">
       See how we tested on the <a href="/benchmarks" class="text-primary-400 underline">benchmarks page</a>.
     </p>
+  </section>
+
+  <section id="products" class="relative mx-auto max-w-5xl px-6 pb-24">
+    <div class="mb-12 text-center">
+      <h2 class="mb-3 text-2xl font-semibold sm:text-3xl">Two things we make</h2>
+      <p class="mx-auto max-w-xl text-white/55">
+        Most people only need the first one.
+      </p>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2">
+      <div class="surface surface-hover flex flex-col p-8">
+        <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <h3 class="text-xl font-semibold text-white">AtlasSpigot</h3>
+          <span class="pill pill-on">{latestVersion}</span>
+        </div>
+        <p class="mb-1 text-sm font-medium text-white/70">A server jar</p>
+        <p class="mb-6 text-sm leading-relaxed text-white/50">
+          This is the file your server runs on. Swap it for the one you have now and everything gets a bit
+          faster — same worlds, same plugins, same settings.
+        </p>
+        <div class="mt-auto flex flex-wrap items-center gap-3">
+          <a href="/downloads" class="btn-primary px-5 py-2.5 text-sm">Download</a>
+          <a href="/docs" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+            How to set it up
+          </a>
+        </div>
+      </div>
+
+      <div class="surface surface-hover flex flex-col p-8">
+        <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <h3 class="text-xl font-semibold text-white">AstroVelocity</h3>
+          <span class="pill pill-on">build-1</span>
+        </div>
+        <p class="mb-1 text-sm font-medium text-white/70">A proxy</p>
+        <p class="mb-6 text-sm leading-relaxed text-white/50">
+          Only needed if you run more than one server. It sits in front of them and moves players between
+          them, so a lobby and a survival world feel like one place.
+        </p>
+        <div class="mt-auto flex flex-wrap items-center gap-3">
+          <a
+            href="https://github.com/AtlasStudioMC/AstroVelocity/releases/download/build-1/AstroVelocity-b1.jar"
+            class="btn-primary px-5 py-2.5 text-sm"
+          >
+            Download
+          </a>
+          <a
+            href="https://github.com/AtlasStudioMC/AstroVelocity"
+            class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400"
+          >
+            Source ↗
+          </a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="relative mx-auto max-w-6xl px-6 pb-24">
@@ -218,35 +273,6 @@ export const prerender = true;
           </details>
         ))
       }
-    </div>
-  </section>
-
-  <section class="relative mx-auto max-w-4xl px-6 pb-24">
-    <div class="surface p-8 sm:p-10">
-      <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <h2 class="text-2xl font-semibold sm:text-3xl">AstroVelocity</h2>
-        <span class="pill pill-on">build-1</span>
-      </div>
-      <p class="mb-4 max-w-2xl leading-relaxed text-white/60">
-        Running more than one server? AstroVelocity is a proxy — it sits in front of your servers and
-        moves players between them, so a lobby and a survival world feel like one place. It's our
-        build of Velocity-CTD, and every Velocity plugin still works.
-      </p>
-      <p class="mb-6 max-w-2xl text-sm leading-relaxed text-white/40">
-        You only need this if you run several servers at once. For a single server, the jar above is all you need.
-      </p>
-      <div class="flex flex-wrap items-center gap-3">
-        <a
-          href="https://github.com/AtlasStudioMC/AstroVelocity/releases/download/build-1/AstroVelocity-b1.jar"
-          class="btn-primary px-6 py-3 text-sm"
-        >
-          Download AstroVelocity
-        </a>
-        <a href="https://github.com/AtlasStudioMC/AstroVelocity" class="btn-ghost px-6 py-3 text-sm font-medium text-white">
-          Source ↗
-        </a>
-        <span class="text-sm text-white/35">Needs Java 25.</span>
-      </div>
     </div>
   </section>
 
