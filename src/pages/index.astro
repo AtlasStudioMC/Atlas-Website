@@ -225,7 +225,7 @@ export const prerender = true;
     <div class="surface p-8 sm:p-10">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-2xl font-semibold sm:text-3xl">AstroVelocity</h2>
-        <span class="pill pill-off">Source available</span>
+        <span class="pill pill-on">build-1</span>
       </div>
       <p class="mb-4 max-w-2xl leading-relaxed text-white/60">
         Running more than one server? AstroVelocity is a proxy — it sits in front of your servers and
@@ -236,10 +236,16 @@ export const prerender = true;
         You only need this if you run several servers at once. For a single server, the jar above is all you need.
       </p>
       <div class="flex flex-wrap items-center gap-3">
-        <a href="https://github.com/AtlasStudioMC/AstroVelocity" class="btn-ghost px-6 py-3 text-sm font-medium text-white">
-          View the source ↗
+        <a
+          href="https://github.com/AtlasStudioMC/AstroVelocity/releases/download/build-1/AstroVelocity-b1.jar"
+          class="btn-primary px-6 py-3 text-sm"
+        >
+          Download AstroVelocity
         </a>
-        <span class="text-sm text-white/35">No download yet — builds aren't published.</span>
+        <a href="https://github.com/AtlasStudioMC/AstroVelocity" class="btn-ghost px-6 py-3 text-sm font-medium text-white">
+          Source ↗
+        </a>
+        <span class="text-sm text-white/35">Needs Java 25.</span>
       </div>
     </div>
   </section>
