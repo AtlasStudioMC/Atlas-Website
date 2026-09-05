@@ -189,6 +189,34 @@ export const prerender = true;
     </div>
   </section>
 
+  <section class="mx-auto max-w-3xl px-6 pb-20">
+    <h2 class="mb-4 text-sm font-medium text-white/50">What happened when we tested 26.2</h2>
+    <div class="surface p-8 text-sm leading-relaxed text-white/65">
+      <p class="mb-4">
+        Everything above is from Minecraft 1.21.4. We also ran the same test on 26.2, our newest and most heavily
+        tuned build, and <span class="text-white">the result was too noisy to publish a number from</span>. We are
+        putting it here anyway, because a benchmark page that only shows the flattering runs is not worth reading.
+      </p>
+      <p class="mb-4">
+        Eight runs, alternating between AtlasSpigot and stock Paper so the machine warming up would affect both
+        equally. AtlasSpigot averaged <span class="font-mono text-white">10.94</span> ms per tick against Paper's
+        <span class="font-mono text-white">13.15</span> — about 17% ahead. But the runs varied so much that the
+        gap does not mean anything: Paper's own results ranged from 8.89 to 17.95, ours from 5.03 to 14.50, and
+        one of the four matched pairs came out in Paper's favour.
+      </p>
+      <p class="mb-4">
+        The reason is the test machine, not the software. It is a laptop, and across eight back-to-back
+        4GB servers it heated up and slowed down: the last Paper run was 76% slower than the first, purely because
+        it ran later. An earlier batch produced the opposite ordering entirely.
+      </p>
+      <p>
+        So: 26.2 is genuinely unmeasured, and we would rather say that than dress up a number the data does not
+        support. Doing it properly needs a machine with a stable clock. The full raw output and analysis is in
+        <a href="https://github.com/AtlasStudioMC/AtlasSpigot/blob/main/benchmarks/results-26.2.txt" class="text-primary-400 underline">results-26.2.txt</a>.
+      </p>
+    </div>
+  </section>
+
   <section id="methodology" class="mx-auto max-w-3xl px-6 pb-24">
     <h2 class="mb-4 text-xl font-medium text-white/80">Methodology</h2>
     <p class="text-white/70">
