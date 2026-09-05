@@ -9,7 +9,7 @@ const features = [
   },
   {
     title: "Your plugins still work",
-    body: "Anything made for Paper, Purpur or Spigot works here. You don't have to change a thing.",
+    body: "Anything made for Paper, Purpur or Spigot runs here. One setting in the tuned config switches off hopper events for speed \u2014 if you use a shop or sorting plugin, turn that one back on.",
   },
   {
     title: "Old versions too",
@@ -22,7 +22,7 @@ const features = [
 const faqs = [
   {
     q: "Do my plugins still work?",
-    a: "Yes. If it works on Paper or Spigot, it works here.",
+    a: "Yes \u2014 the jar runs anything built for Paper or Spigot. The one thing to know: our tuned config turns off hopper move events, because that is the single biggest speed win available. Plugins that watch hoppers, like shops and item sorters, need it switched back on. Set hopper.disable-move-event to false in paper-world-defaults.yml and they work again.",
   },
   {
     q: "Is AtlasSpigot free?",
@@ -63,7 +63,7 @@ export const prerender = true;
 
 <Layout
   title="Atlas Studio — Free Minecraft Server Jar & Proxy"
-  description="Free, optimized Minecraft server software from Atlas Studio: the AtlasSpigot server jar for 1.20 through 26.2, and the AstroVelocity proxy. Your plugins keep working."
+  description="Free, optimized Minecraft server software from Atlas Studio: the AtlasSpigot server jar for 1.20 through 26.2, and the AstroVelocity proxy. Built on Leaf and Purpur, free to download."
   faq={faqs}
 >
   <section class="relative overflow-hidden">
@@ -96,7 +96,7 @@ export const prerender = true;
       </h1>
 
       <p class="max-w-xl text-base leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)] sm:text-lg">
-        Atlas Studio makes a server jar and a proxy. Both are free, both drop straight in, and both keep every plugin you already run.
+        Atlas Studio makes a server jar and a proxy. Both are free, both drop straight in, and both run the plugins you already use.
       </p>
 
       <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
