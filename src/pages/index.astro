@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { SERVERS } from "@/data/servers";
 import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
 
 const features = [
@@ -277,13 +278,51 @@ export const prerender = true;
   </section>
 
   <section class="relative mx-auto max-w-4xl px-6 pb-24 text-center">
-    <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">How many people use it</h2>
-    <p class="mx-auto mb-8 max-w-xl text-white/55">
-      This counts real servers running AtlasSpigot. It starts at zero, like anything new does.
+    <h2 class="mb-4 text-2xl font-semibold sm:text-3xl">Who's running it</h2>
+    <p class="mx-auto mb-10 max-w-xl text-white/55">
+      Real servers, counted by bStats. The graph below is live — it's whatever the number actually is
+      right now, not a number we typed in.
     </p>
+
+    {
+      SERVERS.length > 0 && (
+        <div class="mb-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+          {SERVERS.map((server) =>
+            server.href ? (
+              <a
+                href={server.href}
+                class="opacity-70 transition-opacity hover:opacity-100"
+                title={server.name}
+              >
+                {server.logo ? (
+                  <img src={server.logo} alt={server.name} height="56" class="h-14 w-auto" loading="lazy" />
+                ) : (
+                  <span class="text-lg font-semibold text-white/70">{server.name}</span>
+                )}
+              </a>
+            ) : (
+              <div class="opacity-70" title={server.name}>
+                {server.logo ? (
+                  <img src={server.logo} alt={server.name} height="56" class="h-14 w-auto" loading="lazy" />
+                ) : (
+                  <span class="text-lg font-semibold text-white/70">{server.name}</span>
+                )}
+              </div>
+            )
+          )}
+        </div>
+      )
+    }
+
     <a href="https://bstats.org/plugin/bukkit/AtlasSpigot/33733" class="surface surface-hover inline-block overflow-hidden p-3">
       <img src="https://bstats.org/signatures/bukkit/AtlasSpigot.svg" alt="Servers using AtlasSpigot" class="mx-auto rounded-lg" />
     </a>
+
+    <p class="mx-auto mt-6 max-w-xl text-sm text-white/40">
+      Running AtlasSpigot and want your server listed here?
+      <a href="https://github.com/AtlasStudioMC/AtlasSpigot/issues/new" class="text-primary-400 underline">Open an issue</a>
+      with your name and logo.
+    </p>
   </section>
 
   <section class="relative mx-auto max-w-4xl px-6 pb-28">
