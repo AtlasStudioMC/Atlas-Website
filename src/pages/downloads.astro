@@ -266,6 +266,38 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   }
 
 
+  <section class="mx-auto max-w-3xl px-6 pb-16">
+    <div class="surface p-8 text-left">
+      <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <h2 class="text-lg font-medium text-white/90">Got a small or cheap server?</h2>
+        <span class="pill pill-on">26.2 only</span>
+      </div>
+      <p class="mb-4 text-sm leading-relaxed text-white/60">
+        There's a second config made for weak machines &mdash; around 3GB of memory, an old processor, not much
+        disk. It turns a lot of things down so the server keeps up: you see less of the world at once, and fewer
+        mobs are around. In exchange it runs a lot smoother on hardware that would otherwise struggle.
+      </p>
+      <ul class="mb-6 space-y-2 text-sm leading-relaxed text-white/55">
+        <li><span class="text-white/80">Don't raise the memory setting.</span> It asks for 1600MB on purpose. Setting it higher on a 3GB machine makes the server get killed, not faster.</li>
+        <li><span class="text-white/80">Your shop and sorting plugins still work.</span> We left one speed setting switched off here so hopper plugins keep working.</li>
+        <li><span class="text-white/80">You still need Java 25</span>, same as the normal version.</li>
+      </ul>
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href="https://github.com/AtlasStudioMC/AtlasSpigot/releases/download/atlasspigot-26.2-27/AtlasSpigot-26.2-lowspec.zip"
+          class="btn-primary px-5 py-2.5 text-sm"
+        >
+          Download the small-server config
+        </a>
+        <span class="text-sm text-white/35">Get the 26.2 jar above, then unzip this next to it.</span>
+      </div>
+      <p class="mt-4 text-xs leading-relaxed text-white/35">
+        Everything it changes, and why, is written out in
+        <a href="https://github.com/AtlasStudioMC/AtlasSpigot/blob/main/lowspec/README.md" class="text-primary-400 underline">the guide</a>.
+      </p>
+    </div>
+  </section>
+
   <section class="mx-auto max-w-3xl px-6 pb-24">
     <div class="surface p-8 text-left text-sm text-white/60">
       <h2 class="mb-3 font-medium text-white/80">Setting it up</h2>
