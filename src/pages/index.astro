@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { SERVERS } from "@/data/servers";
 import { VERSIONS, FORK_INFO, brandFor, type Fork } from "@/data/versions";
+import { GALLERY } from "@/data/gallery";
 
 const features = [
   {
@@ -276,6 +277,51 @@ export const prerender = true;
     <p class="mt-6 text-center text-sm text-white/40">
       See everything we changed on the <a href="/tuning" class="text-primary-400 underline">tuning page</a>.
     </p>
+  </section>
+
+  {/* Real Minecraft screenshots, unlike the generated scenes everywhere else on this site.
+      Every one is used under a Creative Commons licence its photographer granted. CC BY and
+      CC BY-SA both require the credit to sit with the work, so it renders in the card - not
+      collapsed into a footnote nobody reads. */}
+  <section class="relative mx-auto max-w-6xl px-6 pb-28 lg:pb-36">
+    <div class="mb-10 text-center">
+      <h2 class="mb-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">What people build</h2>
+      <p class="mx-auto max-w-xl text-white/55">
+        None of this is ours. It is what the game is for, and it is the reason any of the work
+        below the surface matters.
+      </p>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        GALLERY.map((g) => (
+          <figure class="surface overflow-hidden">
+            <picture>
+              <source media="(max-width: 640px)" srcset={`/${g.file}-sm.webp`} type="image/webp" />
+              <img
+                src={`/${g.file}.webp`}
+                alt={g.title}
+                width="1024"
+                height="640"
+                loading="lazy"
+                decoding="async"
+                class="aspect-[16/10] w-full object-cover"
+              />
+            </picture>
+            <figcaption class="px-5 py-4 text-xs leading-relaxed text-white/40">
+              <a href={g.sourceUrl} rel="noopener" class="text-white/60 underline decoration-white/20 underline-offset-4 hover:text-primary-400">{g.title}</a>
+              {" by "}
+              {g.creatorUrl
+                ? <a href={g.creatorUrl} rel="noopener" class="underline decoration-white/15 underline-offset-4 hover:text-primary-400">{g.creator}</a>
+                : g.creator}
+              {", licensed "}
+              <a href={g.licenseUrl} rel="noopener license" class="underline decoration-white/15 underline-offset-4 hover:text-primary-400">{g.license}</a>
+              {". Cropped, otherwise unmodified."}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
   </section>
 
   <section id="versions" class="relative mx-auto max-w-5xl px-6 pb-28 lg:pb-36">
