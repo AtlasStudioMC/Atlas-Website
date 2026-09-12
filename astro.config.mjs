@@ -6,11 +6,13 @@ export default defineConfig({
   // The real deployed origin. This drives sitemap.xml and every canonical/OG absolute URL, so a
   // wrong value here silently points search engines at a domain that doesn't exist.
   //
-  // GitHub Pages serves a user site for the AtlasStudioMC account at the account root, which is
-  // why this has no path segment. SITE_URL overrides it for a preview or a custom domain; keep
-  // exactly one origin live, because two copies of this site both claiming to be canonical is
-  // duplicate content and search engines pick the winner for you.
-  site: process.env.SITE_URL ?? "https://atlasstudiomc.github.io",
+  // The custom domain, served by GitHub Pages. public/CNAME is what assigns it - it has to be
+  // inside the built artifact, because an Actions deploy replaces the whole site and would drop
+  // a domain that only existed in Pages settings.
+  //
+  // atlasstudiomc.github.io still answers and redirects here, so this is the one origin that
+  // should appear in canonicals, the sitemap and robots.txt. SITE_URL overrides it for previews.
+  site: process.env.SITE_URL ?? "https://atlasgames.aa.am",
 
   // Emit downloads.html rather than downloads/index.html. Every page declares a canonical with
   // no trailing slash, and GitHub Pages 301s /downloads -> /downloads/ under the default
