@@ -43,7 +43,7 @@ const siteUrl = new URL("/", Astro.site).href;
 
 // Google Search Console HTML-tag verification. Committed rather than kept in env because the token
 // is public by design - it ships in the page source of every response. The env var still wins, so
-// it can be rotated from Vercel without a deploy.
+// it can still be overridden by the build environment without touching this file.
 const googleVerification =
   import.meta.env.GOOGLE_SITE_VERIFICATION ?? "fKptqUy_VNDMqSAtCs67_zt1suHAQQQ4cMz4i91D5Oc";
 
