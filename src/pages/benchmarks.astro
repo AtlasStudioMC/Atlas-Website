@@ -61,8 +61,9 @@ export const prerender = true;
 ---
 
 <Layout
-  title="Benchmarks: Atlas vs Paper MSPT"
-  description="Real measured Minecraft server benchmarks — tick time (MSPT) and chunk generation, Atlas against stock Paper. Full hardware, JVM flags and raw results."
+  title="Minecraft Server Performance: Atlas vs Paper Benchmarks"
+  description="Independent MSPT benchmarks comparing Atlas server jar against Paper. Tested on real hardware with identical settings. Full methodology and raw results included."
+  breadcrumbs={[{ name: "Benchmarks", path: "/benchmarks" }]}
 >
   <PageHero scene="scene-cave" eyebrow="Benchmarks" title="Entity" accent="performance" position="object-center">
     We ran Atlas and normal Paper on the same computer, same world, same settings, and timed both. Lower numbers are better. This was one test on one machine, so your results may differ — <a href="#methodology" class="text-primary-300 underline underline-offset-4">here's exactly how we did it</a>.

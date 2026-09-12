@@ -3,6 +3,11 @@ import "@/styles/global.css";
 import Nav from "@/components/Nav.astro";
 import Footer from "@/components/Footer.astro";
 
+interface BreadcrumbItem {
+  name: string;
+  path: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -13,11 +18,13 @@ interface Props {
    *  so the structured data can't drift from what a reader actually sees - which is precisely
    *  what Google penalises. */
   faq?: { q: string; a: string }[];
+  /** Breadcrumb trail for structured data and navigation. Automatically includes "Home". */
+  breadcrumbs?: BreadcrumbItem[];
   /** Keep a page out of the index. For error pages, which shouldn't compete for anything. */
   noindex?: boolean;
 }
 
-const { title, description, canonical, faq, noindex = false } = Astro.props;
+const { title, description, canonical, faq, breadcrumbs, noindex = false } = Astro.props;
 // Pages whose title already carries the brand are used verbatim, so they can lead with the
 // words people actually search for instead of burying them behind a brand nobody queries.
 const fullTitle = title.includes("Atlas Studio") ? title : `${title} · Atlas Studio`;
@@ -64,7 +71,12 @@ const structuredData: any[] = [
     name: "Atlas Studio",
     url: siteUrl,
     logo: new URL("/favicon-192.png", Astro.site).href,
+    description: "Free, optimized Minecraft server software and proxy",
     sameAs: ["https://github.com/AtlasStudioMC"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      url: siteUrl,
+    },
   },
   {
     "@context": "https://schema.org",
@@ -117,6 +129,23 @@ if (faq?.length) {
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  } as any);
+}
+
+if (breadcrumbs?.length) {
+  const items = [
+    { name: "Home", path: "/" },
+    ...breadcrumbs,
+  ];
+  structuredData.push({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: item.name,
+      item: new URL(item.path, Astro.site).href,
     })),
   } as any);
 }
