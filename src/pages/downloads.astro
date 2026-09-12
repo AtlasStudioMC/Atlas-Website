@@ -374,7 +374,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-medium text-white/90">Aurora</h2>
-        <span class="pill">Source only</span>
+        <span class="pill pill-on">build 1</span>
         <span class="pill">Minecraft 26.2</span>
       </div>
       <p class="mb-5 text-sm leading-relaxed text-white/60">
@@ -396,17 +396,24 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </div>
 
       <p class="mb-5 text-sm leading-relaxed text-white/60">
-        There is no download here yet. The jar builds and boots, but it is a development build, and
-        publishing one as a release would make it look more finished than it is. Build it yourself
-        in two commands, or wait for a tagged release.
+        Build 1 is the first tagged release. It boots and reports itself as Aurora, but nobody has
+        run it in production yet, and it still warns you about that on startup. Treat it as what
+        it says it is.
       </p>
 
       <div class="flex flex-wrap items-center gap-3">
-        <a href="https://github.com/AtlasStudioMC/Aurora" class="btn-primary px-5 py-2.5 text-sm">
-          Source and build steps
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/download/aurora-26.2-1/Aurora-26.2.jar" class="btn-primary px-5 py-2.5 text-sm">
+          Download Aurora 26.2
         </a>
-        <span class="text-sm text-white/35">Needs Java 25.</span>
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/tag/aurora-26.2-1" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+          Release notes ↗
+        </a>
+        <span class="text-sm text-white/35">62 MB · needs Java 25.</span>
       </div>
+
+      <p class="mt-4 font-mono text-[11px] leading-relaxed break-all text-white/25">
+        sha256 750dbb1e347d09da038c46d0dab6ec414cd32e501377c5d89ae50a14ad1e4347
+      </p>
     </div>
   </section>
   </div>
