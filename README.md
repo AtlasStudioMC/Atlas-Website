@@ -4,7 +4,7 @@ The site for [Atlas and Astra](https://github.com/AtlasStudioMC/Atlas),
 [Astro](https://github.com/AtlasStudioMC/Astro) and
 [Aurora](https://github.com/AtlasStudioMC/Aurora). Built with
 [Astro](https://astro.build) + [Tailwind CSS](https://tailwindcss.com), served by GitHub Pages at
-**<https://atlasgames.aa.am>**.
+**<https://atlasstudio.c0m.to>**.
 
 ## Development
 
@@ -26,7 +26,7 @@ Pages. The same workflow runs daily, and can be triggered by hand from the Actio
 
 Three things about that setup are load-bearing:
 
-- **`public/CNAME`** is what assigns `atlasgames.aa.am`. It has to live in the built artifact,
+- **`public/CNAME`** is what assigns `atlasstudio.c0m.to`. It has to live in the built artifact,
   because an Actions deploy replaces the whole site and would drop a domain that only existed in
   the repository's Pages settings.
 - **The downloads page is prerendered**, not server-rendered - Pages has no runtime. It fetches

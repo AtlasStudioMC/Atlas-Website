@@ -12,7 +12,7 @@ export default defineConfig({
   //
   // atlasstudiomc.github.io still answers and redirects here, so this is the one origin that
   // should appear in canonicals, the sitemap and robots.txt. SITE_URL overrides it for previews.
-  site: process.env.SITE_URL ?? "https://atlasgames.aa.am",
+  site: process.env.SITE_URL ?? "https://atlasstudio.c0m.to",
 
   // Emit downloads.html rather than downloads/index.html. Every page declares a canonical with
   // no trailing slash, and GitHub Pages 301s /downloads -> /downloads/ under the default
