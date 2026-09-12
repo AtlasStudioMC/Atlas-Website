@@ -12,6 +12,14 @@ export default defineConfig({
   // duplicate content and search engines pick the winner for you.
   site: process.env.SITE_URL ?? "https://atlasstudiomc.github.io",
 
+  // Emit downloads.html rather than downloads/index.html. Every page declares a canonical with
+  // no trailing slash, and GitHub Pages 301s /downloads -> /downloads/ under the default
+  // "directory" format - which points every canonical and every sitemap entry at a redirect
+  // instead of at the page that actually answers 200.
+  build: {
+    format: "file",
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
@@ -21,10 +29,13 @@ export default defineConfig({
       // Emit the same URL shape the pages declare as canonical. Astro's default "directory" build
       // format adds a trailing slash, but Layout.astro normalises canonicals without one, and both
       // shapes serve a 200 - so an unmodified sitemap submits URLs that every page then disavows.
-      serialize: (item) => ({
-        ...item,
-        url: item.url.replace(/(.+)\/$/, "$1"),
-      }),
+      serialize: (item) => {
+        const u = new URL(item.url);
+        // Match the canonicals exactly: extensionless, and no trailing slash except at the root.
+        u.pathname = u.pathname.replace(/index\.html$/, "").replace(/\.html$/, "");
+        if (u.pathname !== "/" && u.pathname.endsWith("/")) u.pathname = u.pathname.slice(0, -1);
+        return { ...item, url: u.href };
+      },
     }),
   ],
 

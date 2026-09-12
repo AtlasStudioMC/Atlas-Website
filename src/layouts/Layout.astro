@@ -26,8 +26,17 @@ const fullTitle = title.includes("Atlas Studio") ? title : `${title} · Atlas St
 // are what search engines and social scrapers handle worst, so everything is absolutised exactly
 // once, here. The trailing slash is normalised so /downloads and /downloads/ can't split into two
 // competing canonicals.
+// Under build.format "file" the built pathname carries the extension (/downloads.html), and the
+// root is /index.html. GitHub Pages serves both of those extensionless, so the canonical has to
+// be the extensionless form - otherwise every page declares a canonical nobody links to.
 const path = canonical ?? Astro.url.pathname;
-const normalised = path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
+const normalised = (() => {
+  let p = path;
+  if (p.endsWith("/index.html")) p = p.slice(0, -"index.html".length);
+  else if (p.endsWith(".html")) p = p.slice(0, -".html".length);
+  if (p !== "/" && p.endsWith("/")) p = p.slice(0, -1);
+  return p === "" ? "/" : p;
+})();
 const canonicalUrl = new URL(normalised, Astro.site).href;
 const ogImage = new URL("/og-image.png", Astro.site).href;
 const siteUrl = new URL("/", Astro.site).href;

@@ -43,7 +43,7 @@ jobs:
         # A rate-limited or failing API call renders a fallback instead of the release list.
         # Publishing that silently is worse than not publishing: catch it here.
         run: |
-          if ! grep -q "Minecraft" dist/downloads/index.html; then
+          if ! grep -q "Minecraft" dist/downloads.html; then
             echo "::error::downloads page built without any releases - refusing to publish"
             exit 1
           fi
