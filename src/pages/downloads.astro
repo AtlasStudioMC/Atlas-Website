@@ -357,12 +357,28 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         Astro is a proxy. It goes in front of your servers and moves players between them, so a lobby
         and a survival world feel like one place. Every Velocity plugin still works. Skip this if you only run one server.
       </p>
+
+      <div class="mb-5 rounded-xl border border-amber-400/25 bg-amber-400/[0.06] p-5">
+        <h3 class="mb-2 text-sm font-medium text-amber-200/90">Put it in the same place as your server</h3>
+        <p class="text-sm leading-relaxed text-white/60">
+          Every player's packets cross the proxy&rarr;server link, so that link's latency is added to
+          <em>everyone's</em> ping &mdash; not just players far away. A proxy in the EU in front of a
+          server in Mexico puts Mexican players around <span class="text-white/80">280&nbsp;ms</span>,
+          crossing the Atlantic twice to reach a server that was ~10&nbsp;ms from them. Move the proxy
+          next to the server and the same player sits near <span class="text-white/80">11&nbsp;ms</span>.
+          Running two regions? Put a proxy beside each one, not a single proxy far from both.
+        </p>
+      </div>
+
       <div class="flex flex-wrap items-center gap-3">
         <a
           href="https://github.com/AtlasStudioMC/Astro/releases/download/build-2/AstroVelocity-b2.jar"
           class="btn-primary px-5 py-2.5 text-sm"
         >
           Download Astro
+        </a>
+        <a href="https://github.com/AtlasStudioMC/Astro/blob/main/TUNING.md" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+          Tuning guide ↗
         </a>
         <a href="https://github.com/AtlasStudioMC/Astro/releases/tag/build-2" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
           Release notes ↗
