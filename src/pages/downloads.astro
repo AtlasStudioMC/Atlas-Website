@@ -381,7 +381,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-medium text-white/90">Aurora</h2>
-        <span class="pill pill-on">build 1</span>
+        <span class="pill pill-on">build 2</span>
         <span class="pill">Minecraft 26.2</span>
       </div>
       <p class="mb-5 text-sm leading-relaxed text-white/60">
@@ -403,23 +403,28 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </div>
 
       <p class="mb-5 text-sm leading-relaxed text-white/60">
-        Build 1 is the first tagged release. It boots and reports itself as Aurora, but nobody has
-        run it in production yet, and it still warns you about that on startup. Treat it as what
-        it says it is.
+        Build 1 shipped the jar and nothing else &mdash; no config, no start script. Build 2 is the
+        same server with that gap filled: a config bundle that turns on the five packet-reduction
+        options Aurora ships switched off, drops view and simulation distance, and adds a start
+        script with Aikar's flags. Nobody has run it in production yet, and it still warns you
+        about that on startup. Treat it as what it says it is.
       </p>
 
       <div class="flex flex-wrap items-center gap-3">
-        <a href="https://github.com/AtlasStudioMC/Aurora/releases/download/aurora-26.2-1/Aurora-26.2.jar" class="btn-primary px-5 py-2.5 text-sm">
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/download/aurora-26.2-2/Aurora-26.2.jar" class="btn-primary px-5 py-2.5 text-sm">
           Download Aurora 26.2
         </a>
-        <a href="https://github.com/AtlasStudioMC/Aurora/releases/tag/aurora-26.2-1" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/download/aurora-26.2-2/Aurora-26.2-config.zip" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+          Config bundle
+        </a>
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/tag/aurora-26.2-2" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
           Release notes ↗
         </a>
         <span class="text-sm text-white/35">62 MB · needs Java 25.</span>
       </div>
 
       <p class="mt-4 font-mono text-[11px] leading-relaxed break-all text-white/25">
-        sha256 750dbb1e347d09da038c46d0dab6ec414cd32e501377c5d89ae50a14ad1e4347
+        sha256 8de3d22b2f44d7118b88db333e456ed90fe51ab43db1180384055dff30d54c7a
       </p>
     </div>
   </section>
