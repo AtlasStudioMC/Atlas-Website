@@ -173,13 +173,28 @@ export const prerender = true;
     </div>
   </section>
 
-  {/* Full-bleed break. Purely visual. */}
+  {/* Full-bleed break, and the one place a real screenshot earns a hero-sized slot. The source
+      is 1024px - every CC-licensed in-game screenshot is, they are all old Flickr uploads - so it
+      is upscaled with lanczos and a light sharpen. Blocky geometry survives that; a photograph
+      would not have. The credit sits in the corner because a band has nowhere else to put it,
+      and CC BY-SA wants it with the work. */}
   <section class="relative h-[42vh] min-h-[280px] overflow-hidden sm:h-[52vh]">
     <picture>
-      <source media="(max-width: 640px)" srcset="/scene-ridge-sm.webp" type="image/webp" />
-      <img src="/scene-ridge.webp" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover object-center" />
+      <source media="(max-width: 640px)" srcset="/band-village-sm.webp" type="image/webp" />
+      <img
+        src="/band-village.webp"
+        alt="A sprawling Minecraft village and castle on a lake, built by players"
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover object-center"
+      />
     </picture>
     <div class="absolute inset-0 bg-gradient-to-b from-[#080a14] via-transparent to-[#080a14]"></div>
+    <p class="absolute right-4 bottom-3 text-[11px] text-white/35">
+      <a href="https://www.flickr.com/photos/73282154@N08/6730900775" rel="noopener" class="hover:text-white/70">Render Image of our Minecraft Village</a>
+      {" by post-apocalyptic research institute, "}
+      <a href="https://creativecommons.org/licenses/by-sa/2.0/" rel="noopener license" class="hover:text-white/70">CC BY-SA 2.0</a>
+    </p>
   </section>
 
   <section id="products" class="relative mx-auto max-w-5xl px-6 pb-28 lg:pb-36">
@@ -262,23 +277,6 @@ export const prerender = true;
     </div>
   </section>
 
-  <section class="relative mx-auto max-w-6xl px-6 pb-28 lg:pb-36">
-    <h2 class="mb-14 text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">What you get</h2>
-    <div class="grid gap-5 md:grid-cols-3">
-      {
-        features.map((f) => (
-          <div class="surface surface-hover p-7">
-            <h3 class="mb-2 text-lg font-semibold text-white">{f.title}</h3>
-            <p class="text-sm leading-relaxed text-white/55">{f.body}</p>
-          </div>
-        ))
-      }
-    </div>
-    <p class="mt-6 text-center text-sm text-white/40">
-      See everything we changed on the <a href="/tuning" class="text-primary-400 underline">tuning page</a>.
-    </p>
-  </section>
-
   {/* Real Minecraft screenshots, unlike the generated scenes everywhere else on this site.
       Every one is used under a Creative Commons licence its photographer granted. CC BY and
       CC BY-SA both require the credit to sit with the work, so it renders in the card - not
@@ -322,6 +320,23 @@ export const prerender = true;
         ))
       }
     </div>
+  </section>
+
+  <section class="relative mx-auto max-w-6xl px-6 pb-28 lg:pb-36">
+    <h2 class="mb-14 text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">What you get</h2>
+    <div class="grid gap-5 md:grid-cols-3">
+      {
+        features.map((f) => (
+          <div class="surface surface-hover p-7">
+            <h3 class="mb-2 text-lg font-semibold text-white">{f.title}</h3>
+            <p class="text-sm leading-relaxed text-white/55">{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-center text-sm text-white/40">
+      See everything we changed on the <a href="/tuning" class="text-primary-400 underline">tuning page</a>.
+    </p>
   </section>
 
   <section id="versions" class="relative mx-auto max-w-5xl px-6 pb-28 lg:pb-36">
@@ -431,8 +446,15 @@ export const prerender = true;
       )
     }
 
-    <a href="https://bstats.org/plugin/bukkit/Atlas/33733" class="surface surface-hover inline-block overflow-hidden p-3">
-      <img src="https://bstats.org/signatures/bukkit/Atlas.svg" alt="Servers using Atlas" class="mx-auto rounded-lg" />
+    {/* The service is registered on bStats as "AtlasSpigot" (id 33733) and that name is NOT
+        ours to change from here - it is changed on bStats or not at all.
+
+        This matters more than it looks. bStats serves a signature for any name you ask for, so
+        .../signatures/bukkit/Atlas.svg returns 200 - but it is a different developer's plugin,
+        "Atlas by funkemunky". Renaming this URL to match our branding silently published
+        somebody else's server counts under our own "not a number we typed in" heading. */}
+    <a href="https://bstats.org/plugin/bukkit/AtlasSpigot/33733" class="surface surface-hover inline-block overflow-hidden p-3">
+      <img src="https://bstats.org/signatures/bukkit/AtlasSpigot.svg" alt="Servers running Atlas, counted by bStats" class="mx-auto rounded-lg" />
     </a>
 
     <p class="mx-auto mt-6 max-w-xl text-sm text-white/40">
