@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { SERVERS } from "@/data/servers";
 import { VERSIONS, FORK_INFO, brandFor, type Fork } from "@/data/versions";
 import { GALLERY } from "@/data/gallery";
+import ShotCredit from "@/components/ShotCredit.astro";
 
 const features = [
   {
@@ -87,9 +88,9 @@ export const prerender = true;
   <section class="relative overflow-hidden">
     <div class="pointer-events-none absolute inset-0" aria-hidden="true">
       <picture>
-        <source media="(max-width: 640px)" srcset="/hero-voxel-sm.webp" type="image/webp" />
+        <source media="(max-width: 640px)" srcset="/mc-frozen-ocean-sm.webp" type="image/webp" />
         <img
-          src="/hero-voxel.webp"
+          src="/mc-frozen-ocean.webp"
           alt=""
           loading="eager"
           fetchpriority="high"
@@ -97,7 +98,14 @@ export const prerender = true;
           class="h-full w-full object-cover object-bottom"
         />
       </picture>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#080a14]/20 via-transparent to-[#080a14]"></div>
+      {/* A real daylight screenshot is far brighter than the generated scene this scrim was
+          tuned for, and white display type over pale sky is unreadable. Darkened enough to
+          hold contrast, plus a flat wash so the middle of the image cannot wash out either. */}
+      <div class="absolute inset-0 bg-[#080a14]/45"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#080a14]/70 via-[#080a14]/30 to-[#080a14]"></div>
+    </div>
+    <div class="pointer-events-none absolute right-4 bottom-3 z-10">
+      <ShotCredit shot="mc-frozen-ocean" />
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_58%_50%_at_50%_40%,rgba(8,10,20,0.34),transparent_80%)]"></div>
     </div>
 
@@ -180,21 +188,17 @@ export const prerender = true;
       and CC BY-SA wants it with the work. */}
   <section class="relative h-[42vh] min-h-[280px] overflow-hidden sm:h-[52vh]">
     <picture>
-      <source media="(max-width: 640px)" srcset="/band-village-sm.webp" type="image/webp" />
+      <source media="(max-width: 640px)" srcset="/mc-taiga-sm.webp" type="image/webp" />
       <img
-        src="/band-village.webp"
-        alt="A sprawling Minecraft village and castle on a lake, built by players"
+        src="/mc-taiga.webp"
+        alt="A snowy Minecraft taiga with spruce forest and open water"
         loading="lazy"
         decoding="async"
         class="h-full w-full object-cover object-center"
       />
     </picture>
     <div class="absolute inset-0 bg-gradient-to-b from-[#080a14] via-transparent to-[#080a14]"></div>
-    <p class="absolute right-4 bottom-3 text-[11px] text-white/35">
-      <a href="https://www.flickr.com/photos/73282154@N08/6730900775" rel="noopener" class="hover:text-white/70">Render Image of our Minecraft Village</a>
-      {" by post-apocalyptic research institute, "}
-      <a href="https://creativecommons.org/licenses/by-sa/2.0/" rel="noopener license" class="hover:text-white/70">CC BY-SA 2.0</a>
-    </p>
+    <div class="absolute right-4 bottom-3"><ShotCredit shot="mc-taiga" /></div>
   </section>
 
   <section id="products" class="relative mx-auto max-w-5xl px-6 pb-28 lg:pb-36">
@@ -466,10 +470,11 @@ export const prerender = true;
 
   <section class="relative h-[38vh] min-h-[240px] overflow-hidden sm:h-[46vh]">
     <picture>
-      <source media="(max-width: 640px)" srcset="/scene-islands-sm.webp" type="image/webp" />
-      <img src="/scene-islands.webp" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover object-center" />
+      <source media="(max-width: 640px)" srcset="/mc-end-sm.webp" type="image/webp" />
+      <img src="/mc-end.webp" alt="The Minecraft End, obsidian pillars over pale endstone" loading="lazy" decoding="async" class="h-full w-full object-cover object-center" />
     </picture>
     <div class="absolute inset-0 bg-gradient-to-b from-[#080a14] via-transparent to-[#080a14]"></div>
+    <div class="absolute right-4 bottom-3"><ShotCredit shot="mc-end" /></div>
   </section>
 
   <section class="relative mx-auto max-w-4xl px-6 pb-32 lg:pb-40">

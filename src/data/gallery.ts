@@ -1,16 +1,18 @@
 /**
- * Community builds shown on the homepage.
+ * Real Minecraft screenshots used across the site.
  *
- * These are real Minecraft screenshots, not our generated scenes, and every one is used under a
- * Creative Commons licence its photographer actually granted - not pulled off an image search.
- * CC BY and CC BY-SA both require the credit to be visible next to the work, which is why the
- * attribution lives in the card rather than buried in a footer. Images are cropped to a common
- * card shape and otherwise unmodified.
+ * Every entry is used under a Creative Commons licence its author actually granted - checked
+ * one at a time, not taken off an image search. Most are Xbox Mexico's own CC BY 3.0 releases,
+ * which is a licence from the rights holder's side rather than a player licensing a screenshot
+ * of someone else's game.
  *
- * Do not add an entry here without a licence URL. If you cannot name the licence, we cannot use
- * the picture.
+ * CC BY and CC BY-SA both require the credit to be visible with the work, and both require
+ * saying so when the work has been changed - hence `note`.
+ *
+ * Do not add an entry without a licence URL. If the licence cannot be named, the picture
+ * cannot be used.
  */
-export interface GalleryItem {
+export interface Shot {
   /** basename in public/, expects <file>.webp and <file>-sm.webp */
   file: string;
   title: string;
@@ -19,34 +21,72 @@ export interface GalleryItem {
   sourceUrl: string;
   license: string;
   licenseUrl: string;
+  /** what was changed, which CC requires stating */
+  note: string;
 }
 
-export const GALLERY: GalleryItem[] = [
-  {
-    file: "build-planetoids",
-    title: "Minecraft - Planetoids",
-    creator: "colmmcsky",
-    creatorUrl: "https://www.flickr.com/photos/8166986@N04",
-    sourceUrl: "https://www.flickr.com/photos/8166986@N04/6020666456",
-    license: "CC BY-SA 2.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/"
+export const SHOTS: Record<string, Shot> = {
+  "mc-frozen-ocean": {
+    "file": "mc-frozen-ocean",
+    "title": "Minecraft - Frozen ocean",
+    "creator": "Xbox M\u00e9xico",
+    "creatorUrl": "https://www.youtube.com/@xboxmexico",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=176061965",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "note": "Cropped to fit"
   },
-  {
-    file: "build-village",
-    title: "Render Image of our Minecraft Village",
-    creator: "post-apocalyptic research institute",
-    creatorUrl: "https://www.flickr.com/photos/73282154@N08",
-    sourceUrl: "https://www.flickr.com/photos/73282154@N08/6730900775",
-    license: "CC BY-SA 2.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/"
+  "mc-taiga": {
+    "file": "mc-taiga",
+    "title": "Minecraft - Taiga",
+    "creator": "Xbox M\u00e9xico",
+    "creatorUrl": "https://www.youtube.com/@xboxmexico",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=176061964",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "note": "Cropped to fit"
   },
-  {
-    file: "build-pagoda",
-    title: "Minecraft Screenshots\uff0d\u300c\u5510\u98a8\u6b78\u4f86\u8e0f\u6e05\u79cb\u8eca\u7ad9\u300d",
-    creator: "kenming Wang",
-    creatorUrl: "https://www.flickr.com/photos/12882975@N00",
-    sourceUrl: "https://www.flickr.com/photos/12882975@N00/5701500611",
-    license: "CC BY-SA 2.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/"
+  "mc-end": {
+    "file": "mc-end",
+    "title": "Screenshot from the Minecraft End",
+    "creator": "Xbox M\u00e9xico",
+    "creatorUrl": null,
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=167104771",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "note": "Cropped to fit"
+  },
+  "mc-end-city": {
+    "file": "mc-end-city",
+    "title": "Minecraft - End city",
+    "creator": "Xbox M\u00e9xico",
+    "creatorUrl": "https://www.youtube.com/@xboxmexico",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=176061956",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "note": "Cropped to fit"
+  },
+  "mc-deep-dark": {
+    "file": "mc-deep-dark",
+    "title": "Minecraft - Deep Dark",
+    "creator": "Xbox M\u00e9xico",
+    "creatorUrl": "https://www.youtube.com/@xboxmexico",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=175978694",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "note": "HUD cropped"
+  },
+  "mc-jungle": {
+    "file": "mc-jungle",
+    "title": "Minecraft - Jungle",
+    "creator": "Xbox M\u00e9xico",
+    "creatorUrl": "https://www.youtube.com/@xboxmexico",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=176061955",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "note": "HUD cropped"
   }
-];
+};
+
+/** The three that appear as cards on the homepage. */
+export const GALLERY: Shot[] = ["mc-end-city", "mc-deep-dark", "mc-jungle"].map((k) => SHOTS[k]);
