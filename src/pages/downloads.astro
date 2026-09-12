@@ -359,16 +359,19 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </p>
       <div class="flex flex-wrap items-center gap-3">
         <a
-          href="https://github.com/AtlasStudioMC/Astro/releases/download/build-1/AstroVelocity-b1.jar"
+          href="https://github.com/AtlasStudioMC/Astro/releases/download/build-2/AstroVelocity-b2.jar"
           class="btn-primary px-5 py-2.5 text-sm"
         >
           Download Astro
         </a>
-        <a href="https://github.com/AtlasStudioMC/Astro" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
-          Source and setup ↗
+        <a href="https://github.com/AtlasStudioMC/Astro/releases/tag/build-2" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+          Release notes ↗
         </a>
         <span class="text-sm text-white/35">Needs Java 25.</span>
       </div>
+      <p class="mt-4 font-mono text-[11px] leading-relaxed break-all text-white/25">
+        sha256 1cd4a2e2f56324e438719a632081a4fa63d3df9a1a7df08044aeb8f81c73c737
+      </p>
     </div>
   </section>
   </div>
@@ -378,7 +381,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-medium text-white/90">Aurora</h2>
-        <span class="pill pill-on">build 1</span>
+        <span class="pill pill-on">build 2</span>
         <span class="pill">Minecraft 26.2</span>
       </div>
       <p class="mb-5 text-sm leading-relaxed text-white/60">
@@ -400,23 +403,24 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </div>
 
       <p class="mb-5 text-sm leading-relaxed text-white/60">
-        Build 1 is the first tagged release. It boots and reports itself as Aurora, but nobody has
-        run it in production yet, and it still warns you about that on startup. Treat it as what
-        it says it is.
+        Build 2 adds a round of network and ping tuning on top of build 1: packet batching and
+        prioritization, chunk-load ordering, entity/movement update throttling, Netty channel
+        tuning, and object pooling to cut GC pauses. Nobody has run it in production yet, and it
+        still warns you about that on startup. Treat it as what it says it is.
       </p>
 
       <div class="flex flex-wrap items-center gap-3">
-        <a href="https://github.com/AtlasStudioMC/Aurora/releases/download/aurora-26.2-1/Aurora-26.2.jar" class="btn-primary px-5 py-2.5 text-sm">
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/download/aurora-26.2-2/Aurora-26.2.jar" class="btn-primary px-5 py-2.5 text-sm">
           Download Aurora 26.2
         </a>
-        <a href="https://github.com/AtlasStudioMC/Aurora/releases/tag/aurora-26.2-1" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+        <a href="https://github.com/AtlasStudioMC/Aurora/releases/tag/aurora-26.2-2" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
           Release notes ↗
         </a>
         <span class="text-sm text-white/35">62 MB · needs Java 25.</span>
       </div>
 
       <p class="mt-4 font-mono text-[11px] leading-relaxed break-all text-white/25">
-        sha256 750dbb1e347d09da038c46d0dab6ec414cd32e501377c5d89ae50a14ad1e4347
+        sha256 a7613da6424ccf20f522224f86441e24bcada77c46c806a682ac3d8de118a1db
       </p>
     </div>
   </section>
