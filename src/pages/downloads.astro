@@ -1,9 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
-import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
+import { VERSIONS, FORK_INFO, brandFor, type Fork } from "@/data/versions";
 
-export const prerender = false;
+// Prerendered. The release list is fetched once at build time instead of per request, because
+// GitHub Pages has no server to run this on. That means the list is as fresh as the last build,
+// which the deploy workflow re-runs on a schedule.
+export const prerender = true;
 
 interface GhAsset {
   name: string;
@@ -24,17 +27,25 @@ let releases: GhRelease[] = [];
 let fetchFailed = false;
 
 try {
+  // Unauthenticated GitHub API calls are rate-limited per IP, and CI runners share theirs, so
+  // a token is used when the build has one. Local builds work fine without it.
+  const ghToken = import.meta.env.GITHUB_TOKEN ?? process.env.GITHUB_TOKEN;
   const res = await fetch("https://api.github.com/repos/AtlasStudioMC/Atlas/releases?per_page=100", {
-    headers: { Accept: "application/vnd.github+json" },
+    headers: {
+      Accept: "application/vnd.github+json",
+      ...(ghToken ? { Authorization: `Bearer ${ghToken}` } : {}),
+    },
   });
   if (res.ok) {
     releases = await res.json();
     releases.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
   } else {
     fetchFailed = true;
+    console.warn(`[downloads] GitHub releases API returned ${res.status}; rendering the fallback`);
   }
-} catch {
+} catch (err) {
   fetchFailed = true;
+  console.warn("[downloads] could not reach the GitHub releases API; rendering the fallback", err);
 }
 
 // Tags look like "atlas-<mc-version>-<n>", except the very first release ever
@@ -125,7 +136,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         class="dl-tab flex-1 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors sm:flex-none"
       >
         Server jar
-        <span class="ml-1.5 hidden text-white/40 sm:inline">Atlas</span>
+        <span class="ml-1.5 hidden text-white/40 sm:inline">Atlas &amp; Astra</span>
       </button>
       <button
         type="button"
@@ -177,6 +188,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
             <div class="mb-4 flex flex-wrap items-baseline gap-3">
               <h2 class="text-2xl font-medium">
                 Minecraft <span class="text-primary-400">{version}</span>
+                <span class="ml-2 align-middle text-sm font-normal text-white/35">{brandFor(version)}</span>
               </h2>
               {fork && (
                 <a href={FORK_INFO[fork].href} class="shrink-0 rounded-full bg-white/10 px-2.5 py-0.5 text-xs whitespace-nowrap text-white/60 hover:text-white">

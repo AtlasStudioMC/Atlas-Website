@@ -1,12 +1,16 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   // The real deployed origin. This drives sitemap.xml and every canonical/OG absolute URL, so a
   // wrong value here silently points search engines at a domain that doesn't exist.
-  site: "https://atlasstudiomc.vercel.app",
+  //
+  // GitHub Pages serves a user site for the AtlasStudioMC account at the account root, which is
+  // why this has no path segment. SITE_URL overrides it for a preview or a custom domain; keep
+  // exactly one origin live, because two copies of this site both claiming to be canonical is
+  // duplicate content and search engines pick the winner for you.
+  site: process.env.SITE_URL ?? "https://atlasstudiomc.github.io",
 
   vite: {
     plugins: [tailwindcss()],
@@ -24,6 +28,8 @@ export default defineConfig({
     }),
   ],
 
-  output: "server",
-  adapter: vercel(),
+  // Static. GitHub Pages serves files, not a server runtime, so every page is built ahead of
+  // time - including the downloads page, which fetches its release list during the build rather
+  // than per request. A scheduled workflow rebuild is what keeps that list current.
+  output: "static",
 });

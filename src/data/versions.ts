@@ -3,6 +3,9 @@ export type Fork = "Leaf" | "Purpur" | "Paper";
 export interface VersionEntry {
   version: string;
   fork: Fork;
+  /** The name this version line ships under. 26.2 is Astra; everything older is Atlas. Omitted
+   * means Atlas - only a line that has been given its own name needs to say so. */
+  brand?: string;
   /** "released" = a real GitHub release exists for this version right now. "planned" = on the
    * roadmap, not built yet - never claim "released" without an actual shipped release. */
   status: "released" | "planned";
@@ -13,7 +16,7 @@ export interface VersionEntry {
 // the project ROADMAP.md - this range is the current scope; earlier versions are out of scope
 // for now, not silently dropped.
 export const VERSIONS: VersionEntry[] = [
-  { version: "26.2", fork: "Leaf", status: "released" },
+  { version: "26.2", fork: "Leaf", status: "released", brand: "Astra" },
   { version: "26.1.2", fork: "Leaf", status: "released" },
   { version: "1.21.11", fork: "Leaf", status: "released" },
   { version: "1.21.8", fork: "Leaf", status: "released" },
@@ -50,3 +53,8 @@ export const FORK_INFO: Record<Fork, { href: string; blurb: string; logo?: strin
     blurb: "The project Leaf and Purpur are both based on.",
   },
 };
+
+/** The product name for a Minecraft version, falling back to Atlas. */
+export function brandFor(version: string): string {
+  return VERSIONS.find((v) => v.version === version)?.brand ?? "Atlas";
+}

@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { SERVERS } from "@/data/servers";
-import { VERSIONS, FORK_INFO, type Fork } from "@/data/versions";
+import { VERSIONS, FORK_INFO, brandFor, type Fork } from "@/data/versions";
 
 const features = [
   {
@@ -194,6 +194,7 @@ export const prerender = true;
         <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
           <h3 class="text-xl font-semibold text-white">Atlas</h3>
           <span class="pill pill-on">{latestVersion}</span>
+          <span class="pill">{brandFor(latestVersion)}</span>
         </div>
         <p class="mb-1 text-sm font-medium text-white/70">A server jar</p>
         <p class="mb-6 text-sm leading-relaxed text-white/50">

@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # The downloads page bakes its release list in at build time, so a site that is never
+  # rebuilt slowly goes stale. A daily rebuild keeps it current without a server.
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        env:
+          # Raises the GitHub API rate limit for the downloads page's release fetch.
+          # Runners share an IP, and the unauthenticated limit is 60/hour across all of them.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build
+
+      - name: Fail if the downloads page lost its releases
+        # A rate-limited or failing API call renders a fallback instead of the release list.
+        # Publishing that silently is worse than not publishing: catch it here.
+        run: |
+          if ! grep -q "Minecraft" dist/downloads/index.html; then
+            echo "::error::downloads page built without any releases - refusing to publish"
+            exit 1
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
