@@ -26,7 +26,7 @@ const faqs = [
     a: "Yes \u2014 the jar runs anything built for Paper or Spigot. The one thing to know: our tuned config turns off hopper move events, because that is the single biggest speed win available. Plugins that watch hoppers, like shops and item sorters, need it switched back on. Set hopper.disable-move-event to false in paper-world-defaults.yml and they work again.",
   },
   {
-    q: "Is AtlasSpigot free?",
+    q: "Is Atlas free?",
     a: "Yes, completely. It's free to download, and the source is public under the same licenses as the projects it's built on.",
   },
   {
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: "How do I install it?",
-    a: "Swap your current server jar for the AtlasSpigot one and start the server as normal. Your worlds, plugins and settings stay where they are.",
+    a: "Swap your current server jar for the Atlas one and start the server as normal. Your worlds, plugins and settings stay where they are.",
   },
   {
     q: "Did you build this from scratch?",
@@ -51,7 +51,7 @@ const faqs = [
   },
 ];
 
-// Real measured numbers from benchmarks/results-1.21.4.txt in the AtlasSpigot repo. Average
+// Real measured numbers from benchmarks/results-1.21.4.txt in the Atlas repo. Average
 // tick time over 400 sampled ticks, same seed, same JVM flags, same machine. Labelled on the page
 // as 1.21.4 because that is what was measured - 26.2 was tested and came out too noisy to publish.
 const bench = {
@@ -78,7 +78,7 @@ export const prerender = true;
 
 <Layout
   title="Atlas Studio — Free Minecraft Server Jar & Proxy"
-  description="Free, optimized Minecraft server software from Atlas Studio: the AtlasSpigot server jar for 1.20 through 26.2, and the AstroVelocity proxy. Built on Leaf and Purpur, free to download."
+  description="Free, optimized Minecraft server software from Atlas Studio: the Atlas server jar for 1.20 through 26.2, and the Astro proxy. Built on Leaf and Purpur, free to download."
   faq={faqs}
 >
   {/* Hero. Deliberately sparse: one statement, one action, and the artwork carrying the rest.
@@ -143,7 +143,7 @@ export const prerender = true;
             <div class="space-y-4">
               <div>
                 <div class="mb-1.5 flex items-baseline justify-between gap-4">
-                  <span class="text-sm font-medium text-white">AtlasSpigot</span>
+                  <span class="text-sm font-medium text-white">Atlas</span>
                   <span class="font-mono text-sm text-primary-400">{sc.atlas.toFixed(2)} ms</span>
                 </div>
                 <div class="h-2.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
@@ -183,16 +183,16 @@ export const prerender = true;
 
   <section id="products" class="relative mx-auto max-w-5xl px-6 pb-28 lg:pb-36">
     <div class="mb-12 text-center">
-      <h2 class="mb-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">Two things we make</h2>
+      <h2 class="mb-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">Three things we make</h2>
       <p class="mx-auto max-w-xl text-white/55">
         Most people only need the first one.
       </p>
     </div>
 
-    <div class="grid gap-5 md:grid-cols-2">
+    <div class="grid gap-5 md:grid-cols-3">
       <div class="surface surface-hover flex flex-col p-8">
         <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h3 class="text-xl font-semibold text-white">AtlasSpigot</h3>
+          <h3 class="text-xl font-semibold text-white">Atlas</h3>
           <span class="pill pill-on">{latestVersion}</span>
         </div>
         <p class="mb-1 text-sm font-medium text-white/70">A server jar</p>
@@ -210,7 +210,7 @@ export const prerender = true;
 
       <div class="surface surface-hover flex flex-col p-8">
         <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h3 class="text-xl font-semibold text-white">AstroVelocity</h3>
+          <h3 class="text-xl font-semibold text-white">Astro</h3>
           <span class="pill pill-on">build-1</span>
         </div>
         <p class="mb-1 text-sm font-medium text-white/70">A proxy</p>
@@ -220,13 +220,37 @@ export const prerender = true;
         </p>
         <div class="mt-auto flex flex-wrap items-center gap-3">
           <a
-            href="https://github.com/AtlasStudioMC/AstroVelocity/releases/download/build-1/AstroVelocity-b1.jar"
+            href="https://github.com/AtlasStudioMC/Astro/releases/download/build-1/AstroVelocity-b1.jar"
             class="btn-primary px-5 py-2.5 text-sm"
           >
             Download
           </a>
           <a
-            href="https://github.com/AtlasStudioMC/AstroVelocity"
+            href="https://github.com/AtlasStudioMC/Astro"
+            class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400"
+          >
+            Source ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="surface surface-hover flex flex-col p-8">
+        <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <h3 class="text-xl font-semibold text-white">Aurora</h3>
+          <span class="pill">Source only</span>
+        </div>
+        <p class="mb-1 text-sm font-medium text-white/70">A regionised server</p>
+        <p class="mb-3 text-sm leading-relaxed text-white/50">
+          Our fork of CanvasMC. Spreads the world across CPU cores instead of ticking it all on one
+          thread, which is how you get past a single core on a big world.
+        </p>
+        <p class="mb-6 text-sm leading-relaxed text-amber-200/70">
+          Most plugins will not load on it. Read the caveat before you try it.
+        </p>
+        <div class="mt-auto flex flex-wrap items-center gap-3">
+          <a href="/downloads?t=aurora" class="btn-primary px-5 py-2.5 text-sm">What it is</a>
+          <a
+            href="https://github.com/AtlasStudioMC/Aurora"
             class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400"
           >
             Source ↗
@@ -360,13 +384,13 @@ export const prerender = true;
       )
     }
 
-    <a href="https://bstats.org/plugin/bukkit/AtlasSpigot/33733" class="surface surface-hover inline-block overflow-hidden p-3">
-      <img src="https://bstats.org/signatures/bukkit/AtlasSpigot.svg" alt="Servers using AtlasSpigot" class="mx-auto rounded-lg" />
+    <a href="https://bstats.org/plugin/bukkit/Atlas/33733" class="surface surface-hover inline-block overflow-hidden p-3">
+      <img src="https://bstats.org/signatures/bukkit/Atlas.svg" alt="Servers using Atlas" class="mx-auto rounded-lg" />
     </a>
 
     <p class="mx-auto mt-6 max-w-xl text-sm text-white/40">
-      Running AtlasSpigot and want your server listed here?
-      <a href="https://github.com/AtlasStudioMC/AtlasSpigot/issues/new" class="text-primary-400 underline">Open an issue</a>
+      Running Atlas and want your server listed here?
+      <a href="https://github.com/AtlasStudioMC/Atlas/issues/new" class="text-primary-400 underline">Open an issue</a>
       with your name and logo.
     </p>
   </section>

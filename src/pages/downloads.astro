@@ -24,7 +24,7 @@ let releases: GhRelease[] = [];
 let fetchFailed = false;
 
 try {
-  const res = await fetch("https://api.github.com/repos/AtlasStudioMC/AtlasSpigot/releases?per_page=100", {
+  const res = await fetch("https://api.github.com/repos/AtlasStudioMC/Atlas/releases?per_page=100", {
     headers: { Accept: "application/vnd.github+json" },
   });
   if (res.ok) {
@@ -37,11 +37,15 @@ try {
   fetchFailed = true;
 }
 
-// Tags look like "atlasspigot-<mc-version>-<n>", except the very first release ever
-// ("atlasspigot-26.2", no trailing number) - the trailing "-<n>" is optional here so that
+// Tags look like "atlas-<mc-version>-<n>", except the very first release ever
+// ("atlas-26.2", no trailing number) - the trailing "-<n>" is optional here so that
 // one still groups under "26.2" instead of becoming its own bogus version group.
+//
+// Every release published so far is tagged "atlasspigot-..." from before the rename.
+// Renaming the repository did not rename its tags, so both prefixes have to parse or
+// the whole download list collapses into one bogus version group.
 function versionOf(tagName: string): string {
-  const match = tagName.match(/^atlasspigot-(.+?)(?:-\d+)?$/);
+  const match = tagName.match(/^atlas(?:spigot)?-(.+?)(?:-\d+)?$/);
   return match ? match[1] : tagName;
 }
 
@@ -87,7 +91,7 @@ function formatDate(iso: string) {
 }
 
 // Releases can carry more than just the server jar (e.g. a config bundle). GitHub returns assets
-// alphabetically, so "AtlasSpigot-<v>-config.zip" sorts ahead of "AtlasSpigot-<v>.jar" - taking
+// alphabetically, so "Atlas-<v>-config.zip" sorts ahead of "Atlas-<v>.jar" - taking
 // assets[0] would hand people the config zip when they clicked Download. Always prefer the jar.
 function primaryAsset(assets: GhAsset[]): GhAsset | undefined {
   return assets.find((a) => a.name.endsWith(".jar")) ?? assets[0];
@@ -99,15 +103,17 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
 }
 ---
 
-<Layout title="Download Minecraft Server Jar (1.20 – 26.2)" description="Free downloads from Atlas Studio: the AtlasSpigot server jar for Minecraft 1.20 through 26.2, and the AstroVelocity proxy. Both keep your Paper plugins working.">
+<Layout title="Download Minecraft Server Jar (1.20 – 26.2)" description="Free downloads from Atlas Studio: the Atlas server jar for Minecraft 1.20 through 26.2, the Astro proxy, and Aurora, our regionised server built on CanvasMC.">
   <PageHero scene="hero-voxel" eyebrow="Releases" title="" accent="Downloads" position="object-center">
-    Everything we make, free to download. Pick the server jar or the proxy below.
+    Everything we make, free to download. Three things, and which one you want depends on
+    what you are running.
   </PageHero>
 
-  {/* Two products with different shapes: a jar picked by Minecraft version, and a proxy that has
-      no version of its own. Tabs keep both reachable without pushing one below a long release
-      list. The jar panel is the default and renders server-side, so the page is useful with no
-      JavaScript; the toggle only hides and shows what is already there. */}
+  {/* Three products with different shapes: a jar picked by Minecraft version, a proxy with no
+      version of its own, and a regionised jar that is source-only for now. Tabs keep all three
+      reachable without pushing any of them below a long release list. The jar panel is the
+      default and renders server-side, so the page is useful with no JavaScript; the toggle only
+      hides and shows what is already there. */}
   <section class="mx-auto max-w-5xl px-6 pb-10">
     <div class="surface inline-flex w-full gap-1 p-1 sm:w-auto" role="tablist" aria-label="Choose what to download">
       <button
@@ -119,7 +125,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         class="dl-tab flex-1 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors sm:flex-none"
       >
         Server jar
-        <span class="ml-1.5 hidden text-white/40 sm:inline">AtlasSpigot</span>
+        <span class="ml-1.5 hidden text-white/40 sm:inline">Atlas</span>
       </button>
       <button
         type="button"
@@ -130,7 +136,18 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         class="dl-tab flex-1 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors sm:flex-none"
       >
         Proxy
-        <span class="ml-1.5 hidden text-white/40 sm:inline">AstroVelocity</span>
+        <span class="ml-1.5 hidden text-white/40 sm:inline">Astro</span>
+      </button>
+      <button
+        type="button"
+        id="tab-aurora"
+        role="tab"
+        aria-controls="panel-aurora"
+        aria-selected="false"
+        class="dl-tab flex-1 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors sm:flex-none"
+      >
+        Regionised
+        <span class="ml-1.5 hidden text-white/40 sm:inline">Aurora</span>
       </button>
     </div>
   </section>
@@ -144,7 +161,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
             Couldn't load release data directly from GitHub right now. Grab the jar from the Releases page instead:
           </p>
           <a
-            href="https://github.com/AtlasStudioMC/AtlasSpigot/releases"
+            href="https://github.com/AtlasStudioMC/Atlas/releases"
             class="btn-glow inline-block rounded-xl px-6 py-3 font-semibold text-black"
           >
             View Releases on GitHub
@@ -284,7 +301,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </ul>
       <div class="flex flex-wrap items-center gap-3">
         <a
-          href="https://github.com/AtlasStudioMC/AtlasSpigot/releases/download/atlasspigot-26.2-27/AtlasSpigot-26.2-lowspec.zip"
+          href="https://github.com/AtlasStudioMC/Atlas/releases/download/atlasspigot-26.2-27/AtlasSpigot-26.2-lowspec.zip"
           class="btn-primary px-5 py-2.5 text-sm"
         >
           Download the small-server config
@@ -293,7 +310,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
       </div>
       <p class="mt-4 text-xs leading-relaxed text-white/35">
         Everything it changes, and why, is written out in
-        <a href="https://github.com/AtlasStudioMC/AtlasSpigot/blob/main/lowspec/README.md" class="text-primary-400 underline">the guide</a>.
+        <a href="https://github.com/AtlasStudioMC/Atlas/blob/main/lowspec/README.md" class="text-primary-400 underline">the guide</a>.
       </p>
     </div>
   </section>
@@ -307,7 +324,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         <li>Run <code>./start.sh</code> (or <code>java -jar &lt;the jar&gt;.jar nogui</code> directly).</li>
       </ol>
       <p class="mt-4">
-        Branding shows correctly with just the jar, but performance tuning needs the config files too - see the <a href="https://github.com/AtlasStudioMC/AtlasSpigot#quick-start" class="text-primary-400 underline">full quick start guide</a> for hosting-panel notes and details.
+        Branding shows correctly with just the jar, but performance tuning needs the config files too - see the <a href="https://github.com/AtlasStudioMC/Atlas#quick-start" class="text-primary-400 underline">full quick start guide</a> for hosting-panel notes and details.
       </p>
     </div>
   </section>
@@ -321,18 +338,60 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         <span class="pill pill-on">build-1</span>
       </div>
       <p class="mb-5 text-sm leading-relaxed text-white/60">
-        AstroVelocity is a proxy. It goes in front of your servers and moves players between them, so a lobby
+        Astro is a proxy. It goes in front of your servers and moves players between them, so a lobby
         and a survival world feel like one place. Every Velocity plugin still works. Skip this if you only run one server.
       </p>
       <div class="flex flex-wrap items-center gap-3">
         <a
-          href="https://github.com/AtlasStudioMC/AstroVelocity/releases/download/build-1/AstroVelocity-b1.jar"
+          href="https://github.com/AtlasStudioMC/Astro/releases/download/build-1/AstroVelocity-b1.jar"
           class="btn-primary px-5 py-2.5 text-sm"
         >
-          Download AstroVelocity
+          Download Astro
         </a>
-        <a href="https://github.com/AtlasStudioMC/AstroVelocity" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
+        <a href="https://github.com/AtlasStudioMC/Astro" class="text-sm text-white/45 underline decoration-white/20 underline-offset-4 hover:text-primary-400">
           Source and setup ↗
+        </a>
+        <span class="text-sm text-white/35">Needs Java 25.</span>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <div id="panel-aurora" role="tabpanel" aria-labelledby="tab-aurora" hidden>
+  <section class="mx-auto max-w-3xl px-6 pb-24">
+    <div class="surface p-8 text-left">
+      <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <h2 class="text-lg font-medium text-white/90">Aurora</h2>
+        <span class="pill">Source only</span>
+        <span class="pill">Minecraft 26.2</span>
+      </div>
+      <p class="mb-5 text-sm leading-relaxed text-white/60">
+        Aurora is our fork of <a href="https://github.com/CraftCanvasMC/Canvas" class="underline decoration-white/20 underline-offset-4 hover:text-primary-400">CanvasMC</a>,
+        which forks Folia, which forks Paper. It spreads the world across CPU cores instead of
+        ticking everything on one thread.
+      </p>
+
+      <div class="mb-5 rounded-xl border border-amber-400/25 bg-amber-400/[0.06] p-5">
+        <h3 class="mb-2 text-sm font-medium text-amber-200/90">Most plugins will not load on it</h3>
+        <p class="text-sm leading-relaxed text-white/60">
+          Region threading changes what a plugin is allowed to do, so a plugin only loads if its
+          <code class="rounded bg-white/10 px-1 py-0.5 text-[0.8em]">plugin.yml</code> declares
+          <code class="rounded bg-white/10 px-1 py-0.5 text-[0.8em]">folia-supported: true</code> or
+          <code class="rounded bg-white/10 px-1 py-0.5 text-[0.8em]">canvas-supported: true</code>.
+          Most declare neither. This is not a setting you can turn off. Check every plugin you run
+          before you switch — otherwise Atlas is the jar you want, not this one.
+        </p>
+      </div>
+
+      <p class="mb-5 text-sm leading-relaxed text-white/60">
+        There is no download here yet. The jar builds and boots, but it is a development build, and
+        publishing one as a release would make it look more finished than it is. Build it yourself
+        in two commands, or wait for a tagged release.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://github.com/AtlasStudioMC/Aurora" class="btn-primary px-5 py-2.5 text-sm">
+          Source and build steps
         </a>
         <span class="text-sm text-white/35">Needs Java 25.</span>
       </div>
@@ -358,6 +417,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   const tabs = {
     spigot: ["tab-spigot", "panel-spigot"],
     velocity: ["tab-velocity", "panel-velocity"],
+    aurora: ["tab-aurora", "panel-aurora"],
   } as const;
 
   function select(which: keyof typeof tabs, push: boolean) {
@@ -380,7 +440,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   }
 
   const initial = new URL(window.location.href).searchParams.get("t");
-  if (initial === "velocity") select("velocity", false);
+  if (initial && initial !== "spigot" && initial in tabs) select(initial as keyof typeof tabs, false);
 </script>
 
 </Layout>

@@ -45,7 +45,7 @@ const structuredData: any[] = [
     name: "Atlas Studio",
     url: siteUrl,
     description:
-      "Free, optimized Minecraft server software: the AtlasSpigot server jar and the AstroVelocity proxy.",
+      "Free, optimized Minecraft server software: the Atlas server jar and the Astro proxy.",
     publisher: { "@id": siteUrl + "#org" },
   },
   {
@@ -60,11 +60,11 @@ const structuredData: any[] = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AstroVelocity",
+    name: "Astro",
     applicationCategory: "GameApplication",
     operatingSystem: "Windows, macOS, Linux",
     url: siteUrl,
-    downloadUrl: "https://github.com/AtlasStudioMC/AstroVelocity/releases",
+    downloadUrl: "https://github.com/AtlasStudioMC/Astro/releases",
     license: "https://www.gnu.org/licenses/gpl-3.0.html",
     description:
       "A free Minecraft proxy built on Velocity-CTD. Sits in front of your servers and moves players between them, keeping every Velocity plugin working.",
@@ -73,7 +73,7 @@ const structuredData: any[] = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AtlasSpigot",
+    name: "Atlas",
     applicationCategory: "GameApplication",
     operatingSystem: "Windows, macOS, Linux",
     url: siteUrl,
@@ -84,6 +84,21 @@ const structuredData: any[] = [
     author: { "@id": siteUrl + "#org" },
     // Deliberately no offers/aggregateRating: it's free and has no real review data, and inventing
     // either is exactly the structured-data abuse Google issues manual actions for.
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Aurora",
+    applicationCategory: "GameApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    url: siteUrl + "downloads?t=aurora",
+    // Source only for now, so this points at the repository rather than a release that
+    // does not exist. Pointing it at a downloads page with no download is worse than useless.
+    downloadUrl: "https://github.com/AtlasStudioMC/Aurora",
+    license: "https://www.gnu.org/licenses/gpl-3.0.html",
+    description:
+      "A free regionised Minecraft server for 26.2, forked from CanvasMC. Spreads the world across CPU cores instead of one tick thread. Requires plugins that declare Folia or Canvas support.",
+    author: { "@id": siteUrl + "#org" },
   },
 ];
 
@@ -116,7 +131,7 @@ if (faq?.length) {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#080a14" />
 
-    <meta property="og:site_name" content="AtlasSpigot" />
+    <meta property="og:site_name" content="Atlas" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={fullTitle} />
@@ -125,7 +140,7 @@ if (faq?.length) {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="AtlasSpigot" />
+    <meta property="og:image:alt" content="Atlas" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />

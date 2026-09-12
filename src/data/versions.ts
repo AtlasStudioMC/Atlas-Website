@@ -8,7 +8,7 @@ export interface VersionEntry {
   status: "released" | "planned";
 }
 
-// Leaf: modern, actively-developed versions - AtlasSpigot's primary base. Purpur: 1.20-1.21.3,
+// Leaf: modern, actively-developed versions - Atlas's primary base. Purpur: 1.20-1.21.3,
 // where Leaf's own branches stop but Purpur's still have live source. Kept in sync by hand with
 // the project ROADMAP.md - this range is the current scope; earlier versions are out of scope
 // for now, not silently dropped.

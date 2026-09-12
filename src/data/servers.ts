@@ -1,4 +1,4 @@
-/** A server publicly running AtlasSpigot.
+/** A server publicly running Atlas.
  *
  * Only add an entry with the operator's permission, and only if they actually run it. The logo
  * belongs to them, not to us — a logo row that implies an endorsement nobody gave is worse than
@@ -15,6 +15,6 @@ export interface ServerEntry {
 }
 
 export const SERVERS: ServerEntry[] = [
-  // Two SMPs are running AtlasSpigot as of this writing (bStats service 33733). Neither is
+  // Two SMPs are running Atlas as of this writing (bStats service 33733). Neither is
   // listed yet because we don't publish someone's name or mark without asking first.
 ];

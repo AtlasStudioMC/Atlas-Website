@@ -48,8 +48,8 @@
     </g>
   </svg>
 
-  <text x="440" y="230" font-family="Poppins, sans-serif" font-weight="700" font-size="84" fill="url(#text)">AtlasSpigot</text>
+  <text x="440" y="230" font-family="Poppins, sans-serif" font-weight="700" font-size="84" fill="url(#text)">Atlas</text>
   <text x="442" y="285" font-family="Poppins, sans-serif" font-weight="400" font-size="30" fill="#ffffffaa">A tuned, rebranded Minecraft server -</text>
   <text x="442" y="323" font-family="Poppins, sans-serif" font-weight="400" font-size="30" fill="#ffffffaa">built on Paper, Purpur, and Leaf</text>
-  <text x="442" y="370" font-family="Poppins, sans-serif" font-weight="400" font-size="26" fill="#ff8c1a">github.com/AtlasStudioMC/AtlasSpigot</text>
+  <text x="442" y="370" font-family="Poppins, sans-serif" font-weight="400" font-size="26" fill="#ff8c1a">github.com/AtlasStudioMC/Atlas</text>
 </svg>

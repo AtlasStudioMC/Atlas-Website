@@ -9,7 +9,7 @@ const steps = [
   },
   {
     title: "2. Download the jar",
-    body: "Grab AtlasSpigot-<version>.jar from that version's GitHub release. No account or login required — releases are public.",
+    body: "Grab Atlas-<version>.jar from that version's GitHub release. No account or login required — releases are public.",
   },
   {
     title: "3. Accept the EULA",
@@ -17,7 +17,7 @@ const steps = [
   },
   {
     title: "4. Start the server",
-    body: "Use the start.sh in that version's config folder in the repo — it has the JVM flags this project tunes and tests against — or run java -jar AtlasSpigot-<version>.jar yourself.",
+    body: "Use the start.sh in that version's config folder in the repo — it has the JVM flags this project tunes and tests against — or run java -jar Atlas-<version>.jar yourself.",
   },
   {
     title: "5. (Optional) Apply the tuned config",
@@ -40,15 +40,15 @@ const faqs = [
   },
   {
     q: "Will my plugins work?",
-    a: "AtlasSpigot is a source-rebuilt Leaf or Purpur (Paper-API compatible) — plugins built against the Bukkit/Paper/Purpur API work unmodified. Bukkit.getName() reports \"AtlasSpigot\" instead of the upstream fork's name, which matters only to plugins that specifically gate features on server-brand string checks.",
+    a: "Atlas is a source-rebuilt Leaf or Purpur (Paper-API compatible) — plugins built against the Bukkit/Paper/Purpur API work unmodified. Bukkit.getName() reports \"Atlas\" instead of the upstream fork's name, which matters only to plugins that specifically gate features on server-brand string checks.",
   },
   {
     q: "Where do I report a bug?",
-    a: "Open an issue on the AtlasSpigot GitHub repo. If it reproduces on stock Leaf/Purpur too, it's also worth reporting upstream.",
+    a: "Open an issue on the Atlas GitHub repo. If it reproduces on stock Leaf/Purpur too, it's also worth reporting upstream.",
   },
   {
     q: "How is bStats data used?",
-    a: "AtlasSpigot reports to its own registered bStats project (id 33733) — real, publicly viewable usage data, not fabricated. See the Statistics section on the project README.",
+    a: "Atlas reports to its own registered bStats project (id 33733) — real, publicly viewable usage data, not fabricated. See the Statistics section on the project README.",
   },
 ];
 // Static content, so it ships as a prerendered file served straight from the CDN edge
@@ -59,10 +59,10 @@ export const prerender = true;
 
 <Layout
   title="How to Install a Minecraft Server Jar"
-  description="Set up AtlasSpigot step by step — download the server jar, start it, and configure it. A plain-language guide for running a fast Minecraft server."
+  description="Set up Atlas step by step — download the server jar, start it, and configure it. A plain-language guide for running a fast Minecraft server."
 >
   <PageHero scene="hero-voxel" eyebrow="Guide" title="" accent="Documentation" position="object-top">
-    How to download AtlasSpigot, start it up, and change the settings.
+    How to download Atlas, start it up, and change the settings.
   </PageHero>
 
   <section class="mx-auto max-w-3xl px-6 pb-16">
