@@ -170,7 +170,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   <div id="panel-spigot" role="tabpanel" aria-labelledby="tab-spigot">
   {
     fetchFailed || releases.length === 0 ? (
-      <section class="mx-auto max-w-5xl px-6 pb-24">
+      <section class="mx-auto max-w-3xl px-6 pb-24">
         <div class="surface p-8 text-left">
           <p class="mb-4 text-white/70">
             Couldn't load release data directly from GitHub right now. Grab the jar from the Releases page instead:
@@ -188,7 +188,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
         const [latest, ...older] = groups.get(version)!;
         const fork = forkOf(version);
         return (
-          <section class="mx-auto max-w-5xl px-6 pb-16">
+          <section class="mx-auto max-w-3xl px-6 pb-16">
             <div class="mb-4 flex flex-wrap items-baseline gap-3">
               <h2 class="text-2xl font-medium">
                 Minecraft <span class="text-primary-400">{version}</span>
@@ -274,7 +274,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
 
   {
     plannedByFork.size > 0 && (
-      <section class="mx-auto max-w-5xl px-6 pb-16">
+      <section class="mx-auto max-w-3xl px-6 pb-16">
         <h2 class="mb-2 text-2xl font-medium">On the roadmap</h2>
         <p class="mb-6 text-sm text-white/50">Not released yet - listed here so the plan is honest, not just the finished part.</p>
         <div class="flex flex-col gap-4">
@@ -299,7 +299,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   }
 
 
-  <section class="mx-auto max-w-5xl px-6 pb-16">
+  <section class="mx-auto max-w-3xl px-6 pb-16">
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-medium text-white/90">Got a small or cheap server?</h2>
@@ -331,7 +331,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
     </div>
   </section>
 
-  <section class="mx-auto max-w-5xl px-6 pb-24">
+  <section class="mx-auto max-w-3xl px-6 pb-24">
     <div class="surface p-8 text-left text-sm text-white/60">
       <h2 class="mb-3 font-medium text-white/80">Setting it up</h2>
       <ol class="list-decimal space-y-2 pl-5">
@@ -347,7 +347,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   </div>
 
   <div id="panel-velocity" role="tabpanel" aria-labelledby="tab-velocity" hidden>
-  <section class="mx-auto max-w-5xl px-6 pb-24">
+  <section class="mx-auto max-w-3xl px-6 pb-24">
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-medium text-white/90">Running more than one server?</h2>
@@ -393,7 +393,7 @@ function orderedAssets(assets: GhAsset[]): GhAsset[] {
   </div>
 
   <div id="panel-aurora" role="tabpanel" aria-labelledby="tab-aurora" hidden>
-  <section class="mx-auto max-w-5xl px-6 pb-24">
+  <section class="mx-auto max-w-3xl px-6 pb-24">
     <div class="surface p-8 text-left">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-medium text-white/90">Aurora</h2>

@@ -92,7 +92,7 @@ export const prerender = true;
     Every change is checked against Leaf's own source and issue tracker before it ships. This page is the same breakdown as the <a href="https://github.com/AtlasStudioMC/Atlas#whats-tuned-here" class="text-primary-300 underline underline-offset-4">project README</a>, kept in sync by hand.
   </PageHero>
 
-  <section class="mx-auto max-w-6xl px-6 pb-16">
+  <section class="mx-auto max-w-4xl px-6 pb-16">
     <h2 class="mb-4 text-2xl font-medium">Branding</h2>
     <p class="text-white/70">
       Every brand-facing string reads <strong class="text-white">Atlas</strong> — the early <code>[bootstrap]</code>{" "}
@@ -106,15 +106,10 @@ export const prerender = true;
     </p>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 pb-16">
+  <section class="mx-auto max-w-4xl px-6 pb-16">
     <h2 class="mb-4 text-2xl font-medium">Performance</h2>
     <div class="surface overflow-x-auto">
       <table class="w-full text-left text-sm">
-        <colgroup>
-          <col class="w-[9%]" />
-          <col class="w-[28%]" />
-          <col />
-        </colgroup>
         <thead class="bg-white/5 text-white/50">
           <tr>
             <th class="px-4 py-3 font-medium">Area</th>
@@ -127,7 +122,7 @@ export const prerender = true;
             performance.map((row) => (
               <tr>
                 <td class="px-4 py-3 align-top whitespace-nowrap text-primary-400">{row.area}</td>
-                <td class="px-4 py-3 align-top font-mono text-xs text-white/80">{row.setting}</td>
+                <td class="px-4 py-3 align-top font-mono text-xs whitespace-nowrap text-white/80">{row.setting}</td>
                 <td class="px-4 py-3 align-top text-white/60">{row.detail}</td>
               </tr>
             ))
@@ -137,7 +132,7 @@ export const prerender = true;
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 pb-16">
+  <section class="mx-auto max-w-4xl px-6 pb-16">
     <h2 class="mb-4 text-2xl font-medium">Deliberately <em>not</em> enabled</h2>
     <p class="mb-4 text-white/60">Checked and rejected, with reasons — not just left at defaults by omission.</p>
     <div class="flex flex-col gap-4">
@@ -152,7 +147,7 @@ export const prerender = true;
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 pb-16">
+  <section class="mx-auto max-w-4xl px-6 pb-16">
     <h2 class="mb-4 text-2xl font-medium">How settings are actually screened</h2>
     <p class="mb-4 text-white/60">Not vibes — a checklist, applied the same way every time before anything gets enabled.</p>
     <ol class="flex flex-col gap-3">
@@ -173,7 +168,7 @@ export const prerender = true;
     </p>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 pb-24">
+  <section class="mx-auto max-w-4xl px-6 pb-24">
     <div class="grid gap-4 md:grid-cols-2">
       <div class="surface p-6">
         <h2 class="mb-2 font-medium text-primary-300">First-boot startup time</h2>

@@ -1,0 +1,23 @@
+---
+import { SHOTS } from "@/data/gallery";
+
+interface Props {
+  /** key into SHOTS */
+  shot: string;
+  class?: string;
+}
+const { shot, class: cls = "" } = Astro.props;
+const s = SHOTS[shot];
+if (!s) throw new Error(`ShotCredit: no licence on record for "${shot}" - do not ship the image without one`);
+---
+
+{/* CC BY and CC BY-SA both want the credit visible with the work, and both want changes
+    declared. Small and low-contrast is fine; absent is not. */}
+<p class={`pointer-events-auto text-[11px] leading-tight text-white/35 ${cls}`}>
+  <a href={s.sourceUrl} rel="noopener" class="hover:text-white/70">{s.title}</a>
+  {" by "}
+  {s.creatorUrl ? <a href={s.creatorUrl} rel="noopener" class="hover:text-white/70">{s.creator}</a> : s.creator}
+  {", "}
+  <a href={s.licenseUrl} rel="noopener license" class="hover:text-white/70">{s.license}</a>
+  {`. ${s.note}.`}
+</p>
