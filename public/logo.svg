@@ -1,10 +1,5 @@
 <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Atlas Studio">
   <defs>
-    <linearGradient id="bg" x1="18%" y1="8%" x2="82%" y2="100%">
-      <stop offset="0%" stop-color="#1b2140"/>
-      <stop offset="55%" stop-color="#0d1122"/>
-      <stop offset="100%" stop-color="#05070f"/>
-    </linearGradient>
     <linearGradient id="mark" x1="24%" y1="4%" x2="86%" y2="98%">
       <stop offset="0%" stop-color="#c3ccff"/>
       <stop offset="28%" stop-color="#8e9cfb"/>
@@ -16,10 +11,6 @@
       <stop offset="100%" stop-color="#a9b0c6"/>
     </linearGradient>
   </defs>
-
-  <rect x="3" y="3" width="394" height="394" rx="66" fill="url(#bg)"/>
-  <rect x="3.5" y="3.5" width="393" height="393" rx="65.5" fill="none"
-        stroke="#39406b" stroke-opacity="0.55" stroke-width="1.6"/>
 
   <!-- Single filled glyph: down the right outer edge, up the inner edge, across the scoop,
        then straight back up the left outer edge to the apex. -->
@@ -37,7 +28,7 @@
     Z"/>
 
   <!-- Counter -->
-  <path fill="#0b0f1e" d="M 201 141 L 221 223 Q 200 233 184 248 Z"/>
+  <path fill="#0b0f1e" fill-opacity="0" d="M 201 141 L 221 223 Q 200 233 184 248 Z"/>
 
   <!-- Light catch along the apex, as in the original mark -->
   <path stroke="url(#shine)" stroke-width="9" stroke-linecap="round" fill="none" d="M 206 57 L 238 173"/>
