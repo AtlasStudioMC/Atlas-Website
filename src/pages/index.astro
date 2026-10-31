@@ -1,164 +1,307 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import HeroSection from "@/components/HeroSection.astro";
-import FeatureCard from "@/components/FeatureCard.astro";
-import ImageGallery from "@/components/ImageGallery.astro";
+import { VERSIONS, FORK_INFO } from "@/data/versions";
 
-const minecraftImages = [
+const products = [
   {
-    src: "https://images.unsplash.com/photo-1524685794168-52985e79c1f8?w=500&h=400&fit=crop",
-    alt: "Minecraft Steve character figure",
-    caption: "Iconic characters"
+    name: "Atlas",
+    tag: "Server jar",
+    blurb:
+      "A drop-in replacement for Paper. Faster ticks, the same plugins. Minecraft 1.20 through 26.1.2, and 26.2 as Astra.",
+    href: "/downloads",
+    cta: "Download Atlas",
+    block: "grass",
   },
   {
-    src: "https://images.unsplash.com/photo-1759663174699-d0e64ed0fb66?w=500&h=400&fit=crop",
-    alt: "Minecraft zombie mobs figures",
-    caption: "Survive the night"
+    name: "Aurora",
+    tag: "Regionised server",
+    blurb:
+      "Forked from CanvasMC for 26.2. Spreads the world across CPU cores instead of one tick thread. Needs Folia-ready plugins.",
+    href: "/downloads?t=aurora",
+    cta: "Download Aurora",
+    block: "diamond",
   },
   {
-    src: "https://images.unsplash.com/photo-1589609966838-5c628d5c1aa5?w=500&h=400&fit=crop",
-    alt: "Minecraft Earth mobile game on a phone screen",
-    caption: "Play anywhere"
+    name: "Astro",
+    tag: "Proxy",
+    blurb:
+      "Built on Velocity-CTD. Sits in front of your servers and moves players between them, with every Velocity plugin still working.",
+    href: "https://github.com/AtlasStudioMC/Astro",
+    cta: "Get Astro",
+    block: "gold",
   },
-  {
-    src: "https://images.unsplash.com/photo-1587573089734-09cb69c0f2b4?w=500&h=400&fit=crop",
-    alt: "Minecraft official website open on a laptop",
-    caption: "Join the community"
-  }
 ];
 
 const features = [
   {
-    title: "We test everything",
-    description: "Before we turn a setting on, we check it properly. If it could break your world, we leave it off.",
-    icon: "✓"
+    title: "Tested before it ships",
+    body: "Every speed setting is checked against upstream source. If it could break your world, it stays off.",
+    icon: "pickaxe",
   },
   {
-    title: "Your plugins still work",
-    description: "Anything made for Paper, Purpur or Spigot runs here. One setting in the tuned config switches off hopper events for speed.",
-    icon: "🔌"
+    title: "Your plugins keep working",
+    body: "Anything made for Paper, Purpur or Spigot runs. One tuned-config switch turns off hopper events for extra speed.",
+    icon: "chest",
   },
   {
-    title: "Old versions too",
-    description: "16 versions, from 1.20 all the way to 26.2. Every one gets the same care.",
-    icon: "📦"
-  }
+    title: "Sixteen versions",
+    body: "From 1.20 all the way to 26.2, and every one gets the same tuning and the same care.",
+    icon: "book",
+  },
 ];
+
+// Licensed Minecraft photos from Unsplash (free licence, not Unsplash+). Each was opened and
+// confirmed as genuine Minecraft content before use - see commit 56b011f. Don't swap in raw game
+// screenshots: commit de720a6 explains why those were removed.
+const photos = [
+  {
+    src: "https://images.unsplash.com/photo-1772080543578-2b8322bdcf4e",
+    alt: "Two Minecraft skeleton figures",
+    caption: "Built for the night shift",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1524685794168-52985e79c1f8",
+    alt: "Minecraft Steve toy figure",
+    caption: "Every player, no lag",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1759663174699-d0e64ed0fb66",
+    alt: "Two Minecraft zombie figures",
+    caption: "Mob farms that keep up",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1589609966838-5c628d5c1aa5",
+    alt: "Minecraft loading on a phone",
+    caption: "Bedrock players via your proxy",
+  },
+];
+
+const scenes = [
+  { name: "scene-islands", label: "Sky islands" },
+  { name: "scene-ridge", label: "Mountain ridge" },
+  { name: "scene-basin", label: "River basin" },
+  { name: "scene-cave", label: "Deep caves" },
+];
+
+const released = VERSIONS.filter((v) => v.status === "released");
 ---
 
-<Layout title="Atlas Studio - Premium Minecraft Server Software" description="High-performance Minecraft server software with careful tuning, extensive testing, and plugin compatibility.">
-  <div class="container">
-    <!-- Hero Section -->
-    <HeroSection
-      title="Experience Minecraft Like Never Before"
-      subtitle="Atlas Studio delivers carefully tested, high-performance server software built on Paper and Leaf. Optimized for speed, stability, and your plugins."
-      imageUrl="https://images.unsplash.com/photo-1772080543578-2b8322bdcf4e?w=800&h=600&fit=crop"
-      cta={{
-        text: "Download Now",
-        href: "/downloads",
-        variant: "primary"
-      }}
-    />
+<Layout
+  title="Atlas Studio - Fast Minecraft Server Software"
+  description="Free, optimized Minecraft server software: the Atlas server jar, the Aurora regionised server and the Astro proxy. Faster than Paper, compatible with your plugins."
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 640px)" srcset="/hero-voxel-sm.webp" type="image/webp" />
+        <img
+          src="/hero-voxel.webp"
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          class="h-full w-full object-cover object-top"
+        />
+      </picture>
+      <div class="absolute inset-0 bg-gradient-to-b from-surface-0/40 via-surface-0/30 to-surface-0"></div>
+    </div>
 
-    <!-- Features Grid -->
-    <section class="features-section">
-      <h2 class="section-title">Why Atlas Studio</h2>
-      <div class="features-grid">
-        {features.map((feature) => (
-          <FeatureCard
-            title={feature.title}
-            description={feature.description}
-            icon={feature.icon}
-          />
-        ))}
+    <div class="relative z-10 mx-auto max-w-5xl px-4 pt-28 pb-24 text-center sm:px-6 lg:pt-40 lg:pb-32">
+      <p class="pixel-label mb-6 inline-block border-2 border-black/60 bg-surface-1/80 px-3 py-1 text-xs text-gold">
+        Free &amp; open source &middot; GPL-3.0
+      </p>
+      <h1 class="text-block-shadow mx-auto max-w-4xl text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        Your server, <span class="text-primary-400">minus the lag.</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/80 [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]">
+        Atlas Studio makes Minecraft server software that runs faster than stock Paper and keeps every
+        plugin you already use. Drop in the jar, restart, play.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="/downloads" class="btn-primary px-7 py-3.5 text-lg">Download</a>
+        <a href="/benchmarks" class="btn-ghost px-7 py-3.5 text-lg">See benchmarks</a>
       </div>
-    </section>
+    </div>
+    <div class="grass-strip relative z-10" aria-hidden="true"></div>
+  </section>
 
-    <!-- Image Gallery -->
-    <ImageGallery
-      title="The Minecraft Experience"
-      images={minecraftImages}
-    />
+  <!-- Products -->
+  <section id="products" class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <p class="pixel-label mb-2 text-center text-xs text-primary-400">Pick your block</p>
+    <h2 class="mb-12 text-center text-4xl">Three tools, one studio</h2>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        products.map((p) => (
+          <article class="surface surface-hover flex flex-col p-6">
+            <div class:list={["block-icon mb-5", `block-${p.block}`]} aria-hidden="true" />
+            <p class="pixel-label text-xs text-white/50">{p.tag}</p>
+            <h3 class="mt-1 mb-3 text-3xl">{p.name}</h3>
+            <p class="mb-6 flex-1 leading-relaxed text-white/70">{p.blurb}</p>
+            <a href={p.href} class="btn-ghost self-start px-4 py-2 text-sm">
+              {p.cta} &rarr;
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
 
-    <!-- Call to Action Section -->
-    <section class="cta-section">
-      <div class="cta-content">
-        <h2>Ready to enhance your server?</h2>
-        <p>Choose from Aurora (region-threaded), Atlas (Paper-based), or Astro (proxy). All with careful testing and extensive documentation.</p>
-        <div class="cta-buttons">
-          <a href="/downloads" class="btn btn-primary">Get Started</a>
-          <a href="/docs" class="btn btn-secondary">Read Documentation</a>
+  <!-- Photo gallery -->
+  <section class="bg-surface-1/60 py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="pixel-label mb-2 text-center text-xs text-primary-400">The game you love</p>
+      <h2 class="mb-12 text-center text-4xl">Made for Minecraft servers</h2>
+      <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {
+          photos.map((ph) => (
+            <figure class="surface group overflow-hidden p-1.5">
+              <div class="aspect-[4/5] overflow-hidden">
+                <img
+                  src={`${ph.src}?w=600&h=750&fit=crop`}
+                  srcset={`${ph.src}?w=400&h=500&fit=crop 400w, ${ph.src}?w=600&h=750&fit=crop 600w`}
+                  sizes="(min-width: 1024px) 270px, 50vw"
+                  alt={ph.alt}
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="750"
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <figcaption class="px-1.5 pt-2.5 pb-1 font-pixel text-sm text-white/80">{ph.caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <p class="mt-4 text-center text-xs text-white/35">
+        Photos via <a href="https://unsplash.com" class="underline hover:text-primary-400">Unsplash</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <h2 class="mb-12 text-center text-4xl">Why servers switch</h2>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        features.map((f) => (
+          <div class="surface p-6">
+            <div class:list={["item-icon mb-4", `item-${f.icon}`]} aria-hidden="true" />
+            <h3 class="mb-2 text-xl">{f.title}</h3>
+            <p class="leading-relaxed text-white/65">{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Voxel worlds -->
+  <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        scenes.map((s) => (
+          <figure class="surface relative overflow-hidden p-1.5">
+            <picture>
+              <source media="(max-width: 640px)" srcset={`/${s.name}-sm.webp`} type="image/webp" />
+              <img src={`/${s.name}.webp`} alt={`Voxel artwork: ${s.label}`} loading="lazy" class="aspect-video w-full object-cover" />
+            </picture>
+            <figcaption class="pixel-label absolute bottom-3 left-3 bg-black/60 px-2 py-0.5 text-[11px] text-white/85">{s.label}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Versions -->
+  <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+    <div class="surface p-6 sm:p-10">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="pixel-label mb-1 text-xs text-primary-400">Supported</p>
+          <h2 class="text-3xl">{released.length} Minecraft versions</h2>
         </div>
+        <a href="/downloads" class="btn-primary px-5 py-2.5 text-sm">All downloads</a>
       </div>
-    </section>
-  </div>
+      <ul class="flex flex-wrap gap-2">
+        {
+          released.map((v) => (
+            <li>
+              <a
+                href="/downloads"
+                class="block border-2 border-black/50 bg-surface-2 px-3 py-1.5 font-mono text-sm text-white/80 hover:bg-surface-3 hover:text-white"
+                title={`${v.brand ?? "Atlas"} on ${v.fork}`}
+              >
+                {v.version}
+                {v.brand && <span class="ml-1.5 text-diamond">{v.brand}</span>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 text-sm text-white/50">
+        Newer versions build on{" "}
+        <a href={FORK_INFO.Leaf.href} class="underline hover:text-primary-400">Leaf</a>, older ones on{" "}
+        <a href={FORK_INFO.Purpur.href} class="underline hover:text-primary-400">Purpur</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-4xl px-4 pb-8 text-center sm:px-6">
+    <h2 class="text-block-shadow text-4xl sm:text-5xl">Ready to respawn faster?</h2>
+    <p class="mx-auto mt-4 max-w-xl text-white/65">
+      Swap the jar, keep your world and plugins. The docs cover the rest in five minutes.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="/downloads" class="btn-primary px-7 py-3.5 text-lg">Get started</a>
+      <a href="/docs" class="btn-ghost px-7 py-3.5 text-lg">Read the docs</a>
+    </div>
+  </section>
 </Layout>
 
 <style>
-  .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-2xl);
+  /* Pixel-art block faces, drawn with gradients: no images, no game assets. */
+  .block-icon {
+    width: 56px;
+    height: 56px;
+    border: 2px solid #05080b;
+    image-rendering: pixelated;
+    box-shadow:
+      inset 3px 3px 0 rgba(255, 255, 255, 0.18),
+      inset -3px -3px 0 rgba(0, 0, 0, 0.35);
+  }
+  .block-grass {
+    background:
+      linear-gradient(to bottom, #5fae3b 0 16px, transparent 16px),
+      repeating-linear-gradient(90deg, #5fae3b 0 7px, transparent 7px 14px) 0 16px / 100% 6px no-repeat,
+      conic-gradient(from 90deg at 50% 60%, #7a5232 25%, #8b6040 0 50%, #6b4529 0 75%, #7a5232 0);
+  }
+  .block-diamond {
+    background:
+      conic-gradient(from 45deg at 30% 30%, #5ee0e0 25%, transparent 0) 0 0 / 28px 28px,
+      repeating-linear-gradient(45deg, #7d8a93 0 7px, #6c7880 7px 14px);
+  }
+  .block-gold {
+    background:
+      conic-gradient(from 45deg at 70% 35%, #f5c542 25%, transparent 0) 0 0 / 28px 28px,
+      repeating-linear-gradient(-45deg, #7d8a93 0 7px, #6c7880 7px 14px);
   }
 
-  .features-section {
-    padding: var(--spacing-4xl) 0;
+  .item-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #05080b;
+    box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.15), inset -2px -2px 0 rgba(0, 0, 0, 0.35);
   }
-
-  .section-title {
-    font-size: 2.5rem;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: var(--spacing-3xl);
+  .item-pickaxe {
+    background: linear-gradient(135deg, transparent 45%, #8b6040 45% 55%, transparent 55%),
+      linear-gradient(45deg, transparent 60%, #5ee0e0 60% 75%, transparent 75%), var(--color-surface-2);
   }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-2xl);
+  .item-chest {
+    background: linear-gradient(to bottom, #a06a35 0 45%, #2a1a0d 45% 52%, #8b5a2b 52%),
+      var(--color-surface-2);
   }
-
-  .cta-section {
-    padding: var(--spacing-4xl);
-    background: var(--color-bg-secondary);
-    border-radius: var(--radius-xl);
-    text-align: center;
-    margin: var(--spacing-4xl) 0;
-  }
-
-  .cta-content h2 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .cta-content p {
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-2xl);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: var(--spacing-lg);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 var(--spacing-lg);
-    }
-
-    .section-title {
-      font-size: 2rem;
-    }
-
-    .cta-content h2 {
-      font-size: 2rem;
-    }
+  .item-book {
+    background: linear-gradient(90deg, #6b2a1a 0 20%, #9a3b23 20%), var(--color-surface-2);
   }
 </style>

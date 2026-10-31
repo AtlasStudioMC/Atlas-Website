@@ -13,11 +13,11 @@ const links = [
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/[0.07] bg-[#080a14]/80 backdrop-blur-xl">
+<header class="sticky top-0 z-50 border-b-2 border-black/60 bg-surface-0/85 backdrop-blur-md">
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
     <a
       href="/"
-      class="group flex shrink-0 items-center gap-2.5 text-base font-semibold tracking-tight text-white sm:text-lg"
+      class="group flex shrink-0 items-center gap-2.5 font-pixel text-lg font-bold text-white sm:text-xl"
     >
       <img
         src="/logo.svg"
@@ -27,7 +27,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
         class="transition-transform duration-300 group-hover:scale-110 sm:h-9 sm:w-9"
       />
       <span class="leading-none">
-        Atlas <span class="text-white/45">Studio</span>
+        Atlas <span class="text-primary-400">Studio</span>
       </span>
     </a>
 
@@ -40,8 +40,8 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
               href={link.href}
               aria-current={isActive ? "page" : undefined}
               class:list={[
-                "hidden rounded-lg px-3 py-1.5 text-sm font-medium transition-colors sm:inline-block",
-                isActive ? "bg-white/[0.07] text-white" : "text-white/60 hover:bg-white/5 hover:text-white",
+                "hidden px-3 py-1.5 font-pixel text-[15px] transition-colors sm:inline-block",
+                isActive ? "bg-white/[0.07] text-primary-300 shadow-[inset_0_-2px_0_var(--color-primary-500)]" : "text-white/60 hover:bg-white/5 hover:text-white",
               ]}
             >
               {link.label}
@@ -51,7 +51,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
       }
       <a
         href="/downloads"
-        class="btn-glow ml-1 rounded-lg px-4 py-2 text-sm font-semibold text-black"
+        class="btn-primary ml-1 px-4 py-2 text-sm"
       >
         Download
       </a>
@@ -68,13 +68,13 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
           </svg>
         </summary>
         <div
-          class="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-white/10 bg-[#11152a] p-1.5 shadow-2xl shadow-black/60"
+          class="absolute right-0 z-50 mt-2 w-56 surface p-1.5 shadow-2xl shadow-black/60"
         >
           {
             links.map((link) => (
               <a
                 href={link.href}
-                class="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/[0.07] hover:text-white"
+                class="block px-3 py-2.5 font-pixel text-[15px] text-white/70 transition-colors hover:bg-white/[0.07] hover:text-white"
               >
                 {link.label}
               </a>

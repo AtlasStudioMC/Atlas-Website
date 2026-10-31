@@ -1,67 +1,85 @@
 @import "tailwindcss";
 
-/* One typeface, used plainly. Inter is the boring, standard choice on purpose - the serif-italic
-   accent face and gradient headings that used to be here were the main thing making the site read
-   as a template rather than a real project site. Code uses the OS monospace stack. */
+/* Two faces: Inter for reading, Pixelify Sans for display type only (headings, buttons, labels).
+   The pixel face carries the block-game feel; body copy stays in Inter so long docs remain easy
+   to read. Code uses the OS monospace stack. */
 @import "@fontsource-variable/inter";
-
-@custom-variant dark (@media (prefers-color-scheme: dark));
+@import "@fontsource/pixelify-sans/500.css";
+@import "@fontsource/pixelify-sans/700.css";
 
 @theme {
   --font-sans: "Inter Variable", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-pixel: "Pixelify Sans", "Inter Variable", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  --color-primary-100: #eef0ff;
-  --color-primary-200: #d9deff;
-  --color-primary-300: #b9c2ff;
-  --color-primary-400: #9aa6fd;
-  --color-primary-500: #6b78f0;
-  --color-primary-600: #5560e2;
-  --color-primary-700: #4348c6;
-  --color-primary-800: #34379b;
-  --color-primary-900: #232463;
+  /* Emerald green. The primary-* scale is what every page's utilities reference, so retuning it
+     here re-skins the whole site at once. */
+  --color-primary-100: #e6fbe9;
+  --color-primary-200: #c2f5c9;
+  --color-primary-300: #8ce99a;
+  --color-primary-400: #5ad46f;
+  --color-primary-500: #3fb950;
+  --color-primary-600: #2e9a3e;
+  --color-primary-700: #237a31;
+  --color-primary-800: #1a5c25;
+  --color-primary-900: #103a17;
 
-  --color-surface-0: #080a14;
-  --color-surface-1: #0e1120;
-  --color-surface-2: #151928;
+  --color-dirt: #7a5232;
+  --color-dirt-dark: #4e3420;
+  --color-grass: #5fae3b;
+  --color-gold: #f5c542;
+  --color-diamond: #5ee0e0;
+  --color-redstone: #e5484d;
 
-  --color-background-dark-90: #080a14;
-  --color-background-dark-80: #0e1120;
-  --color-background-dark-70: #151928;
-  --color-background-light-0: #ffffff;
-  --color-background-light-10: #f3f5ff;
+  /* Night sky, a touch of blue so the green reads warm against it. */
+  --color-surface-0: #0b0f14;
+  --color-surface-1: #121820;
+  --color-surface-2: #1a222c;
+  --color-surface-3: #242e3a;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
     background-color: var(--color-surface-0);
-    color: var(--color-background-light-0);
+    color: #f2f5f7;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
   }
 
   body {
-    background: var(--color-surface-0);
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(63, 185, 80, 0.08), transparent 70%),
+      var(--color-surface-0);
     min-height: 100vh;
   }
 
-  /* Slight negative tracking on large text only - body copy keeps default spacing. */
   h1,
-  h2 {
-    letter-spacing: -0.02em;
+  h2,
+  h3 {
+    font-family: var(--font-pixel);
+    font-weight: 700;
+    letter-spacing: 0.01em;
   }
 
   ::selection {
     background-color: var(--color-primary-500);
-    color: #080a14;
+    color: var(--color-surface-0);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-primary-400);
+    outline: 2px solid var(--color-gold);
     outline-offset: 2px;
-    border-radius: 3px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  code {
+    font-family: var(--font-mono);
   }
 
   ::-webkit-scrollbar {
@@ -72,73 +90,131 @@
     background: var(--color-surface-0);
   }
   ::-webkit-scrollbar-thumb {
-    background: #262b36;
-    border-radius: 5px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #333a48;
+    background: var(--color-surface-3);
   }
 }
 
 /* ---------- Surfaces ---------- */
 
-/* Plain panel: solid background, single hairline border. No gradient borders, no glow. */
+/* An inventory slot: square corners, a solid hairline and an inset bevel - light top-left,
+   dark bottom-right - which is what makes a flat panel read as a block. */
 .surface {
   background: var(--color-surface-1);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 0.5rem;
+  border: 2px solid #05080b;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.06),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.35);
 }
 
 .surface-hover,
 .card-hover {
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .surface-hover:hover,
 .card-hover:hover {
-  border-color: rgba(255, 255, 255, 0.18);
   background: var(--color-surface-2);
+  transform: translateY(-2px);
 }
 
 /* ---------- Buttons ---------- */
 
 .btn-primary,
-/* Alias: the old glow-button name is still referenced in a few places. Same flat style now. */
+.btn-glow,
+.btn-ghost,
+.btn-block {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 2px solid #05080b;
+  transition: transform 0.08s ease, filter 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-primary,
 .btn-glow {
   background: var(--color-primary-500);
-  color: #080a14;
-  border-radius: 0.375rem;
-  font-weight: 600;
-  transition: background-color 0.15s ease;
+  color: #06210b;
+  box-shadow:
+    inset 0 -4px 0 var(--color-primary-700),
+    inset 0 2px 0 var(--color-primary-300);
 }
 
 .btn-primary:hover,
 .btn-glow:hover {
-  background: var(--color-primary-400);
+  filter: brightness(1.1);
 }
 
 .btn-ghost {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 0.375rem;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  background: var(--color-surface-2);
+  color: #f2f5f7;
+  box-shadow:
+    inset 0 -4px 0 rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.08);
 }
 
 .btn-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--color-surface-3);
+}
+
+.btn-primary:active,
+.btn-glow:active,
+.btn-ghost:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* ---------- Decoration ---------- */
+
+/* A strip of grass-on-dirt, drawn with gradients so it costs no image request. Used as a
+   section divider and along the top of the footer. */
+.grass-strip {
+  height: 24px;
+  background:
+    linear-gradient(to bottom, var(--color-grass) 0 8px, transparent 8px),
+    repeating-linear-gradient(
+      90deg,
+      var(--color-grass) 0 8px,
+      #4c9230 8px 16px,
+      var(--color-grass) 16px 24px,
+      transparent 24px 32px
+    ) 0 8px / 100% 4px no-repeat,
+    repeating-linear-gradient(
+      90deg,
+      var(--color-dirt) 0 12px,
+      var(--color-dirt-dark) 12px 16px,
+      var(--color-dirt) 16px 28px,
+      #8b6040 28px 32px
+    );
+  image-rendering: pixelated;
+}
+
+.pixel-label {
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Minecraft-style text shadow: hard, offset, no blur. */
+.text-block-shadow {
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
 }
 
 /* ---------- Data display ---------- */
 
 .pill {
-  border-radius: 0.25rem;
   padding: 0.15rem 0.45rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .pill-on {
-  background: rgba(255, 140, 26, 0.12);
+  background: rgba(63, 185, 80, 0.15);
   color: var(--color-primary-300);
 }
 
@@ -151,116 +227,8 @@
   html {
     scroll-behavior: auto;
   }
-}
-
-/* Apple-inspired global enhancements */
-
-/* Remove any excessive styling from the original */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* Clean up default spacing */
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  font-weight: 600;
-}
-
-p {
-  margin: 0;
-}
-
-a {
-  color: var(--color-accent);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--color-accent-hover);
-}
-
-/* Navigation polish */
-nav {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.8);
-}
-
-@media (prefers-color-scheme: dark) {
-  nav {
-    background: rgba(0, 0, 0, 0.8);
+  .surface-hover:hover,
+  .card-hover:hover {
+    transform: none;
   }
-}
-
-/* Section spacing */
-section {
-  margin: var(--spacing-4xl) 0;
-}
-
-/* Code blocks - clean styling */
-code {
-  background: var(--color-bg-secondary);
-  padding: 0.2em 0.4em;
-  border-radius: var(--radius-sm);
-  font-family: 'Monaco', 'Menlo', monospace;
-  font-size: 0.9em;
-}
-
-pre {
-  background: var(--color-bg-secondary);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-lg);
-  overflow-x: auto;
-  border: 1px solid var(--color-border);
-}
-
-pre code {
-  background: none;
-  padding: 0;
-}
-
-/* Table styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: var(--spacing-2xl) 0;
-}
-
-th, td {
-  padding: var(--spacing-md);
-  text-align: left;
-  border-bottom: 1px solid var(--color-border);
-}
-
-th {
-  font-weight: 600;
-  background: var(--color-bg-secondary);
-}
-
-/* Responsive images */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Focus states for accessibility */
-button:focus,
-a:focus,
-input:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-button, a {
-  transition-duration: 200ms;
 }

@@ -35,19 +35,21 @@ const { scene, eyebrow, title, accent, titleAfter, position = "object-center" } 
         loading="eager"
         fetchpriority="high"
         decoding="async"
-        class:list={["h-full w-full object-cover", position]}
+        class:list={["h-full w-full object-cover [image-rendering:pixelated]", position]}
       />
     </picture>
-    <div class="absolute inset-0 bg-gradient-to-b from-[#080a14]/20 via-[#080a14]/10 to-[#080a14]"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_54%_52%_at_50%_45%,rgba(8,10,20,0.36),transparent_82%)]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-surface-0/30 via-surface-0/20 to-surface-0"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_54%_52%_at_50%_45%,rgba(11,15,20,0.45),transparent_82%)]"></div>
   </div>
 
   <div class="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-20 text-center lg:pt-32 lg:pb-24">
-    <h1 class="mb-4 text-3xl font-semibold sm:text-4xl">
+    <p class="pixel-label mb-4 inline-block border-2 border-black/60 bg-surface-1/80 px-3 py-1 text-xs text-gold">{eyebrow}</p>
+    <h1 class="text-block-shadow mb-4 text-4xl sm:text-5xl">
       {title}{accent && <> <span class="text-primary-400">{accent}</span></>}{titleAfter && <> {titleAfter}</>}
     </h1>
-    <p class="mx-auto max-w-2xl leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(10,11,14,0.9)]">
+    <p class="mx-auto max-w-2xl leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]">
       <slot />
     </p>
   </div>
+  <div class="grass-strip relative z-10" aria-hidden="true"></div>
 </section>

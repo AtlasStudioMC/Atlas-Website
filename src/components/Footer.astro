@@ -40,10 +40,12 @@ const columns = [
 ];
 ---
 
-<footer class="border-t border-white/5 px-6 py-14 text-sm text-white/50">
+<footer class="mt-16 text-sm text-white/55">
+  <div class="grass-strip" aria-hidden="true"></div>
+  <div class="bg-[#100c09] px-6 py-14">
   <div class="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
     <div class="max-w-sm">
-      <a href="/" class="mb-2 flex items-center gap-2 font-medium text-white/80">
+      <a href="/" class="mb-3 flex items-center gap-2 font-pixel text-lg text-white">
         <img src="/logo.svg" alt="" width="22" height="22" />
         Atlas Studio
       </a>
@@ -54,7 +56,7 @@ const columns = [
     {
       columns.map((col) => (
         <div>
-          <p class="mb-3 text-xs font-semibold tracking-wide text-white/40 uppercase">{col.title}</p>
+          <p class="pixel-label mb-3 text-xs text-gold/80">{col.title}</p>
           <ul class="space-y-2">
             {col.links.map((l) => (
               <li>
@@ -69,15 +71,15 @@ const columns = [
     }
   </div>
 
-  <div class="mx-auto mt-10 max-w-6xl border-t border-white/5 pt-6">
-    <p class="mb-2 text-xs font-semibold tracking-wide text-white/40 uppercase">Built on</p>
+  <div class="mx-auto mt-10 max-w-6xl border-t border-white/[0.07] pt-6">
+    <p class="pixel-label mb-2 text-xs text-gold/80">Built on</p>
     <ul class="flex flex-wrap gap-x-2 gap-y-2">
       {
         credits.map((c) => (
           <li>
             <a
               href={c.href}
-              class="flex items-center gap-2 rounded-md border border-white/[0.08] bg-white/[0.02] px-2.5 py-1.5 text-xs text-white/60 transition-colors hover:border-white/20 hover:text-white"
+              class="flex items-center gap-2 border-2 border-black/50 bg-white/[0.03] px-2.5 py-1.5 text-xs text-white/60 transition-colors hover:border-white/20 hover:text-white"
             >
               {c.logo && <img src={c.logo} alt="" width="16" height="16" class="shrink-0" />}
               {c.name}
@@ -91,10 +93,11 @@ const columns = [
   {/* Mojang's usage guidelines ask for this wording specifically, on the website and not just
       in spirit, for anything using the Minecraft name. The previous line said "not affiliated",
       which covers the association half but not the "not official" half. */}
-  <p class="mx-auto mt-8 max-w-6xl border-t border-white/5 pt-6 text-xs text-white/30">
+  <p class="mx-auto mt-8 max-w-6xl border-t border-white/[0.07] pt-6 text-xs text-white/30">
     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
     Not affiliated with PaperMC, CanvasMC or Winds Studio either. Scene artwork is our own;
     the community builds are used under Creative Commons licences and credited on the card.
-    Made with <span class="text-primary-500">&#9829;</span> on Earth.
+    Made with <span class="text-redstone">&#9829;</span> on Earth.
   </p>
+  </div>
 </footer>
